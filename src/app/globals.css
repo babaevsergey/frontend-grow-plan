@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  @apply bg-slate-50 text-slate-900;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/*
+ * Подсветка синтаксиса для CodeBlock, приближенная к теме Darcula
+ * из WebStorm/IntelliJ — так примеры кода читаются привычнее.
+ */
+.code-darcula {
+  background: #2b2b2b;
+  color: #a9b7c6;
+  font-family: "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+.code-darcula .token.comment,
+.code-darcula .token.prolog,
+.code-darcula .token.doctype,
+.code-darcula .token.cdata {
+  color: #808080;
+  font-style: italic;
+}
+
+.code-darcula .token.string,
+.code-darcula .token.attr-value {
+  color: #6a8759;
+}
+
+.code-darcula .token.keyword,
+.code-darcula .token.operator,
+.code-darcula .token.rule {
+  color: #cc7832;
+}
+
+.code-darcula .token.boolean,
+.code-darcula .token.number {
+  color: #6897bb;
+}
+
+.code-darcula .token.function,
+.code-darcula .token.method {
+  color: #ffc66d;
+}
+
+.code-darcula .token.class-name,
+.code-darcula .token.maybe-class-name {
+  color: #a9b7c6;
+  font-weight: 600;
+}
+
+.code-darcula .token.property,
+.code-darcula .token.property-access {
+  color: #9876aa;
+}
+
+.code-darcula .token.punctuation {
+  color: #a9b7c6;
+}
+
+.code-darcula .token.tag {
+  color: #e8bf6a;
+}
+
+.code-darcula .token.attr-name {
+  color: #bababa;
+}
+
+.code-darcula .token.variable,
+.code-darcula .token.constant {
+  color: #9876aa;
+}
+
+.code-darcula .token.regex,
+.code-darcula .token.important {
+  color: #ffc66d;
+}
