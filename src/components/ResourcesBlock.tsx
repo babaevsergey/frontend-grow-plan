@@ -7,7 +7,7 @@ function LinkRow({ link }: { link: ResourceLink }) {
         href={link.url}
         target="_blank"
         rel="noopener noreferrer"
-        className="text-sm text-brand-700 underline decoration-brand-200 underline-offset-2 hover:text-brand-800 hover:decoration-brand-400"
+        className="text-sm text-brand-700 underline decoration-brand-200 underline-offset-2 hover:text-brand-800 hover:decoration-brand-400 dark:text-brand-400 dark:decoration-brand-500/40 dark:hover:text-brand-300"
       >
         {link.title}
       </a>
@@ -19,13 +19,13 @@ export function ResourcesBlock({ docs, articles }: { docs: ResourceLink[]; artic
   if (docs.length === 0 && articles.length === 0) return null;
 
   return (
-    <section className="rounded-lg border border-slate-200 bg-slate-50/60 p-4">
-      <h3 className="mb-3 text-sm font-semibold text-slate-800">Дополнительные материалы</h3>
+    <section className="rounded-lg border border-slate-200 bg-slate-50/60 p-4 dark:border-slate-700 dark:bg-slate-800/30">
+      <h3 className="mb-3 text-sm font-semibold text-slate-800 dark:text-slate-200">Дополнительные материалы</h3>
 
       <div className="grid gap-4 sm:grid-cols-2">
         {docs.length > 0 && (
           <div>
-            <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500">
+            <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
               Официальная документация
             </p>
             <ul className="flex flex-col gap-1">
@@ -38,7 +38,7 @@ export function ResourcesBlock({ docs, articles }: { docs: ResourceLink[]; artic
 
         {articles.length > 0 && (
           <div>
-            <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500">
+            <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
               Статьи по теме
             </p>
             <ul className="flex flex-col gap-1">

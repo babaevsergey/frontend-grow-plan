@@ -8,11 +8,48 @@ body {
 }
 
 body {
-  @apply bg-slate-50 text-slate-900;
+  @apply bg-slate-100 text-slate-900 dark:bg-slate-950 dark:text-slate-100;
+}
+
+html.dark {
+  color-scheme: dark;
 }
 
 * {
   box-sizing: border-box;
+}
+
+/*
+ * Лёгкая анимация появления контента при переходе между темами
+ * и при разворачивании collapsible-секций — чтобы UI ощущался "живым",
+ * без резких скачков контента.
+ */
+@keyframes fadein {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadein {
+  animation: fadein 0.25s ease-out;
+}
+
+@keyframes fadein-fast {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fadein-fast {
+  animation: fadein-fast 0.15s ease-out;
 }
 
 /*
