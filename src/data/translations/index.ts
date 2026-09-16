@@ -21,6 +21,8 @@ import { practiceTasksEn } from "./en/practice-tasks";
 import { practiceTasksUa } from "./ua/practice-tasks";
 import { stateManagementEn } from "./en/state-management";
 import { stateManagementUa } from "./ua/state-management";
+import { frontendArchitectureEn } from "./en/frontend-architecture";
+import { frontendArchitectureUa } from "./ua/frontend-architecture";
 
 /**
  * Реестр переводов контента по языкам. Пока переведён топик JavaScript —
@@ -30,8 +32,8 @@ import { stateManagementUa } from "./ua/state-management";
  * (русский) контент — сайт не ломается и не показывает пустые поля.
  */
 const TRANSLATIONS: Partial<Record<Locale, ContentTranslationMap>> = {
-  en: { ...javascriptEn, ...typescriptEn, ...reactEn, ...nextjsSsrEn, ...dataFetchingCacheEn, ...apisNetworkingEn, ...authSecurityEn, ...performanceEn, ...practiceTasksEn, ...stateManagementEn },
-  ua: { ...javascriptUa, ...typescriptUa, ...reactUa, ...nextjsSsrUa, ...dataFetchingCacheUa, ...apisNetworkingUa, ...authSecurityUa, ...performanceUa, ...practiceTasksUa, ...stateManagementUa },
+  en: { ...javascriptEn, ...typescriptEn, ...reactEn, ...nextjsSsrEn, ...dataFetchingCacheEn, ...apisNetworkingEn, ...authSecurityEn, ...performanceEn, ...practiceTasksEn, ...stateManagementEn, ...frontendArchitectureEn },
+  ua: { ...javascriptUa, ...typescriptUa, ...reactUa, ...nextjsSsrUa, ...dataFetchingCacheUa, ...apisNetworkingUa, ...authSecurityUa, ...performanceUa, ...practiceTasksUa, ...stateManagementUa, ...frontendArchitectureUa },
 };
 
 /**

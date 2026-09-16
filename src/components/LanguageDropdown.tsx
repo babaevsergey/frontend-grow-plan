@@ -3,10 +3,10 @@
 import { useTranslation } from "@/i18n/useTranslation";
 import type { Locale } from "@/store/useLocaleStore";
 
-const LOCALE_OPTIONS: { value: Locale; flag: string }[] = [
-  { value: "ru", flag: "🇷🇺" },
-  { value: "ua", flag: "🇺🇦" },
-  { value: "en", flag: "🇬🇧" },
+const LOCALE_OPTIONS: { value: Locale; label: string }[] = [
+  { value: "ru", label: "RU" },
+  { value: "ua", label: "UA" },
+  { value: "en", label: "EN" },
 ];
 
 /**
@@ -30,7 +30,7 @@ export function LanguageDropdown() {
       >
         {LOCALE_OPTIONS.map((opt) => (
           <option key={opt.value} value={opt.value}>
-            {opt.flag} {t.language[opt.value]}
+            {opt.label}
           </option>
         ))}
       </select>
