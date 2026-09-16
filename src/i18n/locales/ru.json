@@ -1,0 +1,54 @@
+{
+  "appName": "Frontend Grow Plan",
+  "appTagline": "Личная база знаний",
+  "sidebar": {
+    "searchPlaceholder": "Поиск по темам...",
+    "clearSearch": "Очистить поиск",
+    "onlyIncomplete": "Показать только непройденные",
+    "noResults": "Ничего не найдено",
+    "quizMode": "Quiz mode",
+    "drafts": "Черновик (все заметки)"
+  },
+  "mobile": {
+    "close": "Закрыть",
+    "topics": "Темы"
+  },
+  "empty": {
+    "selectTopic": "Выберите тему слева, чтобы начать изучение."
+  },
+  "lesson": {
+    "completed": "Пройдено",
+    "short": "Коротко",
+    "detailed": "Подробнее",
+    "diagram": "Схема",
+    "codeExample": "Пример кода",
+    "whereUsed": "Где используется",
+    "interview": "Как объяснить на интервью",
+    "followUp": "Follow-up вопросы",
+    "keyTakeaways": "Что важно запомнить",
+    "notes": "Мои заметки",
+    "resources": "Материалы",
+    "practiceAndPitfalls": "Задача и ошибки",
+    "relatedTopics": "Related topics",
+    "interviewFrequencyLabel": "На интервью",
+    "practiceTaskTitle": "Практическая задача",
+    "pitfallsTitle": "Типичные ошибки",
+    "notFilled": "Пока не заполнено.",
+    "notesSaved": "Сохранено ✓",
+    "notesEdit": "✏️ Редактировать",
+    "notesAdd": "+ Добавить заметку",
+    "notesPlaceholder": "Запишите здесь свои мысли, вопросы или конспект по этой теме...",
+    "notesSave": "Сохранить",
+    "notesCancel": "Отмена",
+    "additionalResources": "Дополнительные материалы",
+    "officialDocs": "Официальная документация",
+    "articles": "Статьи по теме",
+    "nextTopic": "Следующая тема"
+  },
+  "language": {
+    "label": "Язык",
+    "ru": "Русский",
+    "ua": "Українська",
+    "en": "English"
+  }
+}

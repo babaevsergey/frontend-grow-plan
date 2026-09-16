@@ -6,9 +6,12 @@ import { TOPICS } from "@/data/content";
 import { TopicGroup } from "./TopicGroup";
 import { ProgressBar } from "./ProgressBar";
 import { ThemeToggle } from "./ThemeToggle";
+import { LanguageDropdown } from "./LanguageDropdown";
 import { useProgressStore } from "@/store/useProgressStore";
+import { useTranslation } from "@/i18n/useTranslation";
 
 export function Sidebar() {
+  const { t } = useTranslation();
   const [search, setSearch] = useState("");
   const [onlyIncomplete, setOnlyIncomplete] = useState(false);
   const completedSubtopics = useProgressStore((s) => s.completedSubtopics);
@@ -39,10 +42,13 @@ export function Sidebar() {
     <aside className="flex h-full w-full flex-col overflow-y-auto bg-white dark:bg-slate-900">
       <div className="flex items-start justify-between gap-2 border-b border-slate-200 px-4 py-4 dark:border-slate-800">
         <div>
-          <h1 className="text-sm font-semibold text-slate-900 dark:text-slate-100">Frontend Grow Plan</h1>
-          <p className="text-xs text-slate-500 dark:text-slate-400">Личная база знаний</p>
+          <h1 className="text-sm font-semibold text-slate-900 dark:text-slate-100">{t.appName}</h1>
+          <p className="text-xs text-slate-500 dark:text-slate-400">{t.appTagline}</p>
         </div>
-        <ThemeToggle />
+        <div className="flex items-center gap-1.5">
+          <LanguageDropdown />
+          <ThemeToggle />
+        </div>
       </div>
 
       <ProgressBar />
@@ -53,7 +59,7 @@ export function Sidebar() {
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Поиск по темам..."
+            placeholder={t.sidebar.searchPlaceholder}
             className="w-full rounded-md border border-slate-200 bg-slate-50 py-1.5 pl-7 pr-7 text-sm text-slate-800 placeholder:text-slate-400 focus:border-brand-500 focus:bg-white focus:outline-none focus:ring-1 focus:ring-brand-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:bg-slate-800"
           />
           <span className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400">
@@ -63,7 +69,7 @@ export function Sidebar() {
             <button
               type="button"
               onClick={() => setSearch("")}
-              aria-label="Очистить поиск"
+              aria-label={t.sidebar.clearSearch}
               className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
             >
               ✕
@@ -78,7 +84,7 @@ export function Sidebar() {
             onChange={(e) => setOnlyIncomplete(e.target.checked)}
             className="h-3.5 w-3.5 rounded border-slate-300 text-brand-600 focus:ring-brand-500 dark:border-slate-600"
           />
-          Показать только непройденные
+          {t.sidebar.onlyIncomplete}
         </label>
       </div>
 
@@ -88,7 +94,7 @@ export function Sidebar() {
             <TopicGroup key={topic.id} topic={topic} forceOpen={isFiltering} />
           ))
         ) : (
-          <p className="px-2 py-4 text-center text-sm text-slate-400 dark:text-slate-500">Ничего не найдено</p>
+          <p className="px-2 py-4 text-center text-sm text-slate-400 dark:text-slate-500">{t.sidebar.noResults}</p>
         )}
       </nav>
 
@@ -97,13 +103,13 @@ export function Sidebar() {
           href="/quiz"
           className="block rounded-md px-2 py-2 text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
         >
-          🎯 Quiz mode
+          🎯 {t.sidebar.quizMode}
         </Link>
         <Link
           href="/drafts"
           className="block rounded-md px-2 py-2 text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
         >
-          📝 Черновик (все заметки)
+          📝 {t.sidebar.drafts}
         </Link>
       </div>
     </aside>

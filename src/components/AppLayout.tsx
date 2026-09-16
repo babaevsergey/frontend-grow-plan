@@ -7,10 +7,12 @@ import { ThemeEffect } from "./ThemeEffect";
 import { useAppStore } from "@/store/useAppStore";
 import { findSubtopic } from "@/data/content";
 import { cx } from "@/lib/utils";
+import { useTranslation } from "@/i18n/useTranslation";
 
 export function AppLayout() {
   const selectedSubtopicId = useAppStore((s) => s.selectedSubtopicId);
   const [isMobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+  const { t } = useTranslation();
 
   const found = findSubtopic(selectedSubtopicId);
 
@@ -20,13 +22,13 @@ export function AppLayout() {
 
       {/* Mobile header */}
       <div className="flex items-center justify-between border-b border-slate-200 bg-white px-4 py-3 dark:border-slate-800 dark:bg-slate-900 md:hidden">
-        <span className="text-sm font-semibold text-slate-900 dark:text-slate-100">Frontend Grow Plan</span>
+        <span className="text-sm font-semibold text-slate-900 dark:text-slate-100">{t.appName}</span>
         <button
           type="button"
           onClick={() => setMobileSidebarOpen((v) => !v)}
           className="rounded-md border border-slate-300 px-3 py-1.5 text-sm text-slate-700 dark:border-slate-700 dark:text-slate-300"
         >
-          {isMobileSidebarOpen ? "Закрыть" : "Темы"}
+          {isMobileSidebarOpen ? t.mobile.close : t.mobile.topics}
         </button>
       </div>
 
@@ -47,7 +49,7 @@ export function AppLayout() {
           <LessonContent topic={found.topic} subtopic={found.subtopic} />
         ) : (
           <div className="p-8 text-slate-500 dark:text-slate-400">
-            Выберите тему слева, чтобы начать изучение.
+            {t.empty.selectTopic}
           </div>
         )}
       </main>

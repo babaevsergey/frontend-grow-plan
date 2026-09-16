@@ -1,4 +1,7 @@
+"use client";
+
 import type { ResourceLink } from "@/types/content";
+import { useTranslation } from "@/i18n/useTranslation";
 
 function LinkRow({ link }: { link: ResourceLink }) {
   return (
@@ -16,17 +19,18 @@ function LinkRow({ link }: { link: ResourceLink }) {
 }
 
 export function ResourcesBlock({ docs, articles }: { docs: ResourceLink[]; articles: ResourceLink[] }) {
+  const { t } = useTranslation();
   if (docs.length === 0 && articles.length === 0) return null;
 
   return (
     <section className="rounded-lg border border-slate-200 bg-slate-50/60 p-4 dark:border-slate-700 dark:bg-slate-800/30">
-      <h3 className="mb-3 text-sm font-semibold text-slate-800 dark:text-slate-200">Дополнительные материалы</h3>
+      <h3 className="mb-3 text-sm font-semibold text-slate-800 dark:text-slate-200">{t.lesson.additionalResources}</h3>
 
       <div className="grid gap-4 sm:grid-cols-2">
         {docs.length > 0 && (
           <div>
             <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-              Официальная документация
+              {t.lesson.officialDocs}
             </p>
             <ul className="flex flex-col gap-1">
               {docs.map((link) => (
@@ -39,7 +43,7 @@ export function ResourcesBlock({ docs, articles }: { docs: ResourceLink[]; artic
         {articles.length > 0 && (
           <div>
             <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-              Статьи по теме
+              {t.lesson.articles}
             </p>
             <ul className="flex flex-col gap-1">
               {articles.map((link) => (

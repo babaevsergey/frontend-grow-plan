@@ -1,0 +1,54 @@
+{
+  "appName": "Frontend Grow Plan",
+  "appTagline": "Personal knowledge base",
+  "sidebar": {
+    "searchPlaceholder": "Search topics...",
+    "clearSearch": "Clear search",
+    "onlyIncomplete": "Show only incomplete",
+    "noResults": "Nothing found",
+    "quizMode": "Quiz mode",
+    "drafts": "Draft (all notes)"
+  },
+  "mobile": {
+    "close": "Close",
+    "topics": "Topics"
+  },
+  "empty": {
+    "selectTopic": "Select a topic on the left to start learning."
+  },
+  "lesson": {
+    "completed": "Completed",
+    "short": "Overview",
+    "detailed": "Details",
+    "diagram": "Diagram",
+    "codeExample": "Code Example",
+    "whereUsed": "Where It's Used",
+    "interview": "How to Explain in an Interview",
+    "followUp": "Follow-up Questions",
+    "keyTakeaways": "Key Takeaways",
+    "notes": "My Notes",
+    "resources": "Resources",
+    "practiceAndPitfalls": "Practice Task & Pitfalls",
+    "relatedTopics": "Related Topics",
+    "interviewFrequencyLabel": "Asked in interviews",
+    "practiceTaskTitle": "Practice Task",
+    "pitfallsTitle": "Common Pitfalls",
+    "notFilled": "Not filled in yet.",
+    "notesSaved": "Saved ✓",
+    "notesEdit": "✏️ Edit",
+    "notesAdd": "+ Add a note",
+    "notesPlaceholder": "Write your thoughts, questions, or notes about this topic here...",
+    "notesSave": "Save",
+    "notesCancel": "Cancel",
+    "additionalResources": "Additional Resources",
+    "officialDocs": "Official Docs",
+    "articles": "Related Articles",
+    "nextTopic": "Next Topic"
+  },
+  "language": {
+    "label": "Language",
+    "ru": "Русский",
+    "ua": "Українська",
+    "en": "English"
+  }
+}

@@ -2,6 +2,7 @@
 
 import { TOPICS } from "@/data/content";
 import { useAppStore } from "@/store/useAppStore";
+import { useTranslation } from "@/i18n/useTranslation";
 
 /**
  * Карточка "следующая тема" внизу страницы — в духе карточек "Next steps"
@@ -10,6 +11,7 @@ import { useAppStore } from "@/store/useAppStore";
  */
 export function NextTopicCard({ currentSubtopicId }: { currentSubtopicId: string }) {
   const setSelectedSubtopic = useAppStore((s) => s.setSelectedSubtopic);
+  const { t } = useTranslation();
 
   const flat = TOPICS.flatMap((topic) =>
     topic.subtopics.map((subtopic) => ({ topic, subtopic }))
@@ -27,7 +29,7 @@ export function NextTopicCard({ currentSubtopicId }: { currentSubtopicId: string
     >
       <div>
         <p className="text-xs font-medium uppercase tracking-wide text-slate-400 dark:text-slate-500">
-          Следующая тема
+          {t.lesson.nextTopic}
         </p>
         <p className="mt-0.5 text-sm font-semibold text-slate-800 group-hover:text-brand-700 dark:text-slate-200 dark:group-hover:text-brand-400">
           {next.subtopic.title}

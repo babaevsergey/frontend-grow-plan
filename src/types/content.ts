@@ -9,6 +9,9 @@ export interface ResourceLink {
   url: string;
 }
 
+export type DifficultyLevel = "Basic" | "Middle" | "Senior" | "Lead";
+export type InterviewFrequency = "High" | "Medium" | "Low";
+
 export interface LessonContent {
   title: string;
   /**
@@ -23,6 +26,11 @@ export interface LessonContent {
    * (например, у блока HR Interview — там вместо этого просто ответ).
    */
   codeExample?: string;
+  /**
+   * "Где используется" — практические сценарии применения темы.
+   * Часть расширенного формата базы знаний (пункт 4 из 8).
+   */
+  whereUsed?: string;
   interviewQuestion: string;
   /**
    * Опционально: если подготовлен только английский ответ (например,
@@ -36,6 +44,27 @@ export interface LessonContent {
    */
   pitfalls?: string[];
   practiceTask?: string;
+  /**
+   * Senior-level follow-up questions — вопросы, которые интервьюер
+   * может задать глубже, если базовый ответ засчитан.
+   */
+  followUpQuestions?: string[];
+  /**
+   * "Что важно запомнить" — 3-5 сжатых тезисов для быстрого повторения.
+   */
+  keyTakeaways?: string[];
+  /**
+   * Id других подтем (Subtopic.id), тесно связанных с этой темой —
+   * рендерятся как кликабельные related-темы, ведущие сразу к нужной подтеме.
+   */
+  relatedTopics?: string[];
+  /**
+   * Уровень сложности темы и частота, с которой её реально спрашивают
+   * на интервью. Оба поля опциональны — не для всех разделов это уместно
+   * (например, для практических live-coding задач).
+   */
+  difficulty?: DifficultyLevel;
+  interviewFrequency?: InterviewFrequency;
   /**
    * Дополнительные материалы: официальная документация и статьи по теме.
    * Опционально — старые/неполные подтемы могут быть без этого поля.

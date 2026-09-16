@@ -1,0 +1,54 @@
+{
+  "appName": "Frontend Grow Plan",
+  "appTagline": "Особиста база знань",
+  "sidebar": {
+    "searchPlaceholder": "Пошук по темах...",
+    "clearSearch": "Очистити пошук",
+    "onlyIncomplete": "Показати лише незавершені",
+    "noResults": "Нічого не знайдено",
+    "quizMode": "Quiz mode",
+    "drafts": "Чернетка (усі нотатки)"
+  },
+  "mobile": {
+    "close": "Закрити",
+    "topics": "Теми"
+  },
+  "empty": {
+    "selectTopic": "Оберіть тему зліва, щоб почати вивчення."
+  },
+  "lesson": {
+    "completed": "Пройдено",
+    "short": "Коротко",
+    "detailed": "Детальніше",
+    "diagram": "Схема",
+    "codeExample": "Приклад коду",
+    "whereUsed": "Де використовується",
+    "interview": "Як пояснити на співбесіді",
+    "followUp": "Follow-up питання",
+    "keyTakeaways": "Що важливо запам'ятати",
+    "notes": "Мої нотатки",
+    "resources": "Матеріали",
+    "practiceAndPitfalls": "Завдання та помилки",
+    "relatedTopics": "Related topics",
+    "interviewFrequencyLabel": "На співбесіді",
+    "practiceTaskTitle": "Практичне завдання",
+    "pitfallsTitle": "Типові помилки",
+    "notFilled": "Поки не заповнено.",
+    "notesSaved": "Збережено ✓",
+    "notesEdit": "✏️ Редагувати",
+    "notesAdd": "+ Додати нотатку",
+    "notesPlaceholder": "Запишіть тут свої думки, питання або конспект по цій темі...",
+    "notesSave": "Зберегти",
+    "notesCancel": "Скасувати",
+    "additionalResources": "Додаткові матеріали",
+    "officialDocs": "Офіційна документація",
+    "articles": "Статті по темі",
+    "nextTopic": "Наступна тема"
+  },
+  "language": {
+    "label": "Мова",
+    "ru": "Русский",
+    "ua": "Українська",
+    "en": "English"
+  }
+}
