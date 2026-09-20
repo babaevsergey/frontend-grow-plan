@@ -23,6 +23,22 @@ import { stateManagementEn } from "./en/state-management";
 import { stateManagementUa } from "./ua/state-management";
 import { frontendArchitectureEn } from "./en/frontend-architecture";
 import { frontendArchitectureUa } from "./ua/frontend-architecture";
+import { formsEn } from "./en/forms";
+import { formsUa } from "./ua/forms";
+import { testingEn } from "./en/testing";
+import { testingUa } from "./ua/testing";
+import { frontendSystemDesignEn } from "./en/frontend-system-design";
+import { frontendSystemDesignUa } from "./ua/frontend-system-design";
+import { leadSeniorEngineeringEn } from "./en/lead-senior-engineering";
+import { leadSeniorEngineeringUa } from "./ua/lead-senior-engineering";
+import { aiInEngineeringEn } from "./en/ai-in-engineering";
+import { aiInEngineeringUa } from "./ua/ai-in-engineering";
+import { interviewQuestionsEn } from "./en/interview-questions";
+import { interviewQuestionsUa } from "./ua/interview-questions";
+import { hrInterviewEn } from "./en/hr-interview";
+import { hrInterviewUa } from "./ua/hr-interview";
+import { interviewsTrading212En } from "./en/interviews-trading212";
+import { interviewsTrading212Ua } from "./ua/interviews-trading212";
 
 /**
  * Реестр переводов контента по языкам. Пока переведён топик JavaScript —
@@ -32,8 +48,8 @@ import { frontendArchitectureUa } from "./ua/frontend-architecture";
  * (русский) контент — сайт не ломается и не показывает пустые поля.
  */
 const TRANSLATIONS: Partial<Record<Locale, ContentTranslationMap>> = {
-  en: { ...javascriptEn, ...typescriptEn, ...reactEn, ...nextjsSsrEn, ...dataFetchingCacheEn, ...apisNetworkingEn, ...authSecurityEn, ...performanceEn, ...practiceTasksEn, ...stateManagementEn, ...frontendArchitectureEn },
-  ua: { ...javascriptUa, ...typescriptUa, ...reactUa, ...nextjsSsrUa, ...dataFetchingCacheUa, ...apisNetworkingUa, ...authSecurityUa, ...performanceUa, ...practiceTasksUa, ...stateManagementUa, ...frontendArchitectureUa },
+  en: { ...javascriptEn, ...typescriptEn, ...reactEn, ...nextjsSsrEn, ...dataFetchingCacheEn, ...apisNetworkingEn, ...authSecurityEn, ...performanceEn, ...practiceTasksEn, ...stateManagementEn, ...frontendArchitectureEn, ...formsEn, ...testingEn, ...frontendSystemDesignEn, ...leadSeniorEngineeringEn, ...aiInEngineeringEn, ...interviewQuestionsEn, ...hrInterviewEn, ...interviewsTrading212En },
+  ua: { ...javascriptUa, ...typescriptUa, ...reactUa, ...nextjsSsrUa, ...dataFetchingCacheUa, ...apisNetworkingUa, ...authSecurityUa, ...performanceUa, ...practiceTasksUa, ...stateManagementUa, ...frontendArchitectureUa, ...formsUa, ...testingUa, ...frontendSystemDesignUa, ...leadSeniorEngineeringUa, ...aiInEngineeringUa, ...interviewQuestionsUa, ...hrInterviewUa, ...interviewsTrading212Ua },
 };
 
 /**

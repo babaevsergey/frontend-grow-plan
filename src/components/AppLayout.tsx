@@ -35,7 +35,7 @@ export function AppLayout() {
       {/* Sidebar */}
       <div
         className={cx(
-          "border-r border-slate-200 dark:border-slate-800 md:block md:w-[280px] md:shrink-0",
+          "border-r border-slate-200 dark:border-slate-800 md:block md:w-[310px] md:shrink-0",
           isMobileSidebarOpen ? "block" : "hidden"
         )}
       >

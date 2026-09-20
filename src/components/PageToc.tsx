@@ -43,24 +43,26 @@ export function PageToc({ entries }: { entries: TocEntry[] }) {
   if (entries.length < 2) return null;
 
   return (
-    <nav className="sticky top-8 hidden w-48 shrink-0 flex-col gap-0.5 self-start xl:flex">
-      <p className="mb-1 px-2 text-xs font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500">
+    <nav className="sticky top-8 hidden w-52 shrink-0 self-start xl:flex xl:flex-col">
+      <p className="mb-2 px-3 text-xs font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500">
         На странице
       </p>
-      {entries.map((entry) => (
-        <a
-          key={entry.id}
-          href={`#${entry.id}`}
-          className={cx(
-            "rounded-md border-l-2 px-2 py-1 text-xs leading-snug transition-colors",
-            activeId === entry.id
-              ? "border-l-brand-500 bg-brand-50 font-medium text-brand-700 dark:bg-brand-500/10 dark:text-brand-300"
-              : "border-l-transparent text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200"
-          )}
-        >
-          {entry.label}
-        </a>
-      ))}
+      <div className="flex flex-col gap-0.5 rounded-lg border border-slate-200/70 bg-white/60 p-1.5 dark:border-slate-800 dark:bg-slate-900/40">
+        {entries.map((entry) => (
+          <a
+            key={entry.id}
+            href={`#${entry.id}`}
+            className={cx(
+              "rounded-md border-l-2 px-2.5 py-1.5 text-xs font-normal leading-snug transition-colors",
+              activeId === entry.id
+                ? "border-l-brand-500 bg-brand-50 font-medium text-brand-700 dark:bg-brand-500/10 dark:text-brand-300"
+                : "border-l-transparent text-slate-500 hover:bg-slate-100 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-slate-800/60 dark:hover:text-slate-200"
+            )}
+          >
+            {entry.label}
+          </a>
+        ))}
+      </div>
     </nav>
   );
 }
