@@ -1,6 +1,223 @@
 import type { ContentTranslationMap } from "../types";
 
 export const reactEn: ContentTranslationMap = {
+  "react-what-is-react": {
+    title: "What is React: features, advantages, 'reactivity'",
+    shortExplanation:
+      "React is a library (not a framework) for building user interfaces, based on the idea of describing UI as a function of state: you declaratively describe how the screen should look given some state, rather than imperatively listing the DOM operations needed to move from one state to another.",
+    detailedExplanation:
+      "The key features usually listed in an interview: declarativeness (a component describes 'what to show', not 'exactly how to change the DOM' — see the Rendering topic), a component-based approach (UI is assembled from independent, reusable components with their own state and logic), the Virtual DOM and efficient reconciliation of changes instead of direct real-DOM manipulation, a one-directional data flow (data flows down via props, events flow up via callbacks, making the flow predictable), and JSX as a declarative syntax for describing an element tree right inside JS. React is deliberately called a library, not a framework: it's only responsible for the presentation layer (UI) and doesn't mandate a solution for routing, networking, or global state — those are handled by separate libraries (React Router, TanStack Query, Zustand/Redux) that can be swapped independently of React.\n\nA separate subtle question is 'is React reactive?' in the strict sense of 'reactive programming' (like, say, RxJS, or Signals in some frameworks, where the system automatically tracks dependencies at the level of individual values and surgically updates only what actually changed). React is historically built differently: it isn't reactive in that narrow sense, but rather 're-renders on demand' — when state/props/context change, React re-calls the entire component function and determines the real changes by diffing trees, rather than through a fine-grained subscription system tracking specific values. That's exactly why React has memoization (useMemo/useCallback/memo) as a tool for fighting unnecessary recalculations — in a genuinely 'reactive' system (fine-grained reactivity, like Solid.js or Vue 3's Proxy-based reactivity), that kind of manual memoization is mostly unnecessary, because the system itself tracks exactly which parts of the UI depend on a changed value.",
+    whereUsed:
+      "Answering the general 'tell me about React' question at the start of a technical interview, discussing the choice of React versus other libraries/frameworks, talking about architectural principles (library vs framework) when choosing a stack for a new project.",
+    pitfalls: [
+      "Calling React a 'framework' in an interview with no clarification — formally it's a presentation-layer library, and the distinction matters for understanding why routing/state management/networking are separate, independently chosen libraries.",
+      "Conflating 'React is reactive because it re-renders the UI when data changes' with the precise term 'reactive programming' (fine-grained reactivity) — these are different levels of abstraction, and it's worth showing you see the difference.",
+    ],
+  },
+  "react-whats-new-18-19": {
+    shortExplanation:
+      "React 18 (2022) added concurrent rendering and automatic batching; React 19 (2024) focuses on simplifying working with async data and forms (Actions, use()) and removes boilerplate that previously required third-party libraries.",
+    detailedExplanation:
+      "React 18 — the main theme is concurrent rendering, i.e. React's ability to interrupt, pause, and prioritize rendering (architecturally made possible by Fiber, see the separate topic). Practical APIs built on this foundation: useTransition and useDeferredValue (marking updates as 'non-urgent', see the separate topics), automatic batching of state updates regardless of where they're triggered from (see the Batching topic — previously batching only worked inside React's own event handlers), the new Suspense for data loading (not just code splitting), and a new root API, createRoot, replacing the deprecated ReactDOM.render.\n\nReact 19 — focused on simplifying everyday patterns: use() — a hook that can be called conditionally, reading promises and context directly during render (see the separate topic); Actions and related hooks (useActionState, useFormStatus, useOptimistic) — built-in support for async form handlers with automatic pending/error state management, with no need to hand-write isSubmitting/try-catch for every form; ref as a regular prop on function components (without wrapping in forwardRef in most cases); improved support for metadata tags (title, meta, link) directly inside components without third-party libraries like react-helmet; more precise hydration error messages. Overall, React 19 doesn't change React's mental model — it removes boilerplate from scenarios that previously required third-party libraries or hand-rolled wrappers.",
+    whereUsed:
+      "Planning a project's migration to a new major React version, discussing stack currency in an interview, choosing between manually managing form state and the new Actions API.",
+    pitfalls: [
+      "Listing React 18/19 features without understanding what does (or doesn't) architecturally connect them — interviews value understanding the relationships between features, not a bare list.",
+      "Assuming React 19 is 'revolutionary' the way React 18 was — in fact it's primarily a simplification of existing patterns, not a change to the fundamental rendering model.",
+    ],
+  },
+  "react-jsx": {
+    title: "JSX: how it differs from HTML and how it compiles",
+    shortExplanation:
+      "JSX is a JavaScript syntax extension that visually resembles HTML but compiles into regular function calls (React.createElement, or, in newer versions, the automatic JSX runtime) — meaning JSX isn't executed by the browser directly, but transformed into JS at build time (Babel/SWC/TypeScript).",
+    detailedExplanation:
+      "The main differences between JSX and HTML: attributes are named in camelCase (className instead of class, onClick instead of onclick, tabIndex instead of tabindex) — because ultimately they're just properties of a JS props object, not string HTML attributes; JS expressions are inserted via curly braces {expression} rather than a separate template language; JSX must return exactly one root element (or a fragment <>...</>) — unlike HTML markup, where several sibling nodes can exist at the top level; every tag must be explicitly closed, including self-closing ones (<img />, <br />), whereas in HTML this is often optional; style takes a JS object with camelCase properties, not a string ({ backgroundColor: 'red' }, not 'background-color: red'). Compilation: JSX like <div className=\"box\">{title}</div> is translated into a call to React.createElement('div', { className: 'box' }, title), whose result is a plain JS object (a React Element) — {type: 'div', props: { className: 'box', children: title }}, not a DOM node and not an HTML string. Since React 17/newer bundler versions, the automatic JSX runtime is used — the compiler automatically imports special jsx/jsxs functions from react/jsx-runtime instead of React.createElement, removing the need to write import React from 'react' in every file using JSX, but the essence of the transformation (JSX -> function call -> plain JS object) stays the same. To insert deliberately trusted raw HTML (e.g. sanitized HTML from a backend), there's dangerouslySetInnerHTML={{ __html: htmlString }} — a name deliberately made awkward, as a reminder that arbitrary unsanitized HTML here is a direct path to XSS (see the XSS/CSRF/CORS topic).",
+    whereUsed:
+      "Every React component technically uses JSX (or its alternative — direct createElement calls, rarely hand-written), understanding the compilation matters when debugging build errors, configuring Babel/SWC, and explaining why React doesn't need a separate template language.",
+    pitfalls: [
+      "Writing class instead of className, or for instead of htmlFor, out of HTML habit — in JSX these are just named JS props, not string HTML attributes.",
+      "Using dangerouslySetInnerHTML with unsanitized user input — a direct path to an XSS vulnerability.",
+    ],
+  },
+  "react-class-vs-functional": {
+    title: "Class vs functional component",
+    shortExplanation:
+      "A class component is an ES6 class extending React.Component, with state in this.state and lifecycle methods; a functional component is a regular JS function receiving props and returning JSX, where state and side effects are plugged in via hooks. Since 2019 (React 16.8, the introduction of hooks), functional components are the recommended standard, and class components remain only in legacy code.",
+    detailedExplanation:
+      "In class components, state lives in a single this.state object, updated via this.setState (which shallow-merges into current state), and lifecycle logic is split across identically named methods (componentDidMount, componentDidUpdate, componentWillUnmount) — meaning related logic (say, a subscription and its own unsubscription) is forced apart into different class methods rather than living together in one place. Functional components with hooks solve exactly this problem: useEffect combines a subscription and its cleanup in one block of code, and several independent useState calls instead of one this.state avoid mixing logically unrelated pieces of state into a single object. Another practical reason for moving to functional components is logic reuse: classes relied on HOCs or render props to share stateful logic between components (both add wrapper layers to the component tree and complicate debugging in React DevTools), whereas a custom hook is just a regular function, with no change at all to the component tree's structure. this in class components was also a constant source of bugs (methods passed as callbacks lost their this context without an explicit .bind() or arrow-function class fields) — functional components have no such problem at all, because there's no this. React has no official plans to remove class components, but all new functionality (Suspense for data, use(), Actions) is designed primarily for functional components and hooks.",
+    whereUsed:
+      "Maintaining legacy codebases written before 2019 (class components remain valid and supported by React to this day), discussing the history of React API evolution in an interview, migrating old code to hooks.",
+    pitfalls: [
+      "Mixing direct this.state reads with an immediate asynchronous read of this.state right after setState, expecting the already-updated value — setState in classes is also asynchronous and can be batched.",
+      "Writing new code with class components in 2026 with no good reason — the entire modern ecosystem (hooks from data/form libraries, Suspense patterns) is designed primarily around functional components.",
+    ],
+  },
+  "react-element-vs-component": {
+    title: "Element vs Component vs Container",
+    shortExplanation:
+      "A React Element is a plain, immutable JS object describing 'what should be on screen' (the result of JSX/createElement); a Component is a function or class that takes props and produces elements; a 'container' isn't part of the React API — it's an architectural pattern of splitting a component into a 'smart' part (the container, working with data/state) and a 'dumb' (presentational) part that only displays what it was given.",
+    detailedExplanation:
+      "A React Element is a lightweight, immutable object of the form { type, props } that doesn't 'do' anything by itself: it holds no state, has no methods, and doesn't directly correspond to a DOM node — it's just a description React uses when building and diffing trees (see Reconciliation). A Component is what produces elements: either a function React calls with props that returns elements, or a class with a render() method. There's an important distinction between an element and a component: <Button /> in JSX is a call to React.createElement(Button, {}), whose result is an ELEMENT (a plain object), not an immediate call to the Button function — the component function is actually called later, when React renders that element in the tree. The 'container/presentational' pattern isn't part of the React API — it's an architectural convention that predates the widespread use of hooks and state-management libraries with their own data-subscription hooks: a container component fetches/computes data (via an API call, a store, context) and passes it down as props into a presentational component, which only handles markup and doesn't know where the data came from. Today this pattern is largely replaced by custom hooks (useOrders() instead of an OrdersContainer), which give the same separation of concerns without an extra wrapper component in the tree.",
+    whereUsed:
+      "Understanding React's internal workings matters for debugging (why JSX 'isn't called immediately'), architecturally separating data and presentation — today more often via custom hooks than explicit container components, though the underlying separation-of-concerns principle remains relevant.",
+    pitfalls: [
+      "Confusing 'element' and 'component' as synonyms in an interview — an element is data (a description object), a component is the function/class that produces that data.",
+      "Treating container/presentational as a mandatory React API pattern — it's an architectural convention, not a built-in mechanism, and custom hooks more often replace it in modern code.",
+    ],
+  },
+  "react-hoc": {
+    title: "Higher-Order Components (HOC)",
+    shortExplanation:
+      "A HOC (higher-order component) is a function that takes a component and returns a new component with extra logic/props — a pattern for reusing stateful logic between components before hooks existed; Inheritance Inversion is a less common HOC technique where the wrapper inherits from the passed component rather than wrapping it via composition.",
+    detailedExplanation:
+      "A HOC follows the convention withSomething(Component) -> NewComponent: the HOC itself doesn't modify the original component and doesn't use inheritance in the usual (composition-based) variant — it returns a new wrapper component that renders the passed component, adding extra props or wrapping it in additional logic (say, subscribing to context, an auth check, handling loading). A classic example from older React-Redux versions is connect(mapStateToProps)(MyComponent). Problems with HOCs, which are why hooks became the preferred way to reuse logic: 'wrapper hell' — stacking several HOCs (withAuth(withTheme(withData(Component)))) piles several levels of wrapping onto the component tree in React DevTools, complicating debugging; an unclear prop source — looking at a component wrapped in a HOC, it isn't always obvious where a given prop came from (it could have come from the parent or been injected by one of the HOCs); and prop name collisions when using several HOCs. Inheritance Inversion is a rarer, less recommended technique where the HOC component inherits from the passed component (class Enhanced extends WrappedComponent) instead of wrapping it via composition — giving access to the wrapped component's this.render() and letting you manipulate the render result (say, conditionally returning different JSX), but it breaks the wrapped component's encapsulation and is considered outdated/rarely justified even within the class paradigm. In modern React, both patterns are largely displaced by custom hooks, which provide the same logic reuse without adding wrapper components to the tree.",
+    whereUsed:
+      "Maintaining legacy code (React-Redux's connect(), older libraries predating widespread hook adoption), understanding the history of logic-reuse pattern evolution in React for an interview, rare cases where a component-level (rather than hook-level) wrapper is genuinely needed (say, some error boundary HOCs, since error boundaries still can't be implemented as a hook).",
+    pitfalls: [
+      "Wrapping a component in several HOCs in a row without necessity, creating a deep 'wrapper' hierarchy that's hard to read in React DevTools.",
+      "Using Inheritance Inversion in new code — an outdated, fragile technique that breaks the wrapped component's encapsulation; composition or a custom hook is almost always the better choice.",
+    ],
+  },
+  "react-prop-drilling": {
+    title: "Prop Drilling",
+    shortExplanation:
+      "Prop Drilling is a situation where data is passed as props through several intermediate components that don't need the data themselves — they only need it to pass it further down the tree to the component that actually needs it.",
+    detailedExplanation:
+      "The problem isn't passing props itself (that's a normal, predictable data-flow mechanism in React), but that every intermediate component is forced to 'know about' a prop that has nothing to do with it — this increases coupling (any change to the shape of the passed data requires touching every intermediate component's signature) and clutters their API with unrelated, unclear props. The problem grows proportionally with tree depth: if the target component sits 5-6 levels deeper than the data source, the prop has to be threaded through every intermediate level. Three main solutions, each with its own trade-off: (1) the Context API — good for data genuinely needed by a wide range of different components at different levels (theme, current user, locale), but not for frequently changing data due to re-render characteristics (see the Context topic); (2) component composition (passing children or a render prop down the whole chain instead of data) — a component closer to the data wraps the intermediate components as children, so those intermediate components never see the prop at all because they aren't structurally involved in passing it; (3) moving shared state into a separate state manager (Zustand, Redux, Jotai), letting a specific deeply nested component subscribe directly to the slice of state it needs, bypassing the component tree entirely.",
+    whereUsed:
+      "Refactoring components with deep nesting and many 'pass-through' props, designing a component tree during feature architecture, choosing between Context/composition/an external state manager for a specific data-passing case.",
+    pitfalls: [
+      "Reaching for Context at the first sign of prop drilling without first considering simpler composition, in cases where intermediate components don't use the passed value at all.",
+      "Using Context for frequently changing data instead of a state manager with targeted subscriptions, causing unnecessary re-renders across every context consumer.",
+    ],
+  },
+  "react-lifting-state-up": {
+    title: "Lifting State Up and data flow",
+    shortExplanation:
+      "Lifting State Up is a pattern where state needed by several sibling components is stored not in one of them, but in their closest common ancestor, which passes it down as props and gets changes back via callbacks — it's the only way to sync two 'sibling' components in React, which has no direct communication channel between siblings.",
+    detailedExplanation:
+      "React doesn't let one component directly read or change another component's state, even a sibling in the tree — the only official communication channel is props down and callbacks up. If two (or more) components need to stay in sync (say, two inputs reflecting the same temperature value in different units, or a list and its search box), the state is lifted into their common ancestor: the ancestor holds the state in useState, passes it down to children as a prop for display, and passes a setter function (or a wrapper around it) as a prop for changes — this is the 'inverse data flow' (data flows down as props, changes flow up via callbacks), which looks like an exception to strictly one-directional data flow but actually remains one-directional: an update always happens by calling a function received from the parent, never by directly mutating someone else's state. 'Two-way data binding' in some other frameworks (Angular with ngModel, Vue with v-model) is implemented as built-in syntax automatically syncing a value and its source in both directions without explicit programmer code — React deliberately has no built-in two-way binding and requires explicitly writing both value and onChange for every controlled field (see Controlled vs Uncontrolled Components) — a deliberate architectural choice favoring data-flow predictability (it's always clear where a value came from and exactly how it changes) at the cost of more boilerplate per field.",
+    whereUsed:
+      "Syncing several form fields reflecting the same data in different forms, coordinating a filter and a results list in sibling components, any situation where two 'sibling' components need to see the same state.",
+    pitfalls: [
+      "Trying to directly change a sibling component's state instead of lifting the state into a common ancestor — React physically has no direct mechanism for that.",
+      "Confusing 'inverse data flow via callbacks' with a violation of one-directionality — data still flows in one direction (down, as props); only the change function itself is also passed as a prop from above.",
+    ],
+  },
+  "react-conditional-rendering": {
+    title: "Conditional Rendering",
+    shortExplanation:
+      "Conditional rendering is just regular JS constructs (if, the ternary operator, &&) used inside or before JSX to decide which JSX to return, or whether to show an element at all — React has no special dedicated syntax for conditions, unlike the template languages of some other frameworks (e.g. v-if in Vue).",
+    detailedExplanation:
+      "The main techniques and their nuances: a plain if/else before return — the most explicit and readable way to choose between two fundamentally different UI variants, especially with more than two branches; the ternary operator condition ? <A /> : <B /> — compact inside JSX for a simple two-way choice, but nested ternaries quickly become unreadable; the logical && (condition && <Element />) — the idiomatic way to 'show or not show' one element, but with a well-known trap: if condition is a number (say, count && <Badge />, where count is 0), the JSX renders not nothing, but literally the text '0' on screen, because 0 is falsy, yet React renders falsy numbers as their string representation (unlike false/null/undefined, which don't render at all); an early return null inside the component itself — convenient when the entire component shouldn't render under a certain condition, not just part of it. General principle: a JSX expression can return null, undefined, or false to render nothing (all three equally produce no DOM nodes), but not 0 or an empty string — both of these falsy values React displays as-is.",
+    whereUsed:
+      "Showing/hiding UI elements based on state (loading, error, empty list, permissions), choosing one of several markup variants by data type, any component with several visual states.",
+    pitfalls: [
+      "Using && with a numeric condition that could be 0, without an explicit boolean coercion.",
+      "Nesting several ternary operators inside JSX to save lines — sharply hurts readability compared to a plain if/else before return, or extracting the logic into a separate variable/function.",
+    ],
+  },
+  "react-lazy-code-splitting": {
+    title: "React.lazy: lazy component loading (code splitting)",
+    shortExplanation:
+      "React.lazy(() => import('./Component')) defers loading a component's JS code until it's actually needed for render, instead of bundling it into the main bundle loaded immediately at app startup — reducing the initial JS bundle size and speeding up the first page load.",
+    detailedExplanation:
+      "Without code splitting, the entire app's JavaScript (including rarely visited pages, modals, admin panels opened by 1% of users) ends up in one large bundle, loaded and parsed on the first visit, even if the user never opens 90% of that code. React.lazy paired with dynamic import() (standard ES module syntax that a bundler — Webpack/Vite/Turbopack — recognizes as a bundle-splitting point) defers the network fetch for a component's code until the first render where it's actually used — the bundler automatically extracts such a component into a separate chunk file. React.lazy must be used inside a <Suspense fallback={...}> boundary, because the first render of a lazy component before its module finishes loading technically 'suspends' the render via the same throw-promise mechanism as Suspense for data (see the separate topic) — without a Suspense wrapper, React throws an error. Typical bundle-splitting points: code for individual routes (the profile page isn't needed until the user navigates there), heavy rarely-used widgets (a complex date picker, a WYSIWYG editor, a large charting library), and modals/dialogs that don't open immediately on page load.",
+    whereUsed:
+      "Splitting an SPA's bundle by route (React Router supports lazy-loading pages), heavy rarely-used widgets (editors, charts, maps), modals and dialogs, any scenario where a significant portion of JS isn't needed by most users on their first visit.",
+    pitfalls: [
+      "Forgetting to wrap a lazy component in Suspense — the app crashes with an error on the first attempt to render it before the module finishes loading.",
+      "Splitting the bundle too finely (one lazy per tiny component) — a large number of separate network requests for small chunk files can end up less efficient than one slightly larger, sensibly grouped chunk.",
+    ],
+  },
+  "react-strict-mode": {
+    title: "StrictMode: surfacing hidden problems",
+    shortExplanation:
+      "<StrictMode> is a wrapper component that renders no visible UI itself and enables extra checks and warnings ONLY in development mode — chiefly, a deliberate double-invocation of component functions and some hooks, to surface side effects hidden in render ahead of time.",
+    detailedExplanation:
+      "StrictMode doesn't change app behavior in the production build at all — all of its checks are fully disabled in the production build and have no effect on end users; their sole purpose is to show the developer, ahead of time during development, problems that would otherwise only surface under a specific combination of concurrent-rendering conditions in production. The main practical check is a double call of the component render function, the useState initializer function (if a function rather than a value is passed), and some other callbacks: if a component is genuinely pure with respect to render, calling it again with the same props/state simply changes nothing and is invisible to the user — but if the component body hides a side effect (mutating an external variable, a network request outside useEffect), the double call makes that problem visible (say, a counter incrementing by 2 instead of 1) already during development, rather than only under a specific combination of concurrent features in production months later. Since React 18, StrictMode additionally deliberately mounts, unmounts, and remounts every component on its first mount in development (firing effects, then their cleanup functions, then the effects again) — this emulates what would happen when reusing a previously cached component tree (say, offscreen rendering for future concurrent features) and exposes effects with no correct cleanup function. StrictMode can be applied locally to part of the tree (wrapping just one component/section) rather than necessarily the whole app at once — handy for gradually migrating a large legacy codebase.",
+    whereUsed:
+      "Mandatory practice in the development environment for any new React app, gradually migrating legacy code (StrictMode can be enabled tree-section by tree-section), surfacing missing useEffect cleanup functions before the bug shows up in production.",
+    pitfalls: [
+      "Treating StrictMode warnings as 'React bugs' instead of looking for the real impurity in your own component code that StrictMode is precisely surfacing.",
+      "Disabling StrictMode after hitting a double effect invocation in development instead of adding the missing cleanup function — that treats the symptom (hides the warning) rather than the actual problem.",
+    ],
+  },
+  "react-useid": {
+    shortExplanation:
+      "useId generates a unique string identifier that's stable between server and client — specifically for linking form elements via accessibility attributes (id/htmlFor, aria-describedby), not for React key or as a database key.",
+    detailedExplanation:
+      "Linking a <label> to an <input> via id/htmlFor, or describing a field via aria-describedby, requires a unique id, but a hardcoded string ('email-input') breaks if the component is used twice on the same page — both instances get the same id, breaking accessibility and semantics. useId solves exactly this: it generates an id unique across the whole tree, and identical on every render of the same component instance. The critically important property this hook was added to React 18 for is that an id generated by useId matches between server rendering (SSR) and subsequent client hydration: if something like Math.random() or an incrementing counter were used instead, the server and client would almost certainly generate different values (hydration order and server render order aren't guaranteed to be identical in every detail), leading to a hydration mismatch warning. useId is specifically NOT meant to be used as a React key in lists (that needs a stable id derived from the data itself, see the Reconciliation topic) and shouldn't be used as a database primary key or other business identifier — it's a purely DOM/accessibility tool.",
+    whereUsed:
+      "Linking label/input and other form-element pairs via id, when a component might be used multiple times on a page, ARIA attributes (aria-describedby, aria-labelledby), any situation needing a unique DOM id specifically for accessibility, not as a business identifier.",
+    pitfalls: [
+      "Using useId as a React key in a list — a different task: a key must be a stable identifier of the data itself, not a DOM/accessibility label.",
+      "Using a useId result as a business identifier (say, sending it to the server as a record id) — the value is deliberately opaque and meant only for linking DOM elements within a single render.",
+    ],
+  },
+  "react-usesyncexternalstore": {
+    shortExplanation:
+      "useSyncExternalStore is a low-level hook for safely subscribing a component to an external (non-React) source of state — a browser API, a hand-rolled store, an older state-manager version — that's guaranteed to work correctly with React 18+'s concurrent rendering, unlike manually subscribing to an external store via useState+useEffect.",
+    detailedExplanation:
+      "Before React 18, a common pattern for subscribing to an external store was: useState for a local copy of the value, plus useEffect subscribing to the store and updating that state on change. With the arrival of concurrent rendering, this pattern became potentially unsafe: React might render a component with one store value, pause the render (a concurrent feature like useTransition), and by the time the render resumes or commits, the external store may have already changed — meaning different parts of one logical UI update could end up reflecting different, time-inconsistent values of the same store ('tearing'). useSyncExternalStore(subscribe, getSnapshot) solves this at React's own level: React guarantees the value obtained via getSnapshot stays consistent throughout a given render, even if the render is interrupted and resumed, and will synchronously re-render the component if needed when it detects the snapshot went stale between calls. In practice, most React developers never call this hook directly — it's used as a building block INSIDE state-management libraries (Zustand, Redux, and Jotai use it under the hood to implement their own subscription hooks like useStore), not as an everyday application-code API.",
+    whereUsed:
+      "The internal implementation of subscription hooks in state-management libraries (Zustand and Redux use it under the hood), subscribing a component directly to browser APIs outside React (media queries, network status, geolocation), building your own small state-management library.",
+    pitfalls: [
+      "Calling useSyncExternalStore directly in application code without a real need — in the vast majority of cases, a ready-made hook from a state-management library already using it under the hood is sufficient.",
+      "Forgetting that getSnapshot must return the same value (by ===) when nothing changed — returning a new object/array on every call causes an infinite re-render loop.",
+    ],
+  },
+  "react-useinsertioneffect": {
+    shortExplanation:
+      "useInsertionEffect is a narrowly specialized hook that fires earlier than useLayoutEffect, before React has even read the DOM's layout — its sole purpose is inserting CSS rules from CSS-in-JS libraries before the browser computes layout, avoiding unnecessary style recalculation from dynamically inserted <style> tags.",
+    detailedExplanation:
+      "Effect firing order during commit: useInsertionEffect -> DOM changes are applied -> useLayoutEffect (can synchronously read/change layout before the browser paints the frame) -> the browser paints the frame -> useEffect (after painting). The problem useInsertionEffect specifically solves: CSS-in-JS libraries (styled-components, Emotion, and similar) dynamically insert <style> tags with generated class names during component render. Doing this in useLayoutEffect could mean the new styles are inserted after the browser has already partially computed layout for the already-applied DOM changes, forcing the browser to recompute styles and layout again (an extra reflow) — noticeably hurting performance on a large tree of styled components. useInsertionEffect is guaranteed to fire before React moves on to reading/changing layout DOM in useLayoutEffect, so styles inserted at that point are accounted for by the browser in one layout computation pass, with no extra recalculation. An important limitation: DOM node refs aren't yet available inside useInsertionEffect (the DOM mutations have already happened, but it isn't guaranteed safe to read their layout) — the hook is meant EXCLUSIVELY for inserting styles, not regular effect logic. The React docs explicitly note that the vast majority of application developers will never need this hook directly — it exists as an API for CSS-in-JS library authors.",
+    whereUsed:
+      "Almost exclusively the internal implementation of CSS-in-JS libraries (styled-components, Emotion, vanilla-extract with runtime insertion) — regular application code almost never calls this hook directly.",
+    pitfalls: [
+      "Using useInsertionEffect for regular application effect logic — the hook is deliberately limited in capability (no DOM ref access) and meant exclusively for library style insertion.",
+      "Mixing up the firing order of the three effects (useInsertionEffect -> useLayoutEffect -> useEffect) — getting the order wrong in an interview explanation immediately signals a shallow understanding of the topic.",
+    ],
+  },
+  "react-shadow-vs-virtual-dom": {
+    title: "Shadow DOM vs Virtual DOM: different technologies, different jobs",
+    shortExplanation:
+      "The Virtual DOM is a JS-library-level concept (React and others) for efficiently computing and applying real DOM updates; Shadow DOM is a native browser API for encapsulating markup and styles inside a component (usually a web component), fully isolating its CSS from the rest of the page. These solve fundamentally different problems and aren't alternatives to one another.",
+    detailedExplanation:
+      "The Virtual DOM (see the separate topic) isn't a browser technology — it's a pattern implemented in JS: a library builds a lightweight tree of plain objects describing the desired UI, diffs it against the previous one, and applies only the necessary changes to the real DOM — the sole purpose of this mechanism is UI update performance and predictability. Shadow DOM is part of the Web Components specification, built into the browser itself: an element can have a 'shadow root', whose markup and styles are fully isolated from the main document — CSS rules from outside don't leak into the shadow root, and vice versa — solving the problem of style encapsulation (say, a third-party widget won't be broken by, or break, the host page's global styles). React does NOT use Shadow DOM by default — React component styles are global on the page by default (unless separate techniques are applied: CSS Modules, CSS-in-JS with unique generated class names, BEM conventions), and isolation in React is achieved through build-time/naming tooling rather than a native browser mechanism. Both mechanisms CAN be used together: a React component can technically render content into a native web component's shadow root, but that's a separate capability, not something the Virtual DOM 'does' on its own or that's included in React by default.",
+    whereUsed:
+      "Explaining, in an interview, the confusion between two similarly named but completely different technologies, evaluating a project's style-encapsulation strategy (CSS Modules/CSS-in-JS vs native Shadow DOM via Web Components), integrating React with Custom Elements that use Shadow DOM.",
+    pitfalls: [
+      "Treating Shadow DOM and Virtual DOM as competing or interchangeable technologies — they solve different problems and in practice often operate at completely different layers of the stack.",
+      "Believing React 'uses Shadow DOM for optimization' — a common misconception caused by the similar names; React doesn't use Shadow DOM by default at all.",
+    ],
+  },
+  "react-router-basics": {
+    title: "React Router: how it differs from regular routing",
+    shortExplanation:
+      "React Router implements client-side routing: a 'page' change happens without a full browser document reload — JS intercepts the navigation, changes the URL via the History API, and swaps the rendered React subtree, whereas classic (server-side) routing means a fresh HTTP request and a full page reload on every navigation.",
+    detailedExplanation:
+      "With regular (server-side, MPA) routing, following a link is a full new HTTP GET request: the browser completely unloads the current document, including all in-memory JS state, and loads, parses, and renders a new HTML document from scratch. React Router (and client-side routing in general) intercepts link clicks, calls history.pushState (changing the address-bar URL without reloading the page), and renders the corresponding React subtree based on the new path — with no network request for new HTML and no loss of the JS app's state (an open modal, store data, scroll outside the navigated area can all be preserved). The price is having to solve, yourself, problems the server would otherwise solve 'for free' in an MPA: a route's code either has to be included in the main bundle or explicitly lazy-loaded (see React.lazy), and the initial app load (before JS has run and React Router has taken over) needs a separate solution if a fast first content render matters (see the SSR/SSG topics in the Next.js section).\n\nHook evolution across major versions: React Router v5 introduced the first hooks — useHistory (imperative navigation), useLocation (current path/query), useParams (dynamic URL segments, e.g. /users/:id), useRouteMatch. React Router v6 substantially reworked the API: useHistory was replaced by useNavigate (a single function for forward/back/replace navigation), useRouteMatch was dropped in favor of simpler nested <Routes>, and useSearchParams was added for convenient query-string handling as controlled state. React Router v7 (effectively merged with Remix) added hooks integrated with server-side data and forms in the Remix style — useLoaderData (data loaded before a route renders, on the server or client), useActionData (the result of processing a form via an action), useNavigation (the current navigation state — idle/loading/submitting) — bringing React Router's model closer to server-side data-loading patterns similar to Next.js Route Handlers and Server Actions (see the corresponding topics).",
+    whereUsed:
+      "Any SPA built on plain React (not Next.js, which has file-based routing built in), migrating between React Router versions, explaining client-side vs server-side routing in an interview, passing data between pages via route parameters, the query string, or location state.",
+    pitfalls: [
+      "Forgetting that client-side routing without SSR/SSG means an empty initial HTML document until JS runs — critical for SEO and first content render unless mitigated by server-side rendering.",
+      "Using deprecated React Router v5 hooks (useHistory, useRouteMatch) in new v6+ code — the API changed substantially, and old patterns either don't work or don't let you benefit from the new version's improvements.",
+    ],
+  },
+  "react-reselect": {
+    title: "Reselect: memoized selectors for a store",
+    shortExplanation:
+      "Reselect is a library for creating memoized 'selectors' (functions computing derived data from a store, e.g. Redux) — a selector only recomputes if the specific parts of the store it depends on actually changed, not on every store change.",
+    detailedExplanation:
+      "The problem Reselect solves: without memoization, a selector function computing, say, a filtered and sorted list of tasks from the entire store will recompute on EVERY store update (even if a completely unrelated part of the state changed), and — worse — when used with React (via useSelector) each such recomputation typically creates a new array/object by reference, so components comparing the selector's result by reference (as React.memo or useSelector do by default) conclude the data changed and re-render unnecessarily, even when the result's content is identical to before. createSelector from Reselect creates a memoized function: it takes several 'input' selectors (usually simple functions reading a specific slice of the store) and one 'result' function, which only recomputes if at least one input selector's result changed (by ===) compared to the previous call — if all inputs are the same, Reselect returns the previous call's cached result by the same reference, without re-running the result function or creating a new object. This matters especially for expensive computations (complex filtering/sorting/aggregation of large lists) and for preventing a cascade of unnecessary re-renders across components subscribed to the selector via useSelector.",
+    whereUsed:
+      "Redux apps with derived data — filtered/sorted/aggregated lists computed from the raw store, any scenario where a selector inside useSelector creates a new array/object on every call, causing unnecessary re-renders in subscribed components.",
+    pitfalls: [
+      "Creating a new selector inside a component's body on every render (e.g. useSelector((state) => createSelector(...)(state))) — this destroys the entire point of memoization, because the selector's cache only lives as long as the selector function itself does.",
+      "Wrapping cheap, trivial computations (e.g. simply reading a field) in createSelector — the memoization overhead itself may not pay off where recomputing is already practically free.",
+    ],
+  },
   "react-rendering": {
     title: "Rendering",
     shortExplanation:
@@ -106,15 +323,29 @@ export const reactEn: ContentTranslationMap = {
       "Overusing flushSync where regular batching would be more performant and sufficient.",
     ],
   },
+  "react-flushsync": {
+    title: "flushSync: forcing a synchronous render",
+    shortExplanation:
+      "flushSync is a function from react-dom that forces React to immediately and synchronously apply state updates to the real DOM inside the passed callback, instead of batching them and deferring until the next cycle — used sparingly, when code right after the call needs the already-updated DOM.",
+    detailedExplanation:
+      "By default (since automatic batching in React 18), every setState call triggered within one event handler gets merged into a single render that's applied to the DOM asynchronously — regular code right after a setState call can't assume the document already reflects the new state. flushSync(callback) explicitly opts out of that behavior: React synchronously and immediately performs the render and commit for every state update inside the passed function before flushSync returns control — meaning right after the call, it's safe to read the up-to-date DOM (say, its dimensions via getBoundingClientRect or scrollHeight). This is a narrow escape hatch, not an everyday tool: every flushSync call forces a full synchronous render and commit, losing all the benefits of batching (merging several updates into one pass) for that specific update — frequent or unjustified use noticeably hurts performance, because React can no longer merge adjacent state changes. A typical legitimate scenario: programmatically scrolling a list to a just-added item — if you simply call setState and immediately scrollIntoView, the DOM hasn't updated yet (the element doesn't physically exist in the tree yet), and the scroll either fails or lands at the old position; wrapping the setState in flushSync guarantees the new DOM node already exists by the time scrollIntoView is called.",
+    pitfalls: [
+      "Wrapping every state update in flushSync 'just in case' — negates the benefits of automatic batching and noticeably slows the app down under frequent updates.",
+      "Using flushSync where properly structuring an effect (useEffect/useLayoutEffect) reacting to the state change would suffice, instead of imperatively forcing synchronicity.",
+    ],
+    practiceTask:
+      "Build a list with an 'Add item' button that auto-scrolls to the new item after adding it: first without flushSync (confirm the scroll sometimes lands in the wrong place or doesn't happen at all), then wrap the setState in flushSync and confirm the scroll now reliably lands on the new item.",
+  },
   "react-rules-of-hooks": {
     title: "Rules of Hooks",
     shortExplanation:
-      "Two strict rules for using hooks: call them only at the top level of a function component (not inside conditions, loops, or nested functions) and only from React components or other hooks — these rules exist not as a style preference but because React's correctness depends on them.",
+      "Two strict rules for using hooks: call them only at the top level of a function component (not inside conditions, loops, or nested functions) and only from React components or other hooks — these rules exist not as a style preference but because React's correctness depends on them. The one deliberate exception to the first rule is the new use() hook (React 19), specifically designed so it can be called conditionally.",
     detailedExplanation:
-      "React doesn't store hooks by variable name — it matches useState/useEffect/... calls by their call order within a specific render, using an internal linked list. If a hook is conditionally skipped (if (condition) { useState(...) }), the ordinal positions of every subsequent hook in that render shift relative to the previous render, and React ends up associating state with the wrong hook — leading to hard-to-track bugs rather than a compile error. The rule 'call hooks only from components/other hooks' ensures React can actually track which 'place in the tree' a given hook call belongs to — a regular (non-hook) function is invisible to React from this tracking mechanism's perspective. The eslint-plugin-react-hooks ESLint plugin's rules-of-hooks rule is the standard way to catch violations of these rules automatically, before they ship to production as a hard-to-find bug.",
+      "React doesn't store hooks by variable name — it matches useState/useEffect/... calls by their call order within a specific render, using an internal linked list. If a hook is conditionally skipped (if (condition) { useState(...) }), the ordinal positions of every subsequent hook in that render shift relative to the previous render, and React ends up associating state with the wrong hook — leading to hard-to-track bugs rather than a compile error. The rule 'call hooks only from components/other hooks' ensures React can actually track which 'place in the tree' a given hook call belongs to — a regular (non-hook) function is invisible to React from this tracking mechanism's perspective. The eslint-plugin-react-hooks ESLint plugin's rules-of-hooks rule is the standard way to catch violations of these rules automatically, before they ship to production as a hard-to-find bug.\n\nAn important clarification introduced in React 19: the 'top level only' rule isn't absolute for every single hook without exception — use() (see the separate topic) is deliberately designed so it can legally be called inside if, loops, and after an early return, because it doesn't store its own state across renders by call order — it either reads context directly or suspends the component via Suspense when reading a promise. This doesn't repeal the rule for every other hook — use() is the one narrow, specifically documented exception, not a signal that 'all hooks can go in an if now'.",
     pitfalls: [
       "Wrapping a hook call in a condition or an early return placed before the hooks.",
       "Ignoring eslint-plugin-react-hooks warnings, treating them as 'just style' rather than protection against real state bugs.",
+      "Assuming that because use() can be called conditionally, other hooks (useState, useContext, useEffect) can be too — it's the one deliberate exception, not a repeal of the rule in general.",
     ],
   },
   "react-usestate": {
@@ -259,5 +490,18 @@ export const reactEn: ContentTranslationMap = {
       "Expecting useDeferredValue to have a predictable fixed delay like debounce — the actual lag depends on render workload and isn't guaranteed.",
       "Using useDeferredValue where the value is produced in the same component and it would be more convenient to just use useTransition around setState.",
     ],
+  },
+  "react-use-hook": {
+    title: "use() — the hook you can call inside if and loops",
+    shortExplanation:
+      "use() is a new React 19 API for reading a promise's or a context's value directly during render; unlike every other hook, use() can be called inside if, loops, and after an early return, because it doesn't rely on a call's ordinal position across renders.",
+    detailedExplanation:
+      "All 'classic' hooks (useState, useEffect, useMemo, etc.) must be called at the top level of a component in the exact same order on every render — that's how React matches a given hook's state to its 'slot' in the internal linked list (see the Rules of Hooks topic). use() works fundamentally differently: it doesn't store its own state across renders and doesn't depend on call order — instead, on each call, React either immediately returns the already-resolved value of the context/promise, or (if the promise hasn't settled yet) suspends the component's render via Suspense until it resolves. It's precisely this lack of dependence on a 'call number' that makes calling use() conditionally legal — calling it inside if (condition) { use(promise) } is safe because on any given render React simply reads the current value at that point in execution, rather than matching it against a slot in the previous render's hook list. use() has two main use cases: reading a promise (the component suspends via the nearest Suspense boundary until the promise resolves — replacing some patterns that used to require useEffect + useState) and reading React Context (a full alternative to useContext, but one that can be called conditionally and inside loops, which was explicitly forbidden for useContext).",
+    pitfalls: [
+      "Assuming that because use() can be called conditionally, other hooks (useState, useEffect, useMemo) now can be too — the top-level rule for them hasn't gone anywhere; use() is a deliberate, narrow exception.",
+      "Passing use() a promise that's recreated on every render (e.g. inline in JSX with no memoization) — this causes an infinite render-suspend loop; the promise needs to be created outside the component or memoized/cached (e.g. via a data library or a resource specifically designed for Suspense).",
+    ],
+    practiceTask:
+      "Write a component that receives a promise of user data and a boolean showProfile prop, and inside if (!showProfile) return null calls use(userPromise) for the rest of the render — confirm it works without ESLint warnings, unlike an equivalent attempt with useState in place of use().",
   },
 };

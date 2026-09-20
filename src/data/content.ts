@@ -1068,6 +1068,76 @@ export const TOPICS: Topic[] = [
     title: "React",
     subtopics: [
       {
+        id: "react-what-is-react",
+        title: "Что такое React? Особенности и преимущества",
+        content: {
+          title: "Что такое React: особенности, преимущества, «реактивность»",
+          shortExplanation:
+            "React — это библиотека (не фреймворк) для построения пользовательских интерфейсов, основанная на идее описывать UI как функцию от состояния: вы декларативно описываете, как экран должен выглядеть при данном состоянии, а не императивно указываете последовательность DOM-операций для перехода из одного состояния в другое.",
+          detailedExplanation:
+            "Ключевые особенности React, которые обычно перечисляют на собеседовании: декларативность (компонент описывает 'что показать', а не 'как именно менять DOM' — см. тему Rendering), компонентный подход (UI собирается из независимых, переиспользуемых компонентов со своим состоянием и логикой), Virtual DOM и эффективное согласование (reconciliation) изменений вместо прямых манипуляций с реальным DOM, однонаправленный поток данных (data flows down через пропсы, события — вверх через колбэки, что делает поток данных предсказуемым), JSX как декларативный синтаксис для описания дерева элементов прямо в JS. React намеренно называют библиотекой, а не фреймворком: он отвечает только за слой представления (UI) и не навязывает решение по маршрутизации, работе с сетью или глобальному состоянию — эти задачи решаются отдельными библиотеками (React Router, TanStack Query, Zustand/Redux), которые можно свободно менять независимо от React.\n\nОтдельный тонкий вопрос — 'является ли React реактивным?' в строгом смысле слова 'reactive programming' (как, например, RxJS или Signals в некоторых фреймворках, где система автоматически отслеживает зависимости на уровне отдельных значений и точечно обновляет только то, что реально изменилось). React исторически устроен иначе: он не реактивен в этом узком смысле, а скорее 're-renders on demand' — при изменении state/props/context React перевызывает функцию компонента целиком и определяет реальные изменения через сравнение деревьев (diffing), а не через тонкую систему автоматических подписок на конкретные значения. Именно поэтому в React существуют мемоизация (useMemo/useCallback/memo) как инструмент борьбы с лишними перерасчётами — в по-настоящему 'реактивной' системе (fine-grained reactivity, как в Solid.js или Vue 3 с Proxy-based реактивностью) подобная ручная мемоизация в большинстве случаев не нужна, потому что система сама отслеживает, какие именно части UI зависят от изменившегося значения.",
+          codeExample:
+            "// Декларативный React-компонент: описываем 'что показать', а не 'как менять DOM'\nfunction Greeting({ name, isLoggedIn }) {\n  if (!isLoggedIn) return <p>Пожалуйста, войдите</p>;\n  return <p>Привет, {name}!</p>;\n}\n\n// React сам решит, какие DOM-узлы реально нужно обновить при смене пропсов,\n// сравнивая новое дерево элементов с предыдущим (см. тему Reconciliation)",
+          whereUsed:
+            "Ответ на общий вопрос 'расскажите о React' в начале технического интервью, обсуждение выбора React vs других библиотек/фреймворков, разговор про архитектурные принципы (библиотека vs фреймворк) при выборе стека для нового проекта.",
+          interviewQuestion: "Является ли React 'реактивным' в строгом смысле reactive programming?",
+          interviewAnswerRu:
+            "Нет, не в строгом смысле fine-grained reactivity, который есть, например, в Solid.js или Vue 3 — там система автоматически отслеживает зависимости на уровне отдельных значений и точечно обновляет только то, что реально изменилось, без ручной мемоизации. React устроен иначе: при изменении state/props/context React перевызывает всю функцию компонента заново и вычисляет реальные изменения через сравнение (diffing) нового дерева элементов с предыдущим, а не через автоматическое отслеживание конкретных зависимостей. Именно поэтому в React существуют useMemo/useCallback/memo как инструменты ручной оптимизации — в по-настоящему реактивной системе такая ручная работа в большинстве случаев не нужна.",
+          interviewAnswerEn:
+            "No, not in the strict fine-grained reactivity sense that, say, Solid.js or Vue 3 have — there, the system automatically tracks dependencies at the level of individual values and updates only what actually changed, with no manual memoization needed. React works differently: when state/props/context change, React re-calls the entire component function and computes the real changes by diffing the new element tree against the previous one, rather than through automatic tracking of specific dependencies. That's exactly why React has useMemo/useCallback/memo as manual optimization tools — in a truly reactive system, that manual work is mostly unnecessary.",
+          pitfalls: [
+            "Называть React 'фреймворком' на собеседовании без пояснения — формально это библиотека представления, и разница важна для понимания, почему маршрутизация/стейт-менеджмент/сеть — это отдельные, самостоятельно выбираемые библиотеки.",
+            "Путать 'React реактивен, потому что перерисовывает UI при изменении данных' с точным термином 'reactive programming' (fine-grained reactivity) — это разные уровни абстракции и стоит уметь показать, что вы видите разницу.",
+          ],
+        },
+      },
+      {
+        id: "react-whats-new-18-19",
+        title: "Что нового в React 18 и 19?",
+        content: {
+          title: "Что нового в React 18 и React 19",
+          shortExplanation:
+            "React 18 (2022) добавил concurrent-рендеринг и automatic batching; React 19 (2024) сфокусирован на упрощении работы с асинхронными данными и формами (Actions, use()) и убирает часть шаблонного кода, который раньше требовал сторонних библиотек.",
+          detailedExplanation:
+            "React 18 — главная тема: concurrent rendering, то есть возможность React прерывать, приостанавливать и приоритизировать рендер (архитектурно это стало возможно благодаря Fiber, см. отдельную тему). Практические API, построенные на этом фундаменте: useTransition и useDeferredValue (разметка обновлений как 'не срочных', см. отдельные темы), автоматический batching обновлений состояния независимо от того, откуда они вызваны (см. тему Batching, ранее батчинг работал только внутри обработчиков событий React), новый Suspense для загрузки данных (не только code splitting), а также новый корневой API createRoot вместо устаревшего ReactDOM.render.\n\nReact 19 — фокус на упрощении повседневных паттернов: use() — хук, который можно вызывать условно, читает промисы и контекст напрямую в рендере (см. отдельную тему); Actions и связанные хуки (useActionState, useFormStatus, useOptimistic) — встроенная поддержка асинхронных обработчиков форм с автоматическим управлением состоянием pending/error без ручного написания isSubmitting/try-catch на каждую форму; ref как обычный проп у функциональных компонентов (без обёртки в forwardRef в большинстве случаев); улучшенная поддержка metadata-тегов (title, meta, link) прямо внутри компонентов без сторонних библиотек вроде react-helmet; более точные сообщения об ошибках гидратации. Совокупно React 19 не меняет ментальную модель React, а убирает бойлерплейт для сценариев, которые раньше требовали сторонних библиотек или самописных обёрток.",
+          whereUsed:
+            "Планирование миграции проекта на новую мажорную версию React, обсуждение на собеседовании актуальности стека проекта, выбор между ручным управлением состоянием формы и новыми Actions API.",
+          interviewQuestion: "Какое архитектурное изменение объединяет большинство нововведений React 18, и почему это не так в React 19?",
+          interviewAnswerRu:
+            "Практически все ключевые новшества React 18 (useTransition, useDeferredValue, automatic batching, новый Suspense для данных) опираются на одну общую архитектурную возможность — concurrent rendering, то есть способность React прерывать и приоритизировать рендер, а не выполнять его одним неразрывным синхронным проходом. React 19, в отличие от этого, не вводит новый фундаментальный механизм рендеринга, а в основном убирает шаблонный код в уже существующих сценариях (управление состоянием форм через Actions, чтение промисов/контекста через use(), ref без forwardRef) — то есть это скорее упрощение DX (developer experience) поверх уже заложенного в 18-й версии фундамента, чем новая архитектурная возможность.",
+          interviewAnswerEn:
+            "Almost every key React 18 feature (useTransition, useDeferredValue, automatic batching, the new data-fetching Suspense) rests on one shared architectural capability — concurrent rendering, React's ability to interrupt and prioritize rendering rather than run it as one uninterruptible synchronous pass. React 19, by contrast, doesn't introduce a new fundamental rendering mechanism — it mostly removes boilerplate from already-existing scenarios (form state management via Actions, reading promises/context via use(), refs without forwardRef) — so it's more of a DX (developer experience) simplification built on top of the foundation React 18 already laid, rather than a new architectural capability.",
+          pitfalls: [
+            "Перечислять фичи React 18/19 без понимания, что их объединяет (или не объединяет) архитектурно — на собеседовании ценится не список, а понимание связей между фичами.",
+            "Считать, что React 19 'революционен' так же, как React 18 — по факту это в первую очередь упрощение существующих паттернов, а не смена фундаментальной модели рендеринга.",
+          ],
+        },
+      },
+      {
+        id: "react-jsx",
+        title: "JSX: разница с HTML и компиляция",
+        content: {
+          title: "JSX: чем отличается от HTML и как компилируется в JS",
+          shortExplanation:
+            "JSX — это синтаксическое расширение JavaScript, визуально похожее на HTML, но компилирующееся в обычные вызовы функций (React.createElement или, в новых версиях, автоматический JSX runtime) — то есть JSX не выполняется браузером напрямую, а трансформируется в JS ещё на этапе сборки (Babel/SWC/TypeScript).",
+          detailedExplanation:
+            "Главные отличия JSX от HTML: атрибуты именуются в camelCase (className вместо class, onClick вместо onclick, tabIndex вместо tabindex) — потому что в итоге это просто свойства JS-объекта пропсов, а не строковые HTML-атрибуты; выражения JS вставляются через фигурные скобки {expression}, а не через отдельный шаблонизатор; JSX обязан возвращать ровно один корневой элемент (или фрагмент <>...</>) — в отличие от HTML-разметки, где на верхнем уровне может быть несколько соседних узлов; все теги обязаны быть закрыты явно, включая самозакрывающиеся (<img />, <br />), тогда как в HTML это часто необязательно; style принимает не строку, а объект JS с camelCase-свойствами ({ backgroundColor: 'red' }, а не 'background-color: red'). Компиляция: JSX вида <div className=\"box\">{title}</div> транслируется в вызов React.createElement('div', { className: 'box' }, title), результатом которого является обычный JS-объект (React Element) — {type: 'div', props: { className: 'box', children: title }}, а не DOM-узел и не строка HTML. Начиная с React 17/новых версий сборщиков, применяется automatic JSX runtime — компилятор автоматически импортирует специальные функции jsx/jsxs из react/jsx-runtime вместо React.createElement, что избавляет от необходимости писать import React from 'react' в каждом файле, использующем JSX, но суть трансформации (JSX -> вызов функции -> обычный JS-объект) остаётся той же. Для вставки заведомо доверенного сырого HTML (например, санитизированного HTML с бэкенда) существует dangerouslySetInnerHTML={{ __html: htmlString }} — намеренно неудобное по названию API, напоминающее, что произвольный несанитизированный HTML здесь — прямой путь к XSS (см. тему XSS/CSRF/CORS).",
+          codeExample:
+            "// JSX, который вы пишете:\nconst element = <div className=\"box\" onClick={handleClick}>{title}</div>;\n\n// Во что он компилируется (automatic JSX runtime, упрощённо):\nimport { jsx as _jsx } from 'react/jsx-runtime';\nconst element = _jsx('div', { className: 'box', onClick: handleClick, children: title });\n\n// Результат вызова — обычный JS-объект, а не DOM-узел и не строка HTML:\n// { type: 'div', props: { className: 'box', onClick: handleClick, children: title } }\n\n// Вставка сырого HTML — только для заведомо санитизированного контента\nfunction Article({ sanitizedHtml }) {\n  return <div dangerouslySetInnerHTML={{ __html: sanitizedHtml }} />;\n}",
+          whereUsed:
+            "Каждый React-компонент технически использует JSX (или его альтернативу — прямые вызовы createElement, что редко пишут вручную), понимание компиляции важно при отладке ошибок сборки, работе с Babel/SWC конфигурацией, и при объяснении, почему React не требует отдельного шаблонного языка.",
+          interviewQuestion: "Может ли браузер выполнить JSX напрямую? Что происходит с JSX до того, как код попадает в браузер?",
+          interviewAnswerRu:
+            "Нет, браузер не понимает JSX-синтаксис напрямую — это JS-расширение, требующее компиляции. На этапе сборки (обычно Babel или SWC, встроенные в тулчейн вроде Next.js/Vite) каждое JSX-выражение транслируется в вызов функции — React.createElement(type, props, ...children) в старом JSX runtime или jsx(type, props) в новом automatic runtime — и в браузер попадает уже обычный скомпилированный JavaScript, вызывающий эти функции и получающий в результате обычные JS-объекты (React Element), из которых затем строится Virtual DOM дерево.",
+          interviewAnswerEn:
+            "No, the browser doesn't understand JSX syntax directly — it's a JS extension that requires compilation. During the build step (usually Babel or SWC, built into toolchains like Next.js/Vite), every JSX expression is translated into a function call — React.createElement(type, props, ...children) in the old JSX runtime, or jsx(type, props) in the new automatic runtime — and what reaches the browser is already plain compiled JavaScript calling those functions and getting back plain JS objects (React Elements), which are then used to build the Virtual DOM tree.",
+          pitfalls: [
+            "Писать class вместо className или for вместо htmlFor, копируя привычки из обычного HTML — в JSX это просто именованные JS-пропсы, а не строковые HTML-атрибуты.",
+            "Использовать dangerouslySetInnerHTML с несанитизированным пользовательским вводом — прямой путь к XSS-уязвимости.",
+          ],
+        },
+      },
+      {
         id: "react-rendering",
         title: "Rendering",
         content: {
@@ -1251,6 +1321,78 @@ export const TOPICS: Topic[] = [
         },
       },
       {
+        id: "react-class-vs-functional",
+        title: "Класс vs функциональный компонент",
+        content: {
+          title: "Классовый vs функциональный компонент",
+          shortExplanation:
+            "Классовый компонент — это ES6-класс, наследующий React.Component, с состоянием в this.state и методами жизненного цикла; функциональный компонент — обычная JS-функция, получающая пропсы и возвращающая JSX, где состояние и побочные эффекты подключаются через хуки. С 2019 года (React 16.8, введение хуков) функциональные компоненты — рекомендуемый стандарт, классовые остаются только в legacy-коде.",
+          detailedExplanation:
+            "У классовых компонентов состояние хранится в единственном объекте this.state, обновляется через this.setState (который делает shallow merge с текущим состоянием), а логика жизненного цикла разбита по одноимённым методам (componentDidMount, componentDidUpdate, componentWillUnmount) — из-за чего связанная логика (например, подписка и её же отписка) вынужденно разносится по разным методам класса, а не живёт рядом в одном месте. Функциональные компоненты с хуками решают именно эту проблему: useEffect объединяет подписку и её очистку в одном блоке кода, а несколько независимых useState вместо одного this.state позволяют не смешивать в один объект логически не связанные части состояния. Дополнительная практическая причина перехода на функциональные компоненты — переиспользование логики: в классах для шаринга stateful-логики между компонентами использовались HOC или render props (оба добавляют обёрточные слои в дерево компонентов и усложняют отладку через React DevTools), тогда как кастомный хук — это просто обычная функция, без какого-либо изменения структуры дерева компонентов. this в классовых компонентах также был источником постоянных ошибок (методы, переданные как колбэки, теряли контекст this без явного .bind() или стрелочных методов-полей) — в функциональных компонентах этой проблемы нет вообще, потому что нет this. React официально не планирует удалять классовые компоненты, но вся новая функциональность (Suspense для данных, use(), Actions) проектируется прежде всего для функциональных компонентов и хуков.",
+          codeExample:
+            "// Классовый компонент\nclass Counter extends React.Component {\n  state = { count: 0 };\n  componentDidMount() { console.log('mounted'); }\n  increment = () => this.setState({ count: this.state.count + 1 }); // .bind не нужен благодаря class field\n  render() {\n    return <button onClick={this.increment}>{this.state.count}</button>;\n  }\n}\n\n// Тот же компонент функционально\nfunction Counter() {\n  const [count, setCount] = useState(0);\n  useEffect(() => { console.log('mounted'); }, []);\n  return <button onClick={() => setCount((c) => c + 1)}>{count}</button>;\n}",
+          whereUsed:
+            "Поддержка legacy-кодовых баз, написанных до 2019 года (классовые компоненты и по сей день валидны и поддерживаются React), обсуждение на собеседовании истории эволюции React API, миграция старого кода на хуки.",
+          interviewQuestion: "Какую конкретную проблему классовых компонентов решили хуки, помимо простого сокращения количества кода?",
+          interviewAnswerRu:
+            "Главная проблема — организация связанной логики. В классовом компоненте логика одной 'фичи' (например, подписка на внешний источник и её очистка) вынужденно разбросана по разным lifecycle-методам (componentDidMount для подписки, componentWillUnmount для отписки), а в одном методе (например, componentDidMount) часто оказывается несвязанная логика нескольких разных фич. useEffect решает это, позволяя объединить логику одной фичи (включая её очистку) в одном месте, а не размазывать по методам жизненного цикла. Вторая существенная проблема — переиспользование stateful-логики между компонентами: в классах для этого нужны HOC или render props, добавляющие обёрточные компоненты в дерево, тогда как кастомный хук — просто функция без изменения структуры дерева.",
+          interviewAnswerEn:
+            "The main problem is organizing related logic. In a class component, one feature's logic (say, subscribing to an external source and cleaning it up) is forced apart across different lifecycle methods (componentDidMount for subscribing, componentWillUnmount for unsubscribing), while one method (say, componentDidMount) often ends up containing unrelated logic from several different features. useEffect solves this by letting a feature's logic — including its cleanup — live together in one place instead of being spread across lifecycle methods. The second significant problem is reusing stateful logic between components: in classes this needs HOCs or render props, which add wrapper components to the tree, whereas a custom hook is just a function with no change to the tree's structure.",
+          pitfalls: [
+            "Смешивать this.state напрямую с последующим асинхронным чтением this.state сразу после setState, ожидая уже обновлённое значение — setState в классах тоже асинхронен и может батчиться.",
+            "Писать новый код на классовых компонентах в 2026 году без веской причины — вся современная экосистема (хуки от библиотек данных/форм, Suspense-паттерны) проектируется в первую очередь под функциональные компоненты.",
+          ],
+        },
+      },
+      {
+        id: "react-element-vs-component",
+        title: "Element vs Component vs Container",
+        content: {
+          title: "Element vs Component vs Container",
+          shortExplanation:
+            "React Element — это простой неизменяемый JS-объект, описывающий 'что должно быть на экране' (результат JSX/createElement); Component — функция или класс, который принимает пропсы и производит элементы; 'контейнер' — не термин React API, а архитектурный паттерн разделения компонента на 'умную' (container, работает с данными/состоянием) и 'глупую' (presentational, только отображает то, что получила) часть.",
+          detailedExplanation:
+            "React Element — лёгкий, immutable-объект вида { type, props }, который ничего не 'умеет' сам по себе: он не хранит состояние, не имеет методов и не соответствует напрямую DOM-узлу — это просто описание, которое React использует при построении и сравнении деревьев (см. Reconciliation). Component — это то, что производит элементы: либо функция, вызываемая React с пропсами и возвращающая элементы, либо класс с методом render(). Между element и component важное отличие: <Button /> в JSX — это вызов React.createElement(Button, {}), результатом которого является ЭЛЕМЕНТ (обычный объект), а не немедленный вызов функции Button — реальный вызов функции-компонента происходит позже, когда React непосредственно рендерит этот элемент в дереве. Паттерн 'container/presentational' — не часть React API, а архитектурная договорённость, распространённая до широкого использования хуков и стейт-менеджмент-библиотек с собственными хуками для подписки на данные: container-компонент получает/вычисляет данные (через API-запрос, стор, контекст) и передаёт их вниз как пропсы в presentational-компонент, который занимается только версткой и не знает, откуда пришли данные. Сегодня этот паттерн во многом заменён кастомными хуками (useOrders() вместо OrdersContainer), которые дают то же разделение ответственности без дополнительного обёрточного компонента в дереве.",
+          codeExample:
+            "// Element — просто объект, не вызов функции немедленно\nconst element = <Button label=\"Save\" />;\n// эквивалентно: React.createElement(Button, { label: 'Save' })\n// => { type: Button, props: { label: 'Save' } } — обычный JS-объект\n\n// Container (умный) — данные\nfunction OrdersContainer() {\n  const { data } = useQuery({ queryKey: ['orders'], queryFn: fetchOrders });\n  return <OrdersList orders={data ?? []} />;\n}\n\n// Presentational (глупый) — только отображение\nfunction OrdersList({ orders }) {\n  return <ul>{orders.map((o) => <li key={o.id}>{o.title}</li>)}</ul>;\n}",
+          whereUsed:
+            "Понимание внутреннего устройства React важно при отладке (почему JSX 'не вызывается сразу'), архитектурное разделение данных и отображения — сегодня чаще через кастомные хуки, чем через явные container-компоненты, но сам принцип разделения ответственности остаётся актуальным.",
+          interviewQuestion: "Почему <Button /> в JSX не вызывает функцию Button немедленно в момент вычисления этого выражения?",
+          interviewAnswerRu:
+            "<Button /> компилируется в вызов createElement(Button, {}), который возвращает обычный JS-объект-описание ({ type: Button, props: {} }) — сама функция Button при этом ещё не вызывается. React вызывает функцию-компонент позже, в процессе рендера, когда обходит дерево элементов и для каждого элемента с типом-функцией вызывает эту функцию с её пропсами, чтобы получить дочерние элементы. Это разделение (создание описания vs фактический вызов) — то, что позволяет React строить дерево элементов, сравнивать его с предыдущим и решать, какие компоненты вообще нужно перерендерить, до того как реально вызывать каждую функцию.",
+          interviewAnswerEn:
+            "<Button /> compiles into a call to createElement(Button, {}), which returns a plain JS description object ({ type: Button, props: {} }) — the Button function itself hasn't been called yet. React calls the component function later, during render, as it walks the element tree and, for every element whose type is a function, calls that function with its props to get the child elements. This separation (creating a description vs actually calling it) is what lets React build the element tree, diff it against the previous one, and decide which components actually need to re-render before calling each function for real.",
+          pitfalls: [
+            "Путать 'элемент' и 'компонент' как синонимы на собеседовании — элемент это данные (объект-описание), компонент это функция/класс, который эти данные производит.",
+            "Считать container/presentational обязательным паттерном React API — это архитектурная договорённость, а не встроенный механизм, и в современном коде её чаще заменяют кастомные хуки.",
+          ],
+        },
+      },
+      {
+        id: "react-hoc",
+        title: "Higher-Order Components (HOC)",
+        content: {
+          title: "Higher-Order Components (HOC) и Inheritance Inversion",
+          shortExplanation:
+            "HOC (компонент высшего порядка) — функция, которая принимает компонент и возвращает новый компонент с дополнительной логикой/пропсами — паттерн для переиспользования stateful-логики между компонентами до появления хуков; Inheritance Inversion — менее распространённая техника HOC, где обёртка наследуется от переданного компонента, а не оборачивает его композицией.",
+          detailedExplanation:
+            "HOC следует соглашению withSomething(Component) -> NewComponent: сам HOC не изменяет исходный компонент и не использует наследование в обычном (композиционном) варианте — он возвращает новый компонент-обёртку, который рендерит переданный компонент, добавляя ему дополнительные пропсы или оборачивая в дополнительную логику (например, подписку на контекст, проверку авторизации, обработку загрузки). Классический пример из старых версий React-Redux — connect(mapStateToProps)(MyComponent). Проблемы HOC, из-за которых хуки стали предпочтительным способом переиспользования логики: 'wrapper hell' — при использовании нескольких HOC подряд (withAuth(withTheme(withData(Component)))) дерево компонентов в React DevTools обрастает несколькими уровнями обёрток, что усложняет отладку; неявный источник пропсов — глядя на компонент, обёрнутый в HOC, не всегда сразу понятно, откуда взялся конкретный проп (он мог прийти как от родителя, так и быть внедрён одним из HOC); коллизии имён пропсов при использовании нескольких HOC. Inheritance Inversion — более редкая и менее рекомендуемая техника, где HOC-компонент наследуется от переданного компонента (class Enhanced extends WrappedComponent) вместо того чтобы оборачивать его через композицию — это даёт доступ к this.render() обёрнутого компонента и позволяет манипулировать результатом рендера (например, условно возвращать другой JSX), но нарушает инкапсуляцию обёрнутого компонента и считается устаревшим/редко оправданным подходом даже в классовой парадигме. В современном React оба паттерна в основном вытеснены кастомными хуками, которые дают то же переиспользование логики без добавления компонентов-обёрток в дерево.",
+          codeExample:
+            "// HOC (композиция) — исходный компонент не меняется, оборачивается\nfunction withLoading(Component) {\n  return function WithLoading({ isLoading, ...props }) {\n    if (isLoading) return <Spinner />;\n    return <Component {...props} />;\n  };\n}\nconst UserListWithLoading = withLoading(UserList);\n\n// Современная альтернатива — кастомный хук, без обёрточного компонента в дереве\nfunction UserList() {\n  const { data, isLoading } = useQuery({ queryKey: ['users'], queryFn: fetchUsers });\n  if (isLoading) return <Spinner />;\n  return <ul>{data.map((u) => <li key={u.id}>{u.name}</li>)}</ul>;\n}",
+          whereUsed:
+            "Поддержка legacy-кода (React-Redux connect(), старые библиотеки до широкого распространения хуков), понимание истории эволюции паттернов переиспользования логики в React на собеседовании, редкие случаи, где обёртка на уровне компонента (а не хука) действительно нужна (например, некоторые HOC для error boundary, потому что error boundary пока нельзя реализовать хуком).",
+          interviewQuestion: "Какие конкретные проблемы с HOC решают кастомные хуки?",
+          interviewAnswerRu:
+            "HOC оборачивают компонент в дополнительный компонент-обёртку, из-за чего при использовании нескольких HOC подряд дерево компонентов обрастает несколькими уровнями вложенности ('wrapper hell'), что усложняет чтение дерева в React DevTools и отладку. Также при использовании HOC не всегда очевидно, откуда взялся конкретный проп у итогового компонента — он мог прийти от родителя или быть добавлен одним из HOC, и при нескольких HOC подряд возможны коллизии имён пропсов. Кастомный хук решает обе проблемы: это обычная функция, вызываемая внутри компонента, а не обёртка вокруг него — она не добавляет уровень в дерево компонентов и явно показывает в теле компонента, какие именно значения хук возвращает и откуда они берутся.",
+          interviewAnswerEn:
+            "HOCs wrap a component in an additional wrapper component, so stacking several HOCs in a row adds several levels of nesting to the component tree ('wrapper hell'), making the tree harder to read in React DevTools and harder to debug. It's also not always obvious with HOCs where a given prop on the final component came from — it might have come from the parent or been injected by one of the HOCs, and stacking several HOCs risks prop name collisions. A custom hook solves both problems: it's a regular function called inside the component rather than a wrapper around it — it adds no level to the component tree, and it explicitly shows, right in the component's body, exactly what values the hook returns and where they came from.",
+          pitfalls: [
+            "Оборачивать компонент в несколько HOC подряд без необходимости, создавая глубокую 'обёрточную' иерархию, которую сложно читать в React DevTools.",
+            "Использовать Inheritance Inversion в новом коде — устаревшая и хрупкая техника, нарушающая инкапсуляцию обёрнутого компонента; практически всегда стоит выбрать композицию или кастомный хук.",
+          ],
+        },
+      },
+      {
         id: "react-reconciliation",
         title: "Reconciliation",
         content: {
@@ -1317,24 +1459,83 @@ export const TOPICS: Topic[] = [
         },
       },
       {
+        id: "react-flushsync",
+        title: "flushSync",
+        content: {
+          title: "flushSync: принудительный синхронный рендер",
+          shortExplanation:
+            "flushSync — функция из react-dom, которая заставляет React немедленно и синхронно применить обновления состояния к реальному DOM внутри переданного колбэка, вместо того чтобы батчить их и откладывать до следующего цикла — используется точечно, когда коду сразу после вызова нужен уже обновлённый DOM.",
+          detailedExplanation:
+            "По умолчанию (начиная с automatic batching в React 18) все setState, вызванные в рамках одного обработчика события, объединяются в один рендер, который применяется к DOM асинхронно — обычный код сразу после setState не может рассчитывать, что document уже отражает новое состояние. flushSync(callback) явно выходит из этого поведения: React синхронно и немедленно выполняет рендер и коммит для всех обновлений состояния внутри переданной функции, прежде чем flushSync вернёт управление — то есть сразу после вызова можно безопасно читать актуальный DOM (например, его размеры через getBoundingClientRect или scrollHeight). Это узкий 'аварийный выход' (escape hatch), а не обычный инструмент: каждый вызов flushSync форсирует полный синхронный рендер и коммит, теряя все преимущества батчинга (объединение нескольких обновлений в один проход) для этого конкретного обновления — частое или неоправданное использование заметно снижает производительность, потому что React больше не может объединять соседние изменения состояния. Типичный легитимный сценарий: нужно программно прокрутить список к только что добавленному элементу — если просто вызвать setState и сразу scrollIntoView, DOM ещё не обновлён (элемент физически ещё не существует в дереве), и скролл либо не сработает, либо сработает к старой позиции; обернув setState в flushSync, можно гарантировать, что к моменту вызова scrollIntoView новый DOM-узел уже существует.",
+          codeExample:
+            "import { flushSync } from 'react-dom';\n\nfunction handleAddItem() {\n  flushSync(() => {\n    setItems((prev) => [...prev, newItem]); // рендер и коммит происходят немедленно, синхронно\n  });\n  // Здесь DOM уже гарантированно обновлён — новый элемент физически существует\n  listRef.current.lastElementChild.scrollIntoView({ behavior: 'smooth' });\n}\n\n// Без flushSync это бы не сработало надёжно:\nfunction handleAddItemWrong() {\n  setItems((prev) => [...prev, newItem]); // применится асинхронно, после этого блока кода\n  listRef.current.lastElementChild.scrollIntoView(); // DOM ещё старый — скроллим не туда",
+          whereUsed:
+            "Точечная синхронизация с императивными DOM-измерениями/анимациями сразу после изменения состояния (скролл к новому элементу списка, фокус на только что появившемся поле ввода), интеграция с не-React кодом (сторонние DOM-библиотеки), которому нужен гарантированно актуальный DOM сразу после обновления React.",
+          interviewQuestion: "Почему flushSync считается 'escape hatch', и какую цену платит приложение за каждый его вызов?",
+          interviewAnswerRu:
+            "flushSync называют escape hatch, потому что он явно выключает автоматический батчинг для конкретного блока кода — это осознанный обход стандартного (и в большинстве случаев более производительного) поведения React, а не рекомендуемый по умолчанию инструмент. Цена в том, что React больше не может объединить это обновление с другими, вызванными в том же событии, — вместо одного пакетного рендера происходит отдельный немедленный синхронный рендер и коммит именно для этого обновления, что при частом использовании (например, в цикле или при каждом взаимодействии) заметно увеличивает число фактических перерисовок DOM и ухудшает производительность по сравнению с обычным батчингом.",
+          interviewAnswerEn:
+            "flushSync is called an escape hatch because it explicitly turns off automatic batching for a specific block of code — a deliberate bypass of React's default (and in most cases more performant) behavior, not a tool meant for everyday use. The cost is that React can no longer merge this update with others triggered in the same event — instead of one batched render, a separate immediate synchronous render and commit happens specifically for this update, which, if used frequently (say, in a loop or on every interaction), noticeably increases the number of actual DOM repaints and hurts performance compared to normal batching.",
+          pitfalls: [
+            "Оборачивать в flushSync каждое обновление состояния 'на всякий случай' — сводит на нет преимущества automatic batching и заметно замедляет приложение при частых обновлениях.",
+            "Использовать flushSync там, где на самом деле достаточно правильно организовать эффект (useEffect/useLayoutEffect), реагирующий на изменение состояния, а не форсировать синхронность императивно.",
+          ],
+          practiceTask:
+            "Реализуйте список с кнопкой 'Добавить элемент', который после добавления автоматически скроллит к новому элементу: сначала без flushSync (убедитесь, что скролл иногда происходит не туда или не происходит вовсе), затем оберните setState в flushSync и убедитесь, что скролл теперь стабильно попадает на новый элемент.",
+          resources: {
+            docs: [
+              { title: "flushSync — React docs", url: "https://react.dev/reference/react-dom/flushSync" },
+            ],
+            articles: [
+              { title: "Automatic batching for fewer renders in React 18 — React Blog", url: "https://react.dev/blog/2022/03/29/react-v18#new-feature-automatic-batching" },
+            ],
+          },
+        },
+      },
+      {
+        id: "react-hooks-intro",
+        title: "Что такое хуки: преимущества и недостатки",
+        content: {
+          title: "Хуки: что это, зачем нужны, преимущества и недостатки",
+          shortExplanation:
+            "Хуки (Hooks, React 16.8+) — функции, начинающиеся с 'use', которые позволяют функциональным компонентам подключать состояние, побочные эффекты и другие возможности React, ранее доступные только классовым компонентам — без хуков функциональный компонент был бы 'глупым' и мог только принимать пропсы и возвращать JSX.",
+          detailedExplanation:
+            "До хуков функциональные компоненты называли 'stateless functional components' именно потому, что у них не было способа хранить состояние или выполнять побочные эффекты — для этого требовался классовый компонент. Хуки убрали это ограничение, дав функциональным компонентам доступ к состоянию (useState), побочным эффектам (useEffect), контексту (useContext) и другим возможностям через простые вызовы функций внутри тела компонента.\n\nПреимущества хуков: переиспользование stateful-логики между компонентами через кастомные хуки без HOC/render props и без добавления обёрточных компонентов в дерево (см. тему HOC); связанная логика может жить в одном месте вместо распределения по разным lifecycle-методам класса (см. тему Component Lifecycle); меньше шаблонного кода — не нужен this, конструктор, .bind() для методов-колбэков; более простое разделение сложного компонента на отдельные независимые куски логики (несколько useState/useEffect вместо одного this.state и одного componentDidUpdate на всё).\n\nНедостатки и издержки хуков: правила использования хуков (порядок вызова, только на верхнем уровне — см. тему Rules of Hooks) не проверяются TypeScript'ом или обычным JS-рантаймом сами по себе, а полагаются на соглашение и ESLint-плагин; массивы зависимостей у useEffect/useMemo/useCallback — частый источник багов (забытая зависимость, лишняя зависимость, вызывающая лишние перезапуски); отладка цепочки кастомных хуков может быть сложнее, чем чтение явных lifecycle-методов класса, особенно для новичков, потому что логика хука 'растворена' в обычном потоке выполнения функции компонента, а не выделена именованным методом; замыкания (closures) в хуках — источник неочевидных багов вроде stale closure (см. отдельную тему), которых не существовало в классовой модели, использующей this для доступа к актуальному состоянию.",
+          codeExample:
+            "// До хуков: функциональный компонент не мог иметь состояния\nfunction Greeting({ name }) {\n  return <p>Привет, {name}</p>; // только пропсы -> JSX, никакого state\n}\n\n// С хуками: та же функция получает состояние и эффекты\nfunction Counter() {\n  const [count, setCount] = useState(0); // state — раньше было только в классах\n  useEffect(() => { document.title = `Count: ${count}`; }, [count]); // side effect\n  return <button onClick={() => setCount((c) => c + 1)}>{count}</button>;\n}",
+          whereUsed:
+            "Практически весь новый React-код с 2019 года, объяснение общей мотивации перехода с классов на функциональные компоненты, обсуждение архитектурных компромиссов хуков на собеседовании.",
+          interviewQuestion: "Назовите одно конкретное преимущество и один конкретный недостаток хуков по сравнению с классовыми компонентами.",
+          interviewAnswerRu:
+            "Преимущество: переиспользование логики через кастомные хуки — можно вынести любую комбинацию state+effect в отдельную функцию-хук и использовать её в нескольких компонентах без HOC/render props и без добавления обёрточных компонентов в дерево, что упрощает и структуру кода, и отладку в DevTools. Недостаток: массивы зависимостей useEffect/useMemo/useCallback — постоянный источник тонких багов (забытая зависимость приводит к устаревшим данным внутри эффекта — stale closure; лишняя зависимость вызывает избыточные перезапуски эффекта), и корректность этого массива не проверяется языком автоматически, а полагается на ESLint-плагин и внимательность разработчика.",
+          interviewAnswerEn:
+            "Advantage: logic reuse via custom hooks — any combination of state+effect can be extracted into a separate hook function and used across multiple components with no HOC/render props and no wrapper components added to the tree, simplifying both code structure and DevTools debugging. Disadvantage: useEffect/useMemo/useCallback dependency arrays are a constant source of subtle bugs (a missing dependency leads to stale data inside the effect — a stale closure; an extra dependency causes unnecessary effect re-runs), and the array's correctness isn't checked by the language automatically — it relies on an ESLint plugin and developer attentiveness.",
+          pitfalls: [
+            "Считать хуки 'просто более коротким синтаксисом' для того же самого, что было в классах — на деле они меняют саму модель организации логики (по фиче, а не по фазе жизненного цикла).",
+            "Игнорировать предупреждения о неполном массиве зависимостей, считая их 'ложными срабатываниями линтера' — чаще всего это реальный источник stale closure багов.",
+          ],
+        },
+      },
+      {
         id: "react-rules-of-hooks",
         title: "Rules of Hooks",
         content: {
           title: "Rules of Hooks",
           shortExplanation:
-            "Два жёстких правила использования хуков: вызывать их только на верхнем уровне функционального компонента (не внутри условий, циклов, вложенных функций) и только из React-компонентов или других хуков — эти правила существуют не как стиль кода, а потому что от них зависит корректная работа React.",
-          detailedExplanation:
-            "React не хранит хуки по имени переменной — он сопоставляет вызовы useState/useEffect/... по порядковому номеру вызова в конкретном рендере, используя внутренний связный список. Если хук условно пропускается (if (condition) { useState(...) }), порядковые номера всех последующих хуков в этом рендере смещаются относительно предыдущего рендера, и React связывает состояние не с тем хуком, для которого оно изначально предназначалось — это приводит к трудноуловимым багам, а не к ошибке компиляции. Правило 'вызывать хуки только из компонентов/других хуков' обеспечивает, что React вообще может отследить, к какому 'месту в дереве' привязан конкретный вызов хука — обычная (не хук) функция для React невидима с точки зрения этого механизма отслеживания. ESLint-плагин eslint-plugin-react-hooks с правилом rules-of-hooks — стандартный способ ловить нарушения этих правил автоматически, до того как они попадут в продакшен как трудноуловимый баг.",
+            "Два жёстких правила использования хуков: вызывать их только на верхнем уровне функционального компонента (не внутри условий, циклов, вложенных функций) и только из React-компонентов или других хуков — эти правила существуют не как стиль кода, а потому что от них зависит корректная работа React. Единственное осознанное исключение из первого правила — новый хук use() (React 19), специально спроектированный так, чтобы его можно было вызывать условно.",
+            detailedExplanation:
+            "React не хранит хуки по имени переменной — он сопоставляет вызовы useState/useEffect/... по порядковому номеру вызова в конкретном рендере, используя внутренний связный список. Если хук условно пропускается (if (condition) { useState(...) }), порядковые номера всех последующих хуков в этом рендере смещаются относительно предыдущего рендера, и React связывает состояние не с тем хуком, для которого оно изначально предназначалось — это приводит к трудноуловимым багам, а не к ошибке компиляции. Правило 'вызывать хуки только из компонентов/других хуков' обеспечивает, что React вообще может отследить, к какому 'месту в дереве' привязан конкретный вызов хука — обычная (не хук) функция для React невидима с точки зрения этого механизма отслеживания. ESLint-плагин eslint-plugin-react-hooks с правилом rules-of-hooks — стандартный способ ловить нарушения этих правил автоматически, до того как они попадут в продакшен как трудноуловимый баг.\n\nВажное уточнение, появившееся в React 19: правило 'только на верхнем уровне' не абсолютно для всех без исключения хуков — use() (см. отдельную тему) намеренно спроектирован так, чтобы его можно было легально вызывать внутри if, циклов и после раннего return, потому что он не хранит собственное состояние между рендерами по номеру вызова, а либо читает контекст напрямую, либо приостанавливает компонент через Suspense при чтении промиса. Это не отменяет правило для остальных хуков — use() единственное точечное, специально документированное исключение, а не сигнал, что 'теперь всем хукам можно в if'.",
           codeExample:
-            "// Неправильно — хук внутри условия\nfunction Component({ isReady }) {\n  if (isReady) {\n    const [value, setValue] = useState(''); // нарушение правил хуков\n  }\n}\n\n// Правильно — хук всегда на верхнем уровне, условие внутри\nfunction Component({ isReady }) {\n  const [value, setValue] = useState('');\n  if (!isReady) return null;\n  // ...\n}",
-          interviewQuestion: "Почему нельзя вызывать хук внутри if, а обычную переменную — можно?",
+            "// Неправильно — хук внутри условия\nfunction Component({ isReady }) {\n  if (isReady) {\n    const [value, setValue] = useState(''); // нарушение правил хуков\n  }\n}\n\n// Правильно — хук всегда на верхнем уровне, условие внутри\nfunction Component({ isReady }) {\n  const [value, setValue] = useState('');\n  if (!isReady) return null;\n  // ...\n}\n\n// Исключение: use() можно вызывать условно — это разрешено намеренно\nfunction Comments({ commentsPromise, show }) {\n  if (!show) return null;\n  const comments = use(commentsPromise); // легально, в отличие от useState/useContext здесь\n  return <ul>{comments.map((c) => <li key={c.id}>{c.text}</li>)}</ul>;\n}",
+          interviewQuestion: "Почему нельзя вызывать хук внутри if, а обычную переменную — можно? И есть ли из этого правила исключения?",
           interviewAnswerRu:
-            "React связывает состояние каждого useState/useEffect не с именем переменной в коде, а с порядковым номером вызова хука в рамках одного рендера, храня их во внутреннем связном списке для конкретного экземпляра компонента. Если хук вызывается условно, то в рендере, где условие не выполнилось, все последующие хуки сдвигаются на одну позицию раньше — и React связывает их состояние с 'чужим' хуком, а не с тем, для которого оно предназначалось изначально. Обычная переменная, в отличие от этого, не зависит от порядка вызовов между рендерами — она просто существует в текущей области видимости функции.",
+            "React связывает состояние каждого useState/useEffect не с именем переменной в коде, а с порядковым номером вызова хука в рамках одного рендера, храня их во внутреннем связном списке для конкретного экземпляра компонента. Если хук вызывается условно, то в рендере, где условие не выполнилось, все последующие хуки сдвигаются на одну позицию раньше — и React связывает их состояние с 'чужим' хуком, а не с тем, для которого оно предназначалось изначально. Обычная переменная, в отличие от этого, не зависит от порядка вызовов между рендерами — она просто существует в текущей области видимости функции. Начиная с React 19 у этого правила есть одно намеренное исключение — хук use(), который можно вызывать условно именно потому, что он не полагается на порядковый номер вызова: он либо сразу читает текущее значение контекста, либо приостанавливает рендер через Suspense при чтении ещё не разрешённого промиса.",
           interviewAnswerEn:
-            "React ties each useState/useEffect's state not to a variable name in the code, but to the call's ordinal position within a single render, keeping them in an internal linked list per component instance. If a hook is called conditionally, then in a render where the condition doesn't hold, every following hook shifts one position earlier — and React ends up associating their state with the wrong hook, not the one it was originally meant for. A regular variable, by contrast, doesn't depend on call order between renders — it simply exists in the function's current scope.",
+            "React ties each useState/useEffect's state not to a variable name in the code, but to the call's ordinal position within a single render, keeping them in an internal linked list per component instance. If a hook is called conditionally, then in a render where the condition doesn't hold, every following hook shifts one position earlier — and React ends up associating their state with the wrong hook, not the one it was originally meant for. A regular variable, by contrast, doesn't depend on call order between renders — it simply exists in the function's current scope. Since React 19, there's one deliberate exception to this rule — the use() hook, which can be called conditionally precisely because it doesn't rely on a call's ordinal position: it either immediately reads the current context value, or suspends the render via Suspense when reading a promise that hasn't resolved yet.",
           pitfalls: [
             "Оборачивать вызов хука в условие или ранний return, размещённый до хуков.",
             "Игнорировать предупреждения eslint-plugin-react-hooks, считая их 'просто стилем', а не защитой от реальных багов состояния.",
+            "Считать, что раз use() можно вызывать условно, то и остальным хукам (useState, useContext, useEffect) теперь тоже можно — это единственное намеренное исключение, а не отмена правила в целом.",
           ],
         },
       },
@@ -1471,6 +1672,96 @@ export const TOPICS: Topic[] = [
         },
       },
       {
+        id: "react-useid",
+        title: "useId",
+        content: {
+          title: "useId",
+          shortExplanation:
+            "useId генерирует уникальный, стабильный между сервером и клиентом строковый идентификатор — специально для связывания элементов формы через атрибуты доступности (id/htmlFor, aria-describedby), а не для React key или как ключ в базе данных.",
+          detailedExplanation:
+            "Связывание <label> с <input> через id/htmlFor или описание поля через aria-describedby требует уникального id, но захардкоженная строка ('email-input') ломается, если компонент используется на странице дважды — оба экземпляра получат одинаковый id, что нарушает доступность и семантику. useId решает именно эту проблему: он генерирует id, уникальный в рамках всего дерева, и одинаковый при каждом рендере одного и того же экземпляра компонента. Критически важное свойство, ради которого хук вообще был добавлен в React 18, — id, сгенерированный useId, совпадает между серверным рендером (SSR) и последующей гидратацией на клиенте: если бы вместо этого использовали, например, Math.random() или инкрементный счётчик, сервер и клиент почти наверняка сгенерировали бы разные значения (порядок гидратации и порядок серверного рендера не гарантированно идентичны в деталях), что приводит к предупреждению о несовпадении гидратации (hydration mismatch). useId специально НЕ предназначен для использования как React key в списках (для этого нужен стабильный id из самих данных, см. тему Reconciliation) и не должен использоваться как первичный ключ в базе данных или иной бизнес-идентификатор — это чисто DOM/accessibility-инструмент.",
+          codeExample:
+            "function EmailField() {\n  const id = useId(); // например, ':r1:' — уникально и стабильно между SSR и клиентом\n  return (\n    <>\n      <label htmlFor={id}>Email</label>\n      <input id={id} type=\"email\" aria-describedby={`${id}-hint`} />\n      <p id={`${id}-hint`}>Мы не передаём email третьим лицам</p>\n    </>\n  );\n}\n// Два экземпляра EmailField на одной странице получат РАЗНЫЕ id — конфликта не будет",
+          whereUsed:
+            "Связывание label/input и других пар элементов формы через id, когда компонент потенциально используется на странице несколько раз, ARIA-атрибуты (aria-describedby, aria-labelledby), любая ситуация, где нужен уникальный DOM id именно для доступности, а не как бизнес-идентификатор.",
+          interviewQuestion: "Почему для генерации id в форме нельзя просто использовать Math.random() или инкрементный счётчик вместо useId?",
+          interviewAnswerRu:
+            "При серверном рендеринге (SSR) компонент сначала рендерится на сервере в HTML-строку, а затем гидратируется на клиенте — React ожидает, что оба прохода дадут идентичный результат, чтобы можно было переиспользовать уже отрисованный сервером DOM, а не перестраивать его с нуля. Math.random() на сервере и при гидратации на клиенте сгенерирует разные значения по определению, а инкрементный счётчик может дать разный результат, если порядок фактического выполнения кода на сервере и при гидратации на клиенте различается в деталях (например, из-за Suspense-границ, которые могут завершаться в разном порядке) — оба варианта приводят к предупреждению о hydration mismatch. useId специально спроектирован так, чтобы генерировать одинаковый id для одного и того же 'места' в дереве компонентов и на сервере, и на клиенте.",
+          interviewAnswerEn:
+            "With server-side rendering (SSR), a component first renders on the server into an HTML string and is then hydrated on the client — React expects both passes to produce identical output, so it can reuse the server-rendered DOM instead of rebuilding it from scratch. Math.random() will generate different values on the server versus during client hydration by definition, and an incrementing counter can produce a different result if the actual execution order differs in detail between server and client (say, because of Suspense boundaries that can resolve in a different order) — both lead to a hydration mismatch warning. useId is specifically designed to generate the same id for the same 'spot' in the component tree on both the server and the client.",
+          pitfalls: [
+            "Использовать useId как React key в списке элементов — это разные задачи: key должен быть стабильным идентификатором именно данных, а не DOM/accessibility-меткой.",
+            "Использовать результат useId как бизнес-идентификатор (например, отправлять на сервер как id записи) — значение специально непрозрачно и предназначено только для связывания DOM-элементов внутри одного рендера.",
+          ],
+          resources: {
+            docs: [
+              { title: "useId — React docs", url: "https://react.dev/reference/react/useId" },
+            ],
+            articles: [],
+          },
+        },
+      },
+      {
+        id: "react-usesyncexternalstore",
+        title: "useSyncExternalStore",
+        content: {
+          title: "useSyncExternalStore",
+          shortExplanation:
+            "useSyncExternalStore — низкоуровневый хук для безопасной подписки компонента на внешний (не-React) источник состояния — браузерный API, самописный стор, старую версию стейт-менеджера — гарантированно корректно работающий с concurrent-рендерингом React 18+, в отличие от подписки на внешний стор вручную через useState+useEffect.",
+          detailedExplanation:
+            "До React 18 распространённым паттерном подписки на внешний стор было: useState для локальной копии значения + useEffect, подписывающийся на стор и обновляющий это состояние при изменении. С появлением concurrent-рендеринга этот паттерн стал потенциально небезопасным: React может рендерить компонент с одним значением стора, приостановить рендер (concurrent-фича вроде useTransition), а к моменту, когда рендер возобновится или закоммитится, внешний стор мог уже измениться — из-за чего разные части одного и того же обновления интерфейса могли отразить разные, несогласованные во времени значения одного и того же стора ('tearing'). useSyncExternalStore(subscribe, getSnapshot) решает это на уровне самого React: React гарантирует, что значение, полученное через getSnapshot, будет согласовано (consistent) на протяжении всего конкретного рендера, даже если рендер прерывается и возобновляется, и при необходимости синхронно перерендерит компонент, если обнаружит, что снэпшот успел устареть между вызовами. На практике большинство React-разработчиков не вызывают этот хук напрямую — он используется как строительный блок ВНУТРИ библиотек стейт-менеджмента (Zustand, Redux, Jotai используют его под капотом для реализации своих собственных хуков подписки типа useStore), а не как API для повседневного прикладного кода.",
+          codeExample:
+            "// Подписка на внешний, не-React источник — например, window.innerWidth\nfunction subscribe(callback) {\n  window.addEventListener('resize', callback);\n  return () => window.removeEventListener('resize', callback);\n}\nfunction getSnapshot() {\n  return window.innerWidth;\n}\n\nfunction WindowWidth() {\n  const width = useSyncExternalStore(subscribe, getSnapshot); // безопасно при concurrent-рендере\n  return <p>Width: {width}px</p>;\n}",
+          whereUsed:
+            "Внутренняя реализация хуков подписки в библиотеках стейт-менеджмента (Zustand, Redux используют его под капотом), подписка компонента напрямую на браузерные API вне React (media queries, network status, geolocation), написание собственной небольшой библиотеки стейт-менеджмента.",
+          interviewQuestion: "Какую конкретную проблему решает useSyncExternalStore, которую не решает обычная подписка через useState+useEffect?",
+          interviewAnswerRu:
+            "Обычная подписка через useState+useEffect не даёт React никакой гарантии согласованности значения стора в течение одного прерываемого concurrent-рендера — если рендер компонента приостанавливается (например, из-за useTransition) и возобновляется позже, к этому моменту внешний стор мог уже измениться, и в итоге разные части экрана из одного логического обновления могут показать несогласованные во времени значения одного и того же стора ('tearing'). useSyncExternalStore даёт React прямой контроль над снэпшотом внешнего значения: React отслеживает его согласованность в течение всего рендера и синхронно принудительно перерендерит компонент, если обнаружит, что снэпшот устарел между началом и концом рендера — этой гарантии обычная связка useState+useEffect дать не может, потому что React ничего не знает о существовании внешнего стора и его изменениях.",
+          interviewAnswerEn:
+            "A regular useState+useEffect subscription gives React no guarantee that the store's value stays consistent throughout one interruptible concurrent render — if the component's render is paused (say, by useTransition) and resumes later, the external store may have already changed by then, so different parts of the screen from one logical update can end up showing time-inconsistent values of the same store ('tearing'). useSyncExternalStore gives React direct control over the external value's snapshot: React tracks its consistency across the entire render and forces a synchronous re-render if it detects the snapshot went stale between the start and end of the render — a guarantee a plain useState+useEffect pairing can't provide, because React has no knowledge of the external store's existence or its changes.",
+          pitfalls: [
+            "Вызывать useSyncExternalStore напрямую в прикладном коде без реальной необходимости — в подавляющем большинстве случаев достаточно готового хука из библиотеки стейт-менеджмента, уже использующей его под капотом.",
+            "Забывать, что getSnapshot должен возвращать одно и то же значение (по ===) при отсутствии изменений — возврат нового объекта/массива при каждом вызове приведёт к бесконечному циклу перерисовки.",
+          ],
+          resources: {
+            docs: [
+              { title: "useSyncExternalStore — React docs", url: "https://react.dev/reference/react/useSyncExternalStore" },
+            ],
+            articles: [],
+          },
+        },
+      },
+      {
+        id: "react-useinsertioneffect",
+        title: "useInsertionEffect",
+        content: {
+          title: "useInsertionEffect",
+          shortExplanation:
+            "useInsertionEffect — узкоспециализированный хук, срабатывающий раньше useLayoutEffect, ещё до того, как React прочитал layout DOM — единственное предназначение: вставка CSS-правил библиотеками CSS-in-JS до того, как браузер посчитает layout, чтобы избежать лишнего пересчёта стилей от динамически вставляемых <style>-тегов.",
+          detailedExplanation:
+            "Порядок срабатывания эффектов при коммите: useInsertionEffect -> изменения DOM применены -> useLayoutEffect (может синхронно читать/менять layout до отрисовки кадра браузером) -> браузер рисует кадр -> useEffect (уже после отрисовки). Проблема, которую решает именно useInsertionEffect: библиотеки CSS-in-JS (styled-components, Emotion и подобные) динамически вставляют <style>-теги с сгенерированными классами во время рендера компонентов. Если делать это в useLayoutEffect, вставка новых стилей может произойти уже после того, как браузер частично посчитал layout для уже применённых DOM-изменений, что заставляет браузер пересчитывать стили и layout повторно (лишний reflow) — на большом дереве стилизованных компонентов это заметно бьёт по производительности. useInsertionEffect гарантированно срабатывает до того, как React переходит к чтению/изменению layout DOM в useLayoutEffect, поэтому вставленные в этот момент стили учитываются браузером сразу в одном проходе расчёта layout, без дополнительного пересчёта. Важное ограничение: внутри useInsertionEffect ещё недоступны refs на DOM-узлы (сами DOM-мутации уже произошли, но не гарантировано, что можно безопасно читать их layout) — хук предназначен ИСКЛЮЧИТЕЛЬНО для вставки стилей, а не для обычной логики эффектов. React docs прямо указывают, что подавляющему большинству прикладных разработчиков этот хук никогда не понадобится напрямую — он существует как API для авторов CSS-in-JS библиotek.",
+          codeExample:
+            "// Упрощённая иллюстрация того, как CSS-in-JS библиотека использует хук внутри себя\nfunction useCSS(rule) {\n  useInsertionEffect(() => {\n    // Вставка <style> ДО того, как React прочитает layout в useLayoutEffect —\n    // браузер учтёт эти стили в том же проходе расчёта layout, без лишнего reflow\n    const style = document.createElement('style');\n    style.textContent = rule;\n    document.head.appendChild(style);\n    return () => style.remove();\n  }, [rule]);\n}\n// Прикладной код использует не useInsertionEffect напрямую, а обёртку библиотеки:\n// const className = css`color: red;`; — вставка правила происходит именно через этот механизм",
+          whereUsed:
+            "Практически исключительно внутренняя реализация библиотек CSS-in-JS (styled-components, Emotion, vanilla-extract с runtime-вставкой) — обычный прикладной код почти никогда не вызывает этот хук напрямую.",
+          interviewQuestion: "Почему для вставки CSS-in-JS стилей нельзя просто использовать useLayoutEffect, ведь оба хука срабатывают до отрисовки кадра браузером?",
+          interviewAnswerRu:
+            "Хотя оба хука срабатывают до того, как браузер нарисует кадр, между ними есть промежуточный шаг: React читает и может изменять layout DOM именно в useLayoutEffect. Если вставлять новые <style>-теги в useLayoutEffect, а не раньше, браузер может успеть частично посчитать layout для уже применённых DOM-изменений ДО того, как эти новые стили попали в документ — как только стили добавляются, браузеру приходится пересчитывать стили и layout заново (лишний reflow), потому что первый расчёт был сделан без учёта только что вставленных правил. useInsertionEffect срабатывает на шаг раньше — до того, как React вообще начинает работу с layout в useLayoutEffect — поэтому вставленные там стили браузер учитывает сразу в одном проходе расчёта, без повторного пересчёта.",
+          interviewAnswerEn:
+            "Although both hooks fire before the browser paints a frame, there's an intermediate step between them: React reads and can modify layout DOM specifically inside useLayoutEffect. If new <style> tags are inserted in useLayoutEffect rather than earlier, the browser may have already partially computed layout for the already-applied DOM changes BEFORE those new styles landed in the document — once the styles are added, the browser has to recompute styles and layout again (an extra reflow), because the first computation didn't account for the just-inserted rules. useInsertionEffect fires one step earlier — before React even starts working with layout in useLayoutEffect — so styles inserted there are accounted for by the browser in a single layout computation pass, with no recomputation needed.",
+          pitfalls: [
+            "Использовать useInsertionEffect для обычной прикладной логики эффектов — хук намеренно ограничен по возможностям (нет доступа к DOM refs) и предназначен исключительно для вставки стилей библиотеками.",
+            "Путать порядок срабатывания трёх эффектов (useInsertionEffect -> useLayoutEffect -> useEffect) — перепутанный порядок в объяснении на собеседовании сразу выдаёт поверхностное знание темы.",
+          ],
+          resources: {
+            docs: [
+              { title: "useInsertionEffect — React docs", url: "https://react.dev/reference/react/useInsertionEffect" },
+            ],
+            articles: [],
+          },
+        },
+      },
+      {
         id: "react-context",
         title: "Context",
         content: {
@@ -1489,6 +1780,78 @@ export const TOPICS: Topic[] = [
           pitfalls: [
             "Складывать в один Context много не связанных друг с другом и часто меняющихся значений — любое изменение любого поля перерендерит всех потребителей.",
             "Использовать Context как замену полноценному стейт-менеджеру для часто обновляемых данных (например, состояния формы на каждое нажатие клавиши).",
+          ],
+        },
+      },
+      {
+        id: "react-prop-drilling",
+        title: "Prop Drilling",
+        content: {
+          title: "Prop Drilling: проблема и способы избежать",
+          shortExplanation:
+            "Prop Drilling ('бурение пропсов') — ситуация, когда данные передаются через пропсы сквозь несколько промежуточных компонентов, которым эти данные сами по себе не нужны, а нужны только чтобы передать их дальше вниз по дереву к компоненту, которому они реально требуются.",
+          detailedExplanation:
+            "Проблема не в самой передаче пропсов (это нормальный, предсказуемый механизм потока данных в React), а в том, что каждый промежуточный компонент вынужден 'знать' о проп, который его не касается — это увеличивает связанность (любое изменение формы передаваемых данных требует правки сигнатуры каждого промежуточного компонента) и засоряет их API непонятными посторонними пропсами. Проблема усугубляется пропорционально глубине дерева: если целевой компонент находится на 5-6 уровней глубже источника данных, проп приходится протащить через все промежуточные уровни. Три основных способа решения, каждый со своим компромиссом: (1) Context API — подходит для данных, которые действительно нужны широкому кругу разных компонентов на разных уровнях (тема, текущий пользователь, локаль), но не для часто меняющихся данных из-за особенностей ре-рендера (см. тему Context); (2) композиция компонентов (передача children или render-пропа вместо данных вниз по всей цепочке) — component, находящийся ближе к данным, оборачивает промежуточные компоненты как children, и тогда сами промежуточные компоненты вообще не видят проп, потому что не участвуют в его передаче структурно; (3) вынос общего состояния в отдельный стейт-менеджер (Zustand, Redux, Jotai) с подпиской конкретного глубоко вложенного компонента напрямую на нужный срез состояния, минуя дерево компонентов целиком.",
+          codeExample:
+            "// Prop drilling — Layout и Header не используют user, только передают дальше\nfunction App({ user }) {\n  return <Layout user={user} />;\n}\nfunction Layout({ user }) {\n  return <Header user={user} />; // Layout не использует user сам\n}\nfunction Header({ user }) {\n  return <UserAvatar user={user} />; // Header тоже не использует user сам\n}\n\n// Решение через композицию — Layout/Header не знают о user вообще\nfunction App({ user }) {\n  return <Layout><Header><UserAvatar user={user} /></Header></Layout>;\n}\nfunction Layout({ children }) { return <div className=\"layout\">{children}</div>; }\nfunction Header({ children }) { return <header>{children}</header>; }",
+          whereUsed:
+            "Рефакторинг компонентов с глубокой вложенностью и множеством 'транзитных' пропсов, проектирование дерева компонентов на этапе архитектуры фичи, выбор между Context/композицией/внешним стейт-менеджером для конкретного случая передачи данных.",
+          interviewQuestion: "Context — это всегда правильное решение проблемы prop drilling? Когда композиция компонентов предпочтительнее?",
+          interviewAnswerRu:
+            "Нет, Context — не универсальное решение. Если данные меняются часто, Context вызовет ре-рендер всех компонентов-потребителей при каждом изменении, независимо от того, какая часть данных им реально нужна — в этом случае вынос состояния во внешний стейт-менеджер с точечной подпиской эффективнее. Если же проблема не в частоте изменений, а в том, что промежуточные компоненты просто передают children дальше, не изменяя и не читая сам проп, композиция (передача уже готового JSX как children или render-пропа) решает задачу лучше Context — она вообще не требует создания глобального контекста для локальной по своей сути задачи 'просто передать элемент глубже', и не создаёт неявную скрытую зависимость через контекст там, где достаточно явной структуры JSX.",
+          interviewAnswerEn:
+            "No, Context isn't a universal fix. If the data changes frequently, Context will re-render every consuming component on each change, regardless of which part of the data they actually need — in that case, moving state into an external state manager with targeted subscriptions is more efficient. And if the issue isn't change frequency but that intermediate components are just passing children further down without reading or changing the prop themselves, composition (passing already-built JSX as children or a render prop) solves it better than Context — it requires no global context at all for what's fundamentally a local 'just pass this element deeper' problem, and avoids creating an implicit hidden dependency through context where explicit JSX structure would do.",
+          pitfalls: [
+            "Сразу тянуться к Context при первом же случае prop drilling, не рассмотрев более простую композицию компонентов там, где промежуточные компоненты вообще не используют передаваемое значение.",
+            "Использовать Context для часто меняющихся данных вместо стейт-менеджера с точечной подпиской, получая лишние ре-рендеры у всех потребителей контекста.",
+          ],
+        },
+      },
+      {
+        id: "react-lifting-state-up",
+        title: "Lifting State Up и поток данных",
+        content: {
+          title: "Lifting State Up, двустороннее связывание и обратный поток данных",
+          shortExplanation:
+            "Lifting State Up ('поднятие состояния вверх') — паттерн, при котором состояние, нужное нескольким соседним компонентам, хранится не в одном из них, а в их ближайшем общем родителе, который передаёт его вниз как пропсы и получает изменения обратно через колбэки; это единственный способ синхронизировать двух 'братьев' в React, у которого нет прямого канала связи между соседними компонентами.",
+          detailedExplanation:
+            "React не позволяет одному компоненту напрямую читать или менять состояние другого компонента, даже соседнего в дереве — единственный официальный канал связи это пропсы вниз и колбэки вверх. Если два (или больше) компонента должны быть синхронизированы (например, два инпута, отражающие одно и то же значение температуры в разных единицах, или список и его строка поиска), состояние поднимается в их общего родителя: родитель хранит состояние в useState, передаёт его дочерним как проп для отображения и передаёт функцию-сеттер (или обёртку над ней) как проп для изменения — это и есть 'обратный поток данных' (data flows down as props, changes flow up via callbacks), выглядящий как исключение из строго однонаправленного потока данных, но на самом деле остающийся однонаправленным: обновление всегда идёт через вызов функции, полученной от родителя, а не через прямую мутацию чужого состояния. 'Двустороннее связывание данных' (two-way data binding) в некоторых других фреймворках (Angular с ngModel, Vue с v-model) реализовано как встроенный синтаксис, автоматически синхронизирующий значение и его источник в обе стороны без явного кода программиста — React принципиально не имеет встроенного двустороннего связывания и требует явно написать и value, и onChange для каждого управляемого поля (см. тему Controlled vs Uncontrolled Components) — это осознанный архитектурный выбор в пользу предсказуемости потока данных (всегда явно видно, откуда пришло значение и как именно оно меняется) ценой большего количества шаблонного кода на каждое поле.",
+          codeExample:
+            "// Lifting State Up: TemperatureInput ничего не знает о втором инпуте,\n// оба синхронизируются только через общего родителя\nfunction Calculator() {\n  const [celsius, setCelsius] = useState(0);\n  return (\n    <>\n      <TemperatureInput label=\"Celsius\" value={celsius} onChange={setCelsius} />\n      <TemperatureInput\n        label=\"Fahrenheit\"\n        value={celsius * 9 / 5 + 32}\n        onChange={(f) => setCelsius((f - 32) * 5 / 9)}\n      />\n    </>\n  );\n}\n\nfunction TemperatureInput({ label, value, onChange }) {\n  return <input value={value} onChange={(e) => onChange(Number(e.target.value))} />;\n}",
+          whereUsed:
+            "Синхронизация нескольких полей формы, отражающих одни данные в разном виде, координация фильтра и списка результатов в соседних компонентах, любая ситуация, где двум 'братским' компонентам нужно видеть одно и то же состояние.",
+          interviewQuestion: "Почему у React нет встроенного двустороннего связывания данных (two-way binding), как, например, в Angular или Vue?",
+          interviewAnswerRu:
+            "Двустороннее связывание автоматически синхронизирует значение переменной и элемент интерфейса в обе стороны без явного кода — это удобно, но скрывает от разработчика, откуда именно пришло изменение и в какой момент оно применилось, что усложняет отладку при большом количестве связанных полей. React изначально спроектирован вокруг явного и предсказуемого однонаправленного потока данных: значение всегда приходит сверху через проп value, а изменение всегда явно обрабатывается через колбэк onChange, вызываемый самим разработчиком — это требует больше кода на каждое поле формы, но взамен даёт полную прозрачность: в любой момент по коду компонента понятно, откуда взялось текущее значение и что именно происходит при его изменении, без скрытой магии фреймворка.",
+          interviewAnswerEn:
+            "Two-way binding automatically syncs a variable's value and a UI element in both directions with no explicit code — convenient, but it hides from the developer exactly where a change came from and when it was applied, which complicates debugging once there are many linked fields. React was designed from the start around an explicit, predictable one-directional data flow: the value always comes from above via a value prop, and any change is always explicitly handled through an onChange callback the developer writes themselves — this means more code per form field, but in exchange gives full transparency: at any point, the component's code shows exactly where the current value came from and what happens when it changes, with no hidden framework magic.",
+          pitfalls: [
+            "Пытаться напрямую изменить состояние соседнего компонента вместо того, чтобы поднять состояние в общего родителя — в React для этого физически нет прямого механизма.",
+            "Путать 'обратный поток данных через колбэки' с нарушением принципа однонаправленности — данные по-прежнему движутся в одном направлении (вниз как пропсы), меняется лишь то, что сама функция изменения тоже передана как проп сверху.",
+          ],
+        },
+      },
+      {
+        id: "react-conditional-rendering",
+        title: "Conditional Rendering",
+        content: {
+          title: "Conditional Rendering (условный рендеринг)",
+          shortExplanation:
+            "Условный рендеринг — это обычные JS-конструкции (if, тернарный оператор, &&), применённые внутри JSX или перед ним, чтобы решить, какой JSX вернуть или показать ли элемент вообще — в React нет отдельного специального синтаксиса для условий, в отличие от шаблонных языков некоторых других фреймворков (например, v-if в Vue).",
+          detailedExplanation:
+            "Основные техники и их нюансы: обычный if/else до return — самый явный и читаемый способ для выбора между двумя принципиально разными версиями UI, особенно если веток больше двух; тернарный оператор condition ? <A /> : <B /> — компактен внутри JSX для простого выбора из двух вариантов, но вложенные тернарники быстро становятся нечитаемыми; логическое && (condition && <Element />) — идиоматичный способ 'показать или не показать' один элемент, но с известной ловушкой: если condition — число (например, count && <Badge />, где count равен 0), JSX отрендерит не пустоту, а буквально текст '0' на экране, потому что 0 — falsy, но React рендерит falsy-числа как их строковое представление (в отличие от false/null/undefined, которые не рендерятся вообще); ранний return null внутри самого компонента — удобен, когда весь компонент целиком не должен рендериться при определённом условии, а не только его часть. Общий принцип: JSX-выражение может вернуть null, undefined, false, чтобы не рендерить ничего (все три варианта одинаково не создают DOM-узлов), но не 0 или пустую строку — обе эти falsy-значения React отображает как есть.",
+          codeExample:
+            "// Ловушка && с числом: count === 0 отрендерит текст \"0\" на экране\nfunction Cart({ count }) {\n  return <div>{count && <Badge count={count} />}</div>; // при count=0 покажет \"0\"\n}\n\n// Исправлено — явное приведение к boolean\nfunction CartFixed({ count }) {\n  return <div>{count > 0 && <Badge count={count} />}</div>; // при count=0 не покажет ничего\n}\n\n// Ранний return — компонент целиком не рендерится\nfunction Profile({ user }) {\n  if (!user) return null;\n  return <div>{user.name}</div>;\n}",
+          whereUsed:
+            "Показ/скрытие элементов интерфейса по состоянию (загрузка, ошибка, пустой список, права доступа), выбор одного из нескольких вариантов вёрстки по типу данных, любой компонент с несколькими визуальными состояниями.",
+          interviewQuestion: "Почему условие {count && <Badge />} может неожиданно отрендерить текст «0» на экране?",
+          interviewAnswerRu:
+            "React не рендерит в DOM три конкретных falsy-значения — false, null и undefined — молча пропуская их. Но 0 (число) — тоже falsy в логическом смысле для && (JS вернёт левый операнд 0 целиком, если count равен 0, потому что && возвращает первый falsy-операнд), однако React рендерит числа как их строковое представление, включая 0 — то есть JSX буквально отображает текст «0» на странице, а не 'ничего'. Исправление — явно привести условие к boolean (count > 0 && ...) или использовать тернарник (count > 0 ? <Badge /> : null), чтобы результатом выражения при 0 гарантированно было одно из трёх 'невидимых' React-значений, а не число 0.",
+          interviewAnswerEn:
+            "React doesn't render three specific falsy values into the DOM — false, null, and undefined — it silently skips them. But 0 (a number) is also falsy in the logical sense for && (JS returns the left operand, 0, whole, if count is 0, because && returns its first falsy operand) — however React renders numbers as their string representation, including 0 — so the JSX literally shows the text '0' on the page instead of 'nothing'. The fix is to explicitly coerce the condition to a boolean (count > 0 && ...) or use a ternary (count > 0 ? <Badge /> : null), so the expression's result at 0 is guaranteed to be one of the three 'invisible' React values rather than the number 0.",
+          pitfalls: [
+            "Использовать && с числовым условием, которое может быть равно 0, без явного приведения к boolean.",
+            "Вкладывать несколько тернарных операторов друг в друга внутри JSX ради экономии строк — резко снижает читаемость по сравнению с обычным if/else до return или вынесением в отдельную переменную/функцию.",
           ],
         },
       },
@@ -1559,6 +1922,66 @@ export const TOPICS: Topic[] = [
         },
       },
       {
+        id: "react-lazy-code-splitting",
+        title: "React.lazy и code splitting",
+        content: {
+          title: "React.lazy: ленивая загрузка компонентов (code splitting)",
+          shortExplanation:
+            "React.lazy(() => import('./Component')) откладывает загрузку JS-кода компонента до момента, когда он реально понадобится для рендера, вместо того чтобы включать его в основной бандл, загружаемый сразу при открытии приложения — это снижает размер первоначального JS-бандла и ускоряет первую загрузку страницы.",
+          detailedExplanation:
+            "Без code splitting весь JavaScript приложения (включая редко посещаемые страницы, модальные окна, административные панели, которые открывает 1% пользователей) попадает в один большой бандл, загружаемый и парсящийся при первом заходе на сайт, даже если пользователь никогда не откроет 90% этого кода. React.lazy в связке с динамическим import() (стандартный ES-модульный синтаксис, который сборщик — Webpack/Vite/Turbopack — распознаёт как точку разделения бандла) откладывает сетевую загрузку кода компонента до первого рендера, где он реально используется — сборщик автоматически выносит такой компонент в отдельный chunk-файл. React.lazy обязательно должен использоваться внутри границы <Suspense fallback={...}>, потому что первый рендер lazy-компонента до завершения загрузки его модуля технически 'приостанавливает' рендер тем же механизмом throw-промиса, что и Suspense для данных (см. отдельную тему) — без обёртки в Suspense React выбросит ошибку. Типичные точки разделения бандла: код по отдельным маршрутам (страница профиля не нужна, пока пользователь не перешёл на неё), тяжёлые редко используемые виджеты (сложный date picker, WYSIWYG-редактор, большая библиотека графиков), модальные окна и диалоги, открывающиеся не сразу при загрузке страницы.",
+          codeExample:
+            "import { lazy, Suspense } from 'react';\n\n// Компонент вынесен в отдельный chunk, загружаемый только при первом рендере\nconst AdminPanel = lazy(() => import('./AdminPanel'));\n\nfunction App({ isAdmin }) {\n  return (\n    <div>\n      <MainContent /> {/* обычный, всегда нужный код — в основном бандле */}\n      {isAdmin && (\n        <Suspense fallback={<Spinner />}>\n          <AdminPanel /> {/* JS-код AdminPanel скачивается только для админов */}\n        </Suspense>\n      )}\n    </div>\n  );\n}",
+          whereUsed:
+            "Разбиение бандла по маршрутам в SPA (React Router поддерживает lazy loading страниц), редко используемые тяжёлые виджеты (редакторы, графики, карты), модальные окна и диалоги, любой сценарий, где заметная часть JS не нужна большинству пользователей при первом заходе.",
+          interviewQuestion: "Почему React.lazy обязательно требует обёртки в Suspense, а обычный useState — нет?",
+          interviewAnswerRu:
+            "React.lazy технически реализован через тот же механизм 'приостановки' рендера, что и Suspense для данных: пока JS-модуль ленивого компонента ещё не загружен по сети, попытка его отрендерить приводит к throw промиса, разрешающегося после завершения загрузки модуля. React обрабатывает этот throw только на уровне ближайшей родительской границы Suspense, которая перехватывает его и показывает fallback вместо ошибки — без такой границы этот брошенный промис долетит до React как необработанная ошибка рендера. useState не приостанавливает рендер вообще ни в каком смысле — это просто синхронное хранилище значения, поэтому у него нет и не может быть подобного требования.",
+          interviewAnswerEn:
+            "React.lazy is technically implemented through the same render-suspension mechanism as Suspense for data: while the lazy component's JS module hasn't loaded over the network yet, attempting to render it throws a promise that resolves once the module finishes loading. React only handles that throw at the level of the nearest parent Suspense boundary, which catches it and shows a fallback instead of an error — without such a boundary, that thrown promise reaches React as an unhandled render error. useState doesn't suspend rendering in any sense at all — it's just a synchronous value store, so it has no such requirement and couldn't have one.",
+          pitfalls: [
+            "Забывать обернуть lazy-компонент в Suspense — приложение упадёт с ошибкой при первой попытке отрендерить его до завершения загрузки модуля.",
+            "Разбивать бандл слишком мелко (по одному lazy на каждый мелкий компонент) — большое количество отдельных сетевых запросов за мелкими chunk-файлами может оказаться менее эффективным, чем один чуть более крупный, разумно сгруппированный chunk.",
+          ],
+          resources: {
+            docs: [
+              { title: "lazy — React docs", url: "https://react.dev/reference/react/lazy" },
+            ],
+            articles: [],
+          },
+        },
+      },
+      {
+        id: "react-strict-mode",
+        title: "StrictMode",
+        content: {
+          title: "StrictMode: режим для выявления скрытых проблем",
+          shortExplanation:
+            "<StrictMode> — компонент-обёртка, не рендерящий никакого видимого UI, который включает дополнительные проверки и предупреждения ТОЛЬКО в режиме разработки (development) — в первую очередь, намеренный двойной вызов функций компонентов и некоторых хуков, чтобы заранее выявить побочные эффекты, спрятанные в рендере.",
+          detailedExplanation:
+            "StrictMode не меняет поведение приложения в продакшен-сборке вообще — все его проверки полностью отключены в production build и не влияют на конечных пользователей, их единственная цель — заранее (во время разработки) показать разработчику проблемы, которые иначе проявились бы только в специфических условиях concurrent-рендеринга в проде. Главная практическая проверка — двойной вызов рендер-функции компонента, функции инициализации useState (если передана функция, а не значение), и некоторых других колбэков: если компонент действительно чистый (pure) по отношению к рендеру, повторный вызов с теми же пропсами/состоянием просто ничего не меняет и незаметен для пользователя — если же в теле компонента спрятан побочный эффект (мутация внешней переменной, сетевой запрос вне useEffect), повторный вызов сделает эту проблему видимой (например, счётчик увеличится на 2 вместо 1) уже на этапе разработки, а не только под конкретной комбинацией concurrent-фич в проде месяцы спустя. Начиная с React 18, StrictMode дополнительно намеренно монтирует, размонтирует и снова монтирует каждый компонент при первом монтировании в development (вызывая эффекты, затем их функции очистки, затем эффекты снова) — это эмулирует то, что произойдёт при повторном использовании ранее закешированного дерева компонентов (например, offscreen-рендеринг для будущих concurrent-фич) и обнажает эффекты, не имеющие корректной функции очистки. StrictMode можно применять локально к части дерева (обернуть только один компонент/секцию), а не обязательно ко всему приложению сразу — это удобно при постепенной миграции большой legacy-кодовой базы.",
+          codeExample:
+            "// StrictMode оборачивает часть (или всё) дерева\nroot.render(\n  <React.StrictMode>\n    <App />\n  </React.StrictMode>\n);\n\n// Эффект без функции очистки — StrictMode в development сделает проблему видимой,\n// смонтировав/размонтировав/смонтировав компонент и продублировав подписку\nfunction ChatRoom({ roomId }) {\n  useEffect(() => {\n    connectToRoom(roomId); // нет return-функции очистки — подписка задублируется\n  }, [roomId]);\n}",
+          whereUsed:
+            "Обязательная практика в development-окружении для любого нового React-приложения, постепенная миграция legacy-кода (можно включать StrictMode по частям дерева), выявление отсутствующих функций очистки в useEffect до того, как баг проявится в проде.",
+          interviewQuestion: "Почему двойной вызов функции компонента в StrictMode не влияет на пользователей в продакшене?",
+          interviewAnswerRu:
+            "Все дополнительные проверки StrictMode, включая двойной вызов рендер-функций и повторное монтирование/размонтирование компонентов при первом монтировании, работают ИСКЛЮЧИТЕЛЬНО в development-сборке — в production build (npm run build у большинства тулчейнов) этот код физически не включается в бандл и не выполняется. Цель StrictMode — не изменить поведение приложения для конечного пользователя, а заранее, во время разработки, сделать видимыми побочные эффекты, спрятанные в рендере или отсутствующие функции очистки эффектов, которые в противном случае проявились бы только на проде под конкретной комбинацией concurrent-рендеринга, и то не всегда предсказуемо.",
+          interviewAnswerEn:
+            "All of StrictMode's extra checks, including double-invoking render functions and remounting/unmounting components on first mount, run EXCLUSIVELY in the development build — in the production build (npm run build for most toolchains), that code is physically not included in the bundle and never runs. StrictMode's goal isn't to change the app's behavior for end users, but to surface, ahead of time during development, side effects hidden in render or missing effect cleanup functions that would otherwise only show up in production under a specific combination of concurrent rendering — and even then, not always predictably.",
+          pitfalls: [
+            "Считать предупреждения StrictMode 'багами React' вместо того, чтобы искать реальную нечистоту в собственном коде компонента, которую StrictMode как раз и выявил.",
+            "Отключать StrictMode, столкнувшись с двойным вызовом эффекта в development, вместо того чтобы добавить недостающую функцию очистки — это лечит симптом (скрывает предупреждение), а не саму проблему.",
+          ],
+          resources: {
+            docs: [
+              { title: "<StrictMode> — React docs", url: "https://react.dev/reference/react/StrictMode" },
+            ],
+            articles: [],
+          },
+        },
+      },
+      {
         id: "react-concurrent-rendering",
         title: "Concurrent Rendering",
         content: {
@@ -1622,6 +2045,120 @@ export const TOPICS: Topic[] = [
             "Ожидать от useDeferredValue предсказуемой фиксированной задержки, как у debounce, — реальная задержка зависит от загруженности рендера и не гарантирована.",
             "Использовать useDeferredValue там, где значение производится в том же компоненте и удобнее было бы просто использовать useTransition вокруг setState.",
           ],
+        },
+      },
+      {
+        id: "react-use-hook",
+        title: "use() — хук, который можно вызывать в if и циклах",
+        content: {
+          title: "use() (React 19): хук, который можно вызывать условно",
+          shortExplanation:
+            "use() — новый API React 19 для чтения значения промиса или контекста прямо во время рендера; в отличие от всех остальных хуков, use() можно вызывать внутри if, циклов и после раннего return, потому что он не полагается на порядковый номер вызова между рендерами.",
+          detailedExplanation:
+            "Все 'классические' хуки (useState, useEffect, useMemo и т.д.) обязаны вызываться на верхнем уровне компонента в одном и том же порядке при каждом рендере — так React сопоставляет состояние конкретного хука с его 'местом' в внутреннем связном списке (см. тему Rules of Hooks). use() устроен принципиально иначе: он не хранит собственное состояние между рендерами и не зависит от порядка вызова — вместо этого при каждом обращении к use() React либо немедленно возвращает уже разрешённое значение контекста/промиса, либо (если промис ещё не выполнен) приостанавливает рендер компонента через Suspense до его разрешения. Именно отсутствие привязки к 'номеру вызова' и делает легальным условный вызов use() — вызвать его внутри if (condition) { use(promise) } безопасно, потому что на каждом конкретном рендере React просто читает текущее значение в этой точке выполнения, а не сопоставляет его с ячейкой в списке хуков предыдущего рендера. У use() два основных сценария: чтение промиса (компонент 'подвешивается' через ближайший Suspense boundary, пока промис не выполнится — заменяет часть паттернов, для которых раньше был нужен useEffect + useState) и чтение React Context (полноценная альтернатива useContext, но с возможностью вызывать условно и внутри циклов, что было прямо запрещено для useContext).",
+          codeExample:
+            "// use() можно вызывать условно — это специально разрешено правилами хуков для этого API\nfunction Comments({ commentsPromise, showComments }) {\n  if (!showComments) return null;\n  // Легально: use() внутри if — обычный хук здесь вызвать было бы нельзя\n  const comments = use(commentsPromise); // приостанавливает рендер через Suspense, пока промис не выполнится\n  return <ul>{comments.map((c) => <li key={c.id}>{c.text}</li>)}</ul>;\n}\n\n// use() с контекстом — тоже можно условно/в цикле, в отличие от useContext\nfunction Themed({ items }) {\n  return items.map((item) => {\n    if (!item.visible) return null;\n    const theme = use(ThemeContext); // легально внутри .map()\n    return <Item key={item.id} theme={theme} {...item} />;\n  });\n}",
+          interviewQuestion: "Почему use() разрешено вызывать внутри if, а useState и useContext — нет, хотя оба формально 'хуки'?",
+          interviewAnswerRu:
+            "useState и большинство других хуков хранят своё состояние во внутреннем связном списке компонента и сопоставляются с этим состоянием по порядковому номеру вызова в рамках рендера — если пропустить вызов условно, все последующие хуки 'съедут' на позицию раньше и получат чужое состояние, поэтому порядок обязан быть стабильным. use() не хранит собственного состояния между рендерами таким образом: при чтении промиса он интегрируется с Suspense (компонент просто приостанавливается до разрешения промиса), а при чтении контекста — напрямую читает текущее значение из ближайшего Provider в дереве в момент вызова. Поскольку use() не зависит от накопленного порядка предыдущих вызовов, условный вызов не ломает сопоставление состояния — команда React явно закладывала эту возможность в дизайн API, специально снимая для use() ограничение, обязательное для остальных хуков.",
+          interviewAnswerEn:
+            "useState and most other hooks store their state in the component's internal linked list and match that state by the call's ordinal position within a render — if a call is conditionally skipped, every subsequent hook shifts one position earlier and picks up someone else's state, so the order has to stay stable. use() doesn't store its own state across renders that way: when reading a promise, it integrates with Suspense (the component simply suspends until the promise resolves), and when reading context, it reads the current value directly from the nearest Provider in the tree at the time of the call. Because use() doesn't depend on the accumulated order of previous calls, calling it conditionally doesn't break any state matching — the React team deliberately designed the API this way, specifically lifting the restriction that's mandatory for every other hook.",
+          pitfalls: [
+            "Считать, что раз use() можно вызывать условно, то и остальные хуки (useState, useEffect, useMemo) теперь тоже можно — правило верхнего уровня для них никуда не делось, use() является намеренным, точечным исключением.",
+            "Передавать в use() промис, создаваемый заново на каждом рендере (например, прямо в JSX без мемоизации) — это приводит к бесконечному циклу приостановки рендера, промис нужно создавать вне компонента или мемоизировать/кэшировать (например, через библиотеку данных или ресурс, специально спроектированный для Suspense).",
+          ],
+          practiceTask:
+            "Напишите компонент, который принимает промис с данными пользователя и булев проп showProfile, и внутри if (!showProfile) return null вызывает use(userPromise) для оставшейся части рендера — убедитесь, что это работает без предупреждений ESLint, в отличие от аналогичной попытки с useState на месте use().",
+          resources: {
+            docs: [
+              { title: "use — React docs", url: "https://react.dev/reference/react/use" },
+            ],
+            articles: [
+              { title: "React v19 — React Blog", url: "https://react.dev/blog/2024/12/05/react-19" },
+            ],
+          },
+        },
+      },
+      {
+        id: "react-shadow-vs-virtual-dom",
+        title: "Shadow DOM vs Virtual DOM",
+        content: {
+          title: "Shadow DOM vs Virtual DOM: разные технологии, разные задачи",
+          shortExplanation:
+            "Virtual DOM — это концепция уровня JS-библиотеки (React и другие) для эффективного вычисления и применения обновлений реального DOM; Shadow DOM — нативный браузерный API для инкапсуляции разметки и стилей внутри компонента (обычно веб-компонента), полностью изолируя его CSS от остальной страницы. Это решают принципиально разные задачи и не являются альтернативами друг другу.",
+          detailedExplanation:
+            "Virtual DOM (см. отдельную тему) — не браузерная технология, а паттерн, реализованный в JS: библиотека строит лёгкое дерево обычных объектов, описывающих желаемый UI, сравнивает его с предыдущим и применяет к реальному DOM только необходимые изменения — цель этого механизма исключительно производительность и предсказуемость обновлений UI. Shadow DOM — часть спецификации Web Components, встроенная в сам браузер: элемент может иметь 'теневое корневое дерево' (shadow root), разметка и стили внутри которого полностью изолированы от основного документа — CSS-правила снаружи не проникают внутрь shadow root, и наоборот, что решает задачу инкапсуляции стилей (например, виджет стороннего производителя не сломает и не будет сломан глобальными стилями хост-страницы). React по умолчанию НЕ использует Shadow DOM — стили React-компонентов по умолчанию глобальны на странице (если не применяются отдельные техники: CSS Modules, CSS-in-JS с генерацией уникальных классов, БЭМ-конвенции), а изоляция в React достигается инструментами уровня сборки/именования классов, а не нативным браузерным механизмом. Оба механизма МОГУТ использоваться вместе: React-компонент технически может рендерить содержимое внутрь shadow root нативного веб-компонента, но это отдельная, не входящая по умолчанию в React возможность, а не то, что Virtual DOM 'делает' сам по себе.",
+          whereUsed:
+            "Объяснение на собеседовании путаницы между двумя похожими по названию, но совершенно разными технологиями, оценка стратегии инкапсуляции стилей в проекте (CSS Modules/CSS-in-JS vs нативный Shadow DOM через Web Components), интеграция React с кастомными элементами (Custom Elements), использующими Shadow DOM.",
+          interviewQuestion: "Может ли React-приложение использовать Virtual DOM без Shadow DOM, и наоборот? Это вообще связанные технологии?",
+          interviewAnswerRu:
+            "Да, это полностью независимые друг от друга технологии, и подавляющее большинство React-приложений использует Virtual DOM (встроенный в саму библиотеку React) без какого-либо Shadow DOM — стили при этом остаются глобальными, если не применить отдельные техники изоляции (CSS Modules, CSS-in-JS). И наоборот, обычный веб-компонент может использовать Shadow DOM для изоляции стилей, вообще не имея никакого Virtual DOM — Shadow DOM просто нативно поддерживается браузером независимо от того, какая (если вообще какая-то) JS-библиотека рендеринга используется внутри. Название 'Shadow' и 'Virtual' звучат похоже и оба относятся к 'DOM', но решают принципиально разные задачи: одна — эффективность обновлений UI, другая — инкапсуляция стилей и разметки.",
+          interviewAnswerEn:
+            "Yes, these are entirely independent technologies, and the vast majority of React apps use the Virtual DOM (built into the React library itself) with no Shadow DOM at all — styles stay global unless separate isolation techniques are applied (CSS Modules, CSS-in-JS). Conversely, a plain web component can use Shadow DOM for style isolation with no Virtual DOM whatsoever — Shadow DOM is simply natively supported by the browser, regardless of which (if any) JS rendering library is used inside it. The names 'Shadow' and 'Virtual' sound similar and both relate to the 'DOM', but they solve fundamentally different problems: one is about UI update efficiency, the other about style and markup encapsulation.",
+          pitfalls: [
+            "Считать Shadow DOM и Virtual DOM конкурирующими или взаимозаменяемыми технологиями — они решают разные задачи и в реальности часто используются на совершенно разных уровнях стека.",
+            "Полагать, что React 'использует Shadow DOM для оптимизации' — это распространённое заблуждение из-за похожих названий; React не применяет Shadow DOM по умолчанию вообще.",
+          ],
+        },
+      },
+      {
+        id: "react-router-basics",
+        title: "React Router",
+        content: {
+          title: "React Router: чем отличается от обычной маршрутизации",
+          shortExplanation:
+            "React Router реализует client-side маршрутизацию: смена 'страницы' происходит без полной перезагрузки документа браузером — JS перехватывает переход, меняет URL через History API и подменяет отрендеренный React-поддерево, тогда как классическая (server-side) маршрутизация означает полный новый HTTP-запрос и перезагрузку всей страницы на каждый переход.",
+          detailedExplanation:
+            "При обычной (server-side, MPA) маршрутизации переход по ссылке — это полноценный новый HTTP GET-запрос: браузер полностью выгружает текущий документ, включая всё состояние JS в памяти, и загружает, парсит и рендерит новый HTML-документ с нуля. React Router (и client-side маршрутизация в целом) перехватывает клики по ссылкам, вызывает history.pushState (изменяет URL в адресной строке без перезагрузки страницы) и на основе нового пути рендерит соответствующее React-поддерево — без сетевого запроса за новым HTML и без потери состояния JS-приложения (открытая модалка, данные в сторе, скролл вне навигируемой области могут сохраниться). Плата за это — необходимость самостоятельно решать задачи, которые сервер решал бы 'бесплатно' в MPA: код для конкретного маршрута нужно либо включить в основной бандл, либо явно лениво подгружать (см. React.lazy), а начальная загрузка приложения (до того как JS выполнился и React Router перехватил контроль) требует отдельного решения, если важен быстрый первый рендер контента (см. темы SSR/SSG в разделе Next.js).\n\nЭволюция хуков в основных версиях: React Router v5 предложил первые хуки — useHistory (императивная навигация), useLocation (текущий путь/query), useParams (динамические сегменты URL, например /users/:id), useRouteMatch. React Router v6 существенно переработал API: useHistory заменён на useNavigate (единая функция для навигации вперёд/назад/с заменой истории), useRouteMatch убран в пользу более простого use Match / вложенных <Routes>, добавлен useSearchParams для удобной работы с query-строкой как с управляемым состоянием. React Router v7 (по сути объединение с Remix) добавил хуки, интегрированные с серверными данными и формами в духе Remix — useLoaderData (данные, загруженные до рендера маршрута на сервере или клиенте), useActionData (результат обработки формы через action), useNavigation (состояние текущей навигации — idle/loading/submitting) — сближая модель React Router с серверными паттернами загрузки данных, похожими на Next.js Route Handlers и Server Actions (см. соответствующие темы).",
+          codeExample:
+            "// React Router v6/v7 — базовая структура и типичные хуки\nimport { BrowserRouter, Routes, Route, useNavigate, useParams } from 'react-router-dom';\n\nfunction UserProfile() {\n  const { id } = useParams();          // динамический сегмент /users/:id\n  const navigate = useNavigate();      // императивная навигация вместо useHistory (v5)\n  return (\n    <div>\n      <p>User {id}</p>\n      <button onClick={() => navigate('/users')}>Back to list</button>\n    </div>\n  );\n}\n\nfunction App() {\n  return (\n    <BrowserRouter>\n      <Routes>\n        <Route path=\"/users/:id\" element={<UserProfile />} />\n      </Routes>\n    </BrowserRouter>\n  );\n}",
+          whereUsed:
+            "Любое SPA-приложение на чистом React (не Next.js, у которого файловая маршрутизация встроена), миграция между версиями React Router, объяснение разницы client-side vs server-side маршрутизации на собеседовании, интеграция передачи данных между страницами через параметры маршрута, query-строку или state в location.",
+          interviewQuestion: "Какая принципиальная разница в стоимости навигации между обычной ссылкой <a href> и client-side переходом через React Router?",
+          interviewAnswerRu:
+            "Обычная ссылка <a href> при клике инициирует полноценный новый HTTP-запрос: браузер полностью выгружает текущую страницу со всем её JS-состоянием в памяти и загружает, парсит, выполняет заново весь необходимый код для нового документа с нуля — это надёжно, но относительно медленно и полностью сбрасывает клиентское состояние приложения. React Router перехватывает клик, вызывает history.pushState (меняя URL без перезагрузки) и рендерит соответствующее новое React-поддерево на основе уже загруженного и выполняющегося JS-приложения — сетевой запрос за новым HTML-документом не происходит вообще (может быть отдельный запрос за данными для новой страницы), состояние остальной части приложения (открытый Context, стор стейт-менеджера) сохраняется, а переход субъективно ощущается мгновенным.",
+          interviewAnswerEn:
+            "A regular <a href> link click triggers a full new HTTP request: the browser completely unloads the current page along with all its in-memory JS state, and loads, parses, and executes all the necessary code for the new document from scratch — reliable, but relatively slow, and it fully resets client-side application state. React Router intercepts the click, calls history.pushState (changing the URL without a reload), and renders the corresponding new React subtree based on the already-loaded and running JS application — no network request for a new HTML document happens at all (there may be a separate request for the new page's data), the rest of the app's state (an open Context, a state manager's store) is preserved, and the transition feels instantaneous to the user.",
+          pitfalls: [
+            "Забывать, что client-side маршрутизация без SSR/SSG означает пустой начальный HTML до выполнения JS — критично для SEO и первого контентного рендера, если это не смягчено серверным рендерингом.",
+            "Использовать устаревшие хуки из React Router v5 (useHistory, useRouteMatch) в новом коде на v6+ — API заметно изменился, и старые паттерны либо не работают, либо не дают воспользоваться улучшениями новой версии.",
+          ],
+          resources: {
+            docs: [
+              { title: "React Router — official docs", url: "https://reactrouter.com/" },
+            ],
+            articles: [],
+          },
+        },
+      },
+      {
+        id: "react-reselect",
+        title: "Reselect",
+        content: {
+          title: "Reselect: мемоизированные селекторы для стора",
+          shortExplanation:
+            "Reselect — библиотека для создания мемоизированных 'селекторов' (функций, вычисляющих производные данные из стора, например Redux) — селектор пересчитывается заново только если изменились именно те части стора, от которых он зависит, а не при любом изменении стора вообще.",
+          detailedExplanation:
+            "Проблема, которую решает Reselect: без мемоизации функция-селектор, вычисляющая, скажем, отфильтрованный и отсортированный список задач из всего стора, будет пересчитываться заново при КАЖДОМ обновлении стора (даже если изменилась совершенно не связанная часть состояния), и — что хуже — при использовании с React (через useSelector) каждый такой пересчёт обычно создаёт новый массив/объект по ссылке, из-за чего компоненты, сравнивающие результат селектора по ссылке (как это делает React.memo или сам useSelector по умолчанию), считают, что данные изменились, и лишний раз ре-рендерятся, даже если по содержимому результат идентичен предыдущему. createSelector из Reselect создаёт мемоизированную функцию: она принимает несколько 'входных' селекторов (обычно простые функции, читающие конкретный срез стора) и одну 'результирующую' функцию, которая пересчитывается ТОЛЬКО если хотя бы один из результатов входных селекторов изменился (по ===) по сравнению с предыдущим вызовом — если все входы те же самые, Reselect возвращает закешированный результат предыдущего вызова той же ссылкой, не выполняя результирующую функцию повторно и не создавая новый объект. Это особенно важно для дорогих вычислений (сложная фильтрация/сортировка/агрегация больших списков) и для предотвращения каскада лишних ре-рендеров у компонентов, подписанных на селектор через useSelector.",
+          codeExample:
+            "import { createSelector } from 'reselect';\n\nconst selectTodos = (state) => state.todos;\nconst selectFilter = (state) => state.filter;\n\n// Пересчитывается только если изменились todos ИЛИ filter — не при любом изменении стора\nconst selectVisibleTodos = createSelector(\n  [selectTodos, selectFilter],\n  (todos, filter) => todos.filter((todo) => todo.status === filter) // дорогая операция\n);\n\nfunction TodoList() {\n  const visibleTodos = useSelector(selectVisibleTodos); // тот же массив по ссылке, если ничего не изменилось\n  return <ul>{visibleTodos.map((t) => <li key={t.id}>{t.text}</li>)}</ul>;\n}",
+          whereUsed:
+            "Redux-приложения с производными (derived) данными — отфильтрованные/отсортированные/агрегированные списки, вычисляемые из сырого стора, любой сценарий, где селектор в useSelector создаёт новый массив/объект при каждом вызове, вызывая лишние ре-рендеры подписанных компонентов.",
+          interviewQuestion: "Почему обычный необёрнутый селектор, возвращающий todos.filter(...), может вызывать лишние ре-рендеры компонента, даже если реальные видимые данные не изменились?",
+          interviewAnswerRu:
+            "Array.prototype.filter всегда возвращает НОВЫЙ массив по ссылке, даже если его содержимое по значениям идентично предыдущему результату. useSelector по умолчанию сравнивает предыдущий и новый результат селектора по строгому равенству ссылок (===), а не по глубокому сравнению содержимого — поэтому даже если отфильтрованный список данных по факту не изменился, новый вызов todos.filter(...) на каждом обновлении стора создаёт новую ссылку на массив, и useSelector считает, что данные изменились, вызывая ре-рендер компонента. createSelector из Reselect решает это, кешируя результат и возвращая ту же самую ссылку на массив, если входные данные (todos и filter в данном примере) не изменились по сравнению с предыдущим вызовом.",
+          interviewAnswerEn:
+            "Array.prototype.filter always returns a NEW array by reference, even if its contents are value-identical to the previous result. By default, useSelector compares the previous and new selector result by strict reference equality (===), not by deep content comparison — so even if the filtered data hasn't actually changed, a fresh todos.filter(...) call on every store update creates a new array reference, and useSelector concludes the data changed, triggering a component re-render. Reselect's createSelector solves this by caching the result and returning the exact same array reference if the inputs (todos and filter in this example) haven't changed since the previous call.",
+          pitfalls: [
+            "Создавать новый селектор внутри тела компонента на каждом рендере (например, useSelector((state) => createSelector(...)(state))) — это уничтожает весь смысл мемоизации, потому что кеш селектора живёт только пока жива сама функция-селектор.",
+            "Оборачивать в createSelector дешёвые, тривиальные вычисления (например, простое чтение поля) — накладные расходы на саму мемоизацию могут не окупиться там, где пересчёт и без того практически бесплатен.",
+          ],
+          resources: {
+            docs: [
+              { title: "Reselect — GitHub", url: "https://github.com/reduxjs/reselect" },
+            ],
+            articles: [],
+          },
         },
       },
 
@@ -2341,6 +2878,146 @@ export const TOPICS: Topic[] = [
             "Писать цикл с await-запросом к БД внутри него для каждого элемента списка — классический источник N+1, легко упускаемый из виду при code review.",
             "Создавать новый экземпляр DataLoader глобально на всё приложение вместо одного на каждый HTTP-запрос — приводит к утечке кеша между разными пользователями/запросами.",
           ],
+        },
+      },
+      {
+        id: "apis-webhooks",
+        title: "Webhook",
+        content: {
+          title: "Webhook: обратный вызов от сервера к серверу",
+          shortExplanation:
+            "Webhook — это 'обратный API': вместо того чтобы ваше приложение периодически спрашивало сторонний сервис 'есть новости?' (polling), сторонний сервис сам делает HTTP-запрос на заранее заданный вами URL в момент, когда произошло интересующее событие.",
+          detailedExplanation:
+            "Технически webhook — это обычный HTTP POST-запрос с телом (обычно JSON), который сервис-отправитель (Stripe, GitHub, Slack и т.д.) делает на публично доступный эндпоинт, который вы заранее зарегистрировали в настройках этого сервиса. Это не отдельный протокол и не постоянное соединение (в отличие от WebSocket) — каждое событие это одноразовый независимый запрос, и между событиями никакого канала связи не существует. Ключевая инженерная сложность webhook — не приём запроса как таковой, а надёжная обработка вокруг него: (1) верификация подлинности — сервер обязан проверить, что запрос действительно пришёл от заявленного отправителя, а не от произвольного клиента, знающего URL эндпоинта (обычно через HMAC-подпись в заголовке, вычисляемую с общим секретным ключом); (2) идемпотентность — сервис-отправитель может доставить одно и то же событие повторно (например, если ваш сервер не успел ответить 200 OK вовремя), поэтому обработчик обязан уметь распознать уже обработанное событие по его уникальному id и не выполнить побочный эффект дважды; (3) быстрый ответ — обработчик должен вернуть 2xx максимально быстро (обычно в течение нескольких секунд), а тяжёлую бизнес-логику вынести в очередь фоновых задач, потому что большинство сервисов-отправителей ретраят запрос, если не получили быстрый успешный ответ, и в конце концов помечают webhook как 'недоставленный' после нескольких неудачных попыток.",
+          codeExample:
+            "// Route Handler, принимающий webhook от Stripe с верификацией подписи\nimport Stripe from 'stripe';\n\nexport async function POST(request: Request) {\n  const body = await request.text();\n  const signature = request.headers.get('stripe-signature')!;\n\n  let event;\n  try {\n    // Проверка, что запрос реально подписан секретом Stripe, а не подделан\n    event = stripe.webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOK_SECRET!);\n  } catch (err) {\n    return new Response('Invalid signature', { status: 400 });\n  }\n\n  // Идемпотентность: проверяем, не обрабатывали ли уже event.id\n  if (await alreadyProcessed(event.id)) {\n    return new Response('OK', { status: 200 });\n  }\n\n  await enqueueBackgroundJob(event); // тяжёлая логика — в очередь, не здесь\n  return new Response('OK', { status: 200 }); // отвечаем быстро\n}",
+          whereUsed:
+            "Уведомления о платежах (Stripe, PayPal), события репозитория (GitHub/GitLab при push/PR), интеграции CRM/маркетинговых платформ, любая ситуация 'сторонний сервис должен сообщить моему бэкенду о событии, произошедшем на его стороне', без необходимости постоянно опрашивать его API.",
+          interviewQuestion: "Чем webhook принципиально отличается от WebSocket, и почему для уведомления 'платёж прошёл' обычно используют именно webhook?",
+          interviewAnswerRu:
+            "WebSocket — это постоянное двунаправленное соединение, которое нужно держать открытым и которое ломается при перезапуске сервера или сети; webhook — это одноразовый независимый HTTP-запрос без какого-либо постоянного канала связи, инициируемый отправителем в момент события. Для уведомления о платеже держать постоянное соединение избыточно и ненадёжно (соединение может порваться именно в момент события) — гораздо проще и надёжнее, чтобы платёжный сервис просто сделал один HTTP POST на ваш эндпоинт, когда событие произошло, и ретраил его при неудаче, что WebSocket не делает 'из коробки'. Webhook также проще с точки зрения инфраструктуры получателя — не нужно поддерживать долгоживущее соединение, достаточно обычного HTTP-эндпоинта.",
+          interviewAnswerEn:
+            "A WebSocket is a persistent bidirectional connection that has to stay open and breaks on a server or network restart; a webhook is a one-off, independent HTTP request with no persistent channel at all, triggered by the sender at the moment of the event. For a payment notification, keeping a persistent connection open is both excessive and unreliable (the connection could drop right at the moment of the event) — it's far simpler and more reliable for the payment service to just make a single HTTP POST to your endpoint when the event happens, and retry it on failure, which a WebSocket doesn't do out of the box. A webhook is also simpler on the receiving side's infrastructure — no long-lived connection to maintain, just a regular HTTP endpoint.",
+          pitfalls: [
+            "Не проверять подпись/подлинность входящего webhook-запроса — эндпоинт становится открытым для подделки событий любым, кто узнал URL.",
+            "Выполнять тяжёлую синхронную бизнес-логику прямо в обработчике webhook вместо быстрого ответа 2xx и вынесения работы в очередь — приводит к таймаутам и повторным доставкам одного и того же события от отправителя.",
+            "Не учитывать, что одно и то же событие может прийти повторно (at-least-once доставка) — без проверки по уникальному id события можно случайно выполнить побочный эффект (например, начисление) дважды.",
+          ],
+          practiceTask:
+            "Спроектируйте (на бумаге или в коде) обработчик webhook для 'заказ оплачен': опишите, как вы проверяете подпись запроса, как обеспечиваете идемпотентность при повторной доставке, и что именно возвращается отправителю немедленно против того, что уходит в фоновую очередь.",
+          resources: {
+            docs: [
+              { title: "Webhooks — Stripe docs", url: "https://docs.stripe.com/webhooks" },
+            ],
+            articles: [
+              { title: "Webhooks vs APIs — explanation", url: "https://www.redhat.com/en/topics/automation/what-is-a-webhook" },
+            ],
+          },
+        },
+      },
+      {
+        id: "apis-web-worker",
+        title: "Web Worker",
+        content: {
+          title: "Web Worker: параллельный поток для тяжёлых вычислений",
+          shortExplanation:
+            "Web Worker запускает JS-код в отдельном потоке операционной системы, полностью изолированном от главного потока страницы (где выполняется весь обычный JS и рендеринг) — это позволяет выполнять тяжёлые CPU-вычисления, не блокируя UI и не вызывая подвисаний интерфейса.",
+          detailedExplanation:
+            "JavaScript в браузере по умолчанию однопоточный: любая тяжёлая синхронная операция (сложный парсинг, шифрование, обработка изображения, большие вычисления) выполняется в том же потоке, что рендеринг и обработка пользовательского ввода — пока она не закончится, страница не может ни перерисоваться, ни отреагировать на клик. Web Worker решает это, запуская отдельный JS-контекст в собственном потоке ОС: у него нет доступа к DOM, window или document (это намеренное ограничение — DOM не потокобезопасен), а обмен данными с главным потоком происходит асинхронно через message passing (postMessage/onmessage), а не через общую память с прямым доступом. Данные, передаваемые между потоками через postMessage, по умолчанию клонируются (structured clone algorithm) — то есть это не общая ссылка на один и тот же объект, а копия; для больших бинарных данных (например, ArrayBuffer) можно использовать transferable objects, которые передают владение без копирования, что значительно быстрее для больших массивов. Dedicated Worker привязан к одной вкладке/скрипту, которая его создала; Shared Worker может быть доступен нескольким вкладкам одного origin одновременно.",
+          codeExample:
+            "// main.js — главный поток\nconst worker = new Worker('heavy-calc.js');\nworker.postMessage({ numbers: largeArray }); // данные клонируются при передаче\nworker.onmessage = (event) => {\n  console.log('Результат из воркера:', event.data); // UI не блокировался всё это время\n};\n\n// heavy-calc.js — код воркера, выполняется в отдельном потоке\nself.onmessage = (event) => {\n  const result = event.data.numbers.reduce((sum, n) => sum + expensiveOperation(n), 0);\n  self.postMessage(result); // отправляем результат обратно в главный поток\n};",
+          whereUsed:
+            "Тяжёлая обработка данных на клиенте (парсинг больших CSV/JSON, обработка изображений/видео в браузере), сложные вычисления (шифрование, сжатие, физические симуляции), любой сценарий, где синхронная работа заняла бы заметное время (десятки-сотни миллисекунд и больше) и иначе подвесила бы интерфейс.",
+          interviewQuestion: "Почему Web Worker не может напрямую обращаться к DOM, и как тогда он вообще может повлиять на то, что видит пользователь?",
+          interviewAnswerRu:
+            "DOM не является потокобезопасной структурой — он спроектирован в предположении, что с ним работает только один поток одновременно, поэтому позволение воркеру напрямую читать/менять DOM создало бы гонки состояний и непредсказуемое поведение рендеринга. Вместо прямого доступа воркер выполняет вычисления изолированно и отправляет результат обратно в главный поток через postMessage — именно главный поток, получив это сообщение в своём обработчике onmessage, самостоятельно обновляет DOM (например, вызывая setState в React), уже находясь в контексте, где доступ к DOM безопасен и ожидаем.",
+          interviewAnswerEn:
+            "The DOM isn't a thread-safe structure — it's designed on the assumption that only one thread works with it at a time, so letting a worker directly read/modify the DOM would create race conditions and unpredictable rendering behavior. Instead of direct access, the worker performs its computation in isolation and sends the result back to the main thread via postMessage — it's the main thread, receiving that message in its onmessage handler, that then updates the DOM itself (say, by calling setState in React), already being in a context where DOM access is safe and expected.",
+          pitfalls: [
+            "Ожидать, что объект, переданный в postMessage, остаётся общей ссылкой между потоками — по умолчанию он клонируется, а не передаётся по ссылке, что может неожиданно замедлить обмен большими объектами без использования transferable objects.",
+            "Пытаться напрямую обратиться к window/document внутри кода воркера — эти объекты там просто не существуют, и такой код упадёт с ошибкой при выполнении в воркере.",
+          ],
+          practiceTask:
+            "Вынесите тяжёлую синхронную функцию (например, вычисление чисел Фибоначчи рекурсивно для большого n) в отдельный Web Worker и сравните отзывчивость интерфейса (например, анимации CSS или реакции на клик) с версией, где та же функция вызывается прямо в главном потоке.",
+          resources: {
+            docs: [
+              { title: "Web Workers API — MDN", url: "https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API" },
+            ],
+            articles: [
+              { title: "Using Web Workers — MDN guide", url: "https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers" },
+            ],
+          },
+        },
+      },
+      {
+        id: "apis-service-worker",
+        title: "Service Worker",
+        content: {
+          title: "Service Worker: программируемый прокси между приложением и сетью",
+          shortExplanation:
+            "Service Worker — это специальный вид воркера, который живёт отдельно от любой конкретной вкладки, перехватывает все сетевые запросы страницы (через событие fetch) и сам решает, ответить ли из кеша, сходить в сеть или сделать и то, и другое — это фундамент офлайн-режима, программируемого кеширования и push-уведомлений в браузере.",
+          detailedExplanation:
+            "В отличие от обычного Web Worker, который привязан к одной странице и умирает вместе с ней, Service Worker регистрируется на весь origin (домен) и продолжает существовать в фоне браузера независимо от того, открыта ли конкретная вкладка — у него есть собственный жизненный цикл с состояниями install (первичная установка, обычно здесь заранее кешируют статические ассеты через Cache API) и activate (старая версия воркера заменяется новой, здесь обычно чистят устаревшие кеши). После активации Service Worker перехватывает КАЖДЫЙ сетевой запрос со страниц, которые он контролирует, через событие fetch, и явно решает стратегию ответа: cache-first (сначала кеш, в сеть — только если в кеше пусто; хорошо для статических ассетов, которые редко меняются), network-first (сначала сеть, кеш — как fallback при офлайне; подходит для часто обновляемых данных) или stale-while-revalidate (немедленно отдать закешированную версию, но параллельно сходить в сеть и обновить кеш для следующего раза). Именно эта возможность программируемо отвечать на запросы даже при полном отсутствии сети — то, что делает офлайн-режим PWA технически возможным. Второе фундаментальное применение — push-уведомления: Service Worker может получать push-события от сервера даже когда вкладка с приложением полностью закрыта, и показывать системное уведомление через Notification API. Важный нюанс безопасности и жизненного цикла: Service Worker работает только по HTTPS (кроме localhost для разработки) именно потому, что он способен перехватывать и подделывать сетевой трафик — разрешать это по обычному HTTP было бы серьёзной дырой безопасности.\n\nИнвалидация кеша при деплое — отдельная и легко упускаемая часть жизненного цикла. Cache Storage не имеет встроенного TTL или автоматической очистки: если просто добавлять файлы в кеш с одним и тем же именем ('static'), после деплоя новой версии приложения старые закешированные ассеты продолжат отдаваться пользователю бесконечно, потому что Service Worker физически не знает, что где-то на сервере что-то изменилось. Стандартное решение — версионировать сам CACHE_NAME (например, 'static-v2' вместо 'static-v1') при каждом релизе: install новой версии воркера кеширует ассеты уже под новым именем, не трогая старый кеш, а в activate — событии, которое срабатывает только после того, как новый воркер полностью заменил старый — перебираются все существующие имена кешей через caches.keys() и удаляются все, что не совпадают с текущим CACHE_NAME. Это гарантирует, что после каждого релиза в Cache Storage остаётся ровно одна актуальная версия ассетов, а не накапливается бесконечная история версий с прошлых деплоев. Важный нюанс тайминга: по умолчанию новый Service Worker переходит в состояние 'waiting' и не активируется, пока все вкладки со старой версией не будут закрыты (это защита от одновременной работы двух несовместимых версий кода на одной странице) — если нужна немедленная активация сразу после install, для этого существуют self.skipWaiting() (в install) и clients.claim() (в activate), которые форсируют переключение на новую версию без ожидания закрытия вкладок, ценой риска на мгновение оказаться с новым Service Worker, но ещё не обновлённой открытой вкладкой.",
+          codeExample:
+            "const CACHE_NAME = 'static-v2'; // версия меняется при каждом релизе с изменившимися ассетами\nconst ASSETS = ['/', '/styles.css', '/app.js'];\n\nself.addEventListener('install', (event) => {\n  event.waitUntil(\n    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))\n  );\n});\n\n// Инвалидация кеша при деплое: activate срабатывает после install новой версии\n// и удаляет ВСЕ кеши, чьё имя не совпадает с актуальным CACHE_NAME\nself.addEventListener('activate', (event) => {\n  event.waitUntil(\n    caches.keys().then((cacheNames) =>\n      Promise.all(\n        cacheNames\n          .filter((name) => name !== CACHE_NAME)\n          .map((name) => caches.delete(name))\n      )\n    )\n  );\n});\n\nself.addEventListener('fetch', (event) => {\n  event.respondWith(\n    caches.match(event.request).then((cached) => cached ?? fetch(event.request))\n  );\n});",
+          whereUsed:
+            "Progressive Web Apps (офлайн-режим, push-уведомления), программируемое кеширование сетевых запросов независимо от заголовков сервера, приложения, которым нужно работать (хотя бы частично) без сети — карты, читалки, инструменты для полевой работы; версионирование CACHE_NAME с очисткой в activate — обязательная часть любого релизного процесса, использующего Service Worker.",
+          interviewQuestion: "Как Service Worker гарантирует, что после деплоя новой версии приложения пользователи не застрянут на старых закешированных ассетах?",
+          interviewAnswerRu:
+            "Cache Storage не имеет встроенного TTL или автоматического версионирования — сам API просто хранит то, что в него положили, под тем именем кеша, которое вы указали. Стандартный паттерн — включать версию сборки в имя кеша (например, 'static-v2') и менять её при каждом релизе: install новой версии Service Worker кладёт свежие ассеты в кеш под новым именем, не трогая старый, а в activate — который срабатывает уже после того, как новая версия воркера полностью заменила предыдущую — перебираются все имена существующих кешей через caches.keys() и удаляются все, что не равны актуальному CACHE_NAME. Благодаря этому после каждого деплоя в Cache Storage остаётся ровно одна, самая свежая версия ассетов, а не накопленная история кешей со всех прошлых релизов.",
+          interviewAnswerEn:
+            "Cache Storage has no built-in TTL or automatic versioning — the API simply stores whatever you put into it under whatever cache name you gave it. The standard pattern is to bake the build version into the cache name (e.g. 'static-v2') and bump it on every release: the new Service Worker version's install event puts fresh assets into the cache under the new name, leaving the old one untouched, and activate — which fires only after the new worker version has fully replaced the previous one — iterates over every existing cache name via caches.keys() and deletes any that don't match the current CACHE_NAME. This ensures that after every deploy, Cache Storage holds exactly one, current version of the assets, rather than an accumulated history of caches from every past release.",
+          pitfalls: [
+            "Не менять имя CACHE_NAME при деплое новой версии ассетов — без смены имени install просто не тронет уже существующий кеш (cache.open с тем же именем откроет тот же кеш), и пользователи продолжат получать старые файлы бесконечно.",
+            "Менять CACHE_NAME, но забывать про очистку старых кешей в activate — новый кеш появится, но старые останутся висеть в Cache Storage вечно, бесполезно занимая место на устройстве пользователя.",
+            "Использовать cache-first стратегию для данных, которые должны быть максимально свежими (например, баланс счёта) — пользователь увидит устаревшие данные, думая, что видит актуальные.",
+            "Не учитывать, что Service Worker требует HTTPS в продакшене — код, протестированный только на localhost, может неожиданно не зарегистрироваться на проде без HTTPS.",
+          ],
+          practiceTask:
+            "Зарегистрируйте простой Service Worker, который кеширует главную страницу и один CSS-файл при установке, реализуйте cache-first стратегию для этих ассетов, затем отключите сеть в DevTools и убедитесь, что страница всё ещё открывается. Затем измените один из закешированных файлов, поменяйте CACHE_NAME на новую версию, задеплойте (или обновите страницу) и убедитесь через вкладку Application → Cache Storage в DevTools, что старый кеш действительно удалился после activate, а не остался висеть рядом с новым.",
+          resources: {
+            docs: [
+              { title: "Service Worker API — MDN", url: "https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API" },
+            ],
+            articles: [
+              { title: "The Service Worker Lifecycle — web.dev", url: "https://web.dev/articles/service-worker-lifecycle" },
+            ],
+          },
+        },
+      },
+      {
+        id: "apis-pwa",
+        title: "PWA (Progressive Web App)",
+        content: {
+          title: "PWA: веб-приложение, устанавливаемое как нативное",
+          shortExplanation:
+            "PWA (Progressive Web App) — это не отдельная технология, а набор веб-стандартов (Service Worker + Web App Manifest + HTTPS), которые вместе позволяют обычному сайту вести себя как нативное приложение: устанавливаться на домашний экран, работать офлайн и получать push-уведомления, оставаясь при этом обычным сайтом с одной кодовой базой.",
+          detailedExplanation:
+            "Три обязательных технических столпа PWA: (1) Web App Manifest — JSON-файл (manifest.json), описывающий, как приложение должно выглядеть при установке (имя, иконки разных размеров, цвет темы, display: 'standalone' — чтобы скрыть браузерный UI и выглядеть как нативное приложение, а не вкладка браузера); (2) Service Worker — обеспечивает офлайн-работу через кеширование и возможность push-уведомлений (см. отдельную тему); (3) обязательный HTTPS — без него браузер не предложит установку и не зарегистрирует Service Worker. Браузер (обычно Chrome/Edge на десктопе и Android) показывает предложение 'установить приложение' (install prompt), когда сайт соответствует критериям 'installability' — валидный манифест, зарегистрированный Service Worker с обработчиком fetch, HTTPS; после установки иконка приложения появляется на домашнем экране/в списке приложений ОС, и оно запускается в собственном окне без адресной строки браузера, неотличимо для обычного пользователя от нативного приложения по внешнему виду запуска. Важное ограничение: PWA технически всё ещё выполняется в движке браузера (не в нативной среде выполнения ОС), поэтому доступ к части нативных API ограничен по сравнению с настоящим нативным приложением (некоторые сенсоры, глубокая интеграция с ОС, публикация в некоторых магазинах приложений) — компромисс, на который идут ради одной кодовой базы для веба и 'приложения' вместо отдельной нативной разработки под каждую платформу.",
+          codeExample:
+            "// manifest.json — описывает приложение для установки\n{\n  \"name\": \"My Shop\",\n  \"short_name\": \"Shop\",\n  \"start_url\": \"/\",\n  \"display\": \"standalone\",\n  \"background_color\": \"#ffffff\",\n  \"theme_color\": \"#0ea5e9\",\n  \"icons\": [\n    { \"src\": \"/icon-192.png\", \"sizes\": \"192x192\", \"type\": \"image/png\" },\n    { \"src\": \"/icon-512.png\", \"sizes\": \"512x512\", \"type\": \"image/png\" }\n  ]\n}\n\n// В <head> HTML-страницы:\n// <link rel=\"manifest\" href=\"/manifest.json\">\n\n// Программный запрос на установку (перехват стандартного браузерного промпта)\nlet deferredPrompt;\nwindow.addEventListener('beforeinstallprompt', (event) => {\n  event.preventDefault();\n  deferredPrompt = event; // показать позже, по клику на свою кнопку 'Установить'\n});",
+          whereUsed:
+            "Продукты, где важно присутствие на домашнем экране без затрат на разработку отдельных нативных iOS/Android приложений (медиа, e-commerce, инструменты для полевой работы), сценарии с нестабильным интернетом (офлайн-режим PWA благодаря Service Worker), стремление к единой кодовой базе для веба и 'приложения'.",
+          interviewQuestion: "Из каких трёх обязательных технических частей состоит PWA, и почему без любой из них 'установить приложение' не сработает?",
+          interviewAnswerRu:
+            "Три обязательные части: Web App Manifest (JSON-файл, без которого браузер не знает, как назвать приложение, какую иконку показать и в каком режиме его открывать — без манифеста браузер просто не предложит установку), Service Worker с обработчиком fetch (доказывает браузеру, что приложение способно работать в офлайн-режиме — это одно из формальных условий 'installability' в большинстве браузеров) и HTTPS (обязателен, потому что Service Worker способен перехватывать и подменять сетевой трафик, и разрешать это на обычном HTTP было бы угрозой безопасности типа man-in-the-middle). Отсутствие любой из трёх частей означает, что браузер не посчитает сайт технически 'install-able' и не покажет предложение установки, даже если остальные части реализованы идеально.",
+          interviewAnswerEn:
+            "The three mandatory parts: the Web App Manifest (a JSON file without which the browser has no idea what to name the app, which icon to show, or what mode to open it in — without a manifest the browser simply won't offer installation), a Service Worker with a fetch handler (proves to the browser that the app can function offline — one of the formal 'installability' criteria in most browsers), and HTTPS (mandatory because a Service Worker can intercept and rewrite network traffic, and allowing that over plain HTTP would be a man-in-the-middle security risk). Missing any one of the three means the browser won't consider the site technically 'install-able' and won't show an install prompt, no matter how well the other parts are implemented.",
+          pitfalls: [
+            "Забывать про обязательный fetch-обработчик в Service Worker — некоторые браузеры не считают сайт 'installable' без него, даже если Service Worker формально зарегистрирован.",
+            "Ожидать полного паритета с нативным приложением по доступу к API устройства — PWA всё ещё ограничен возможностями браузерного движка, и часть нативных возможностей (глубокая интеграция с ОС, некоторые сенсоры, публикация в App Store) недоступна или ограничена.",
+            "Не тестировать install prompt в реальных условиях (HTTPS, валидный манифест, зарегистрированный Service Worker) — на localhost без HTTPS часть проверок браузер делает через исключение, что маскирует проблемы, которые проявятся в проде.",
+          ],
+          practiceTask:
+            "Добавьте manifest.json с иконками и display: 'standalone' к простому сайту с уже зарегистрированным Service Worker, откройте сайт в Chrome на Android или через 'Add to Home Screen' в DevTools → Application, и убедитесь, что приложение открывается в отдельном окне без браузерного UI.",
+          resources: {
+            docs: [
+              { title: "Web App Manifest — MDN", url: "https://developer.mozilla.org/en-US/docs/Web/Manifest" },
+            ],
+            articles: [
+              { title: "What are Progressive Web Apps? — web.dev", url: "https://web.dev/explore/progressive-web-apps" },
+            ],
+          },
         },
       },
     ],
