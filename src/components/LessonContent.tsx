@@ -3,6 +3,7 @@
 import type { Topic, Subtopic } from "@/types/content";
 import { CodeBlock } from "./CodeBlock";
 import { InterviewAnswerBlock } from "./InterviewAnswerBlock";
+import { QaBlocksList } from "./QaBlocksList";
 import { PracticeTaskBlock } from "./PracticeTaskBlock";
 import { NotesBlock } from "./NotesBlock";
 import { ResourcesBlock } from "./ResourcesBlock";
@@ -117,11 +118,15 @@ export function LessonContent({ topic, subtopic }: { topic: Topic; subtopic: Sub
         {content.whereUsed && <WhereUsedBlock text={content.whereUsed} />}
 
         <section id="sec-interview" className="scroll-mt-6">
-          <InterviewAnswerBlock
-            question={content.interviewQuestion}
-            answerRu={content.interviewAnswerRu}
-            answerEn={content.interviewAnswerEn}
-          />
+          {content.qaBlocks && content.qaBlocks.length > 0 ? (
+            <QaBlocksList items={content.qaBlocks} />
+          ) : (
+            <InterviewAnswerBlock
+              question={content.interviewQuestion}
+              answerRu={content.interviewAnswerRu}
+              answerEn={content.interviewAnswerEn}
+            />
+          )}
         </section>
 
         {content.followUpQuestions && content.followUpQuestions.length > 0 && (

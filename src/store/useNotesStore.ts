@@ -26,6 +26,9 @@ export const useNotesStore = create<NotesStore>()(
     }),
     {
       name: "frontend-grow-plan:notes",
+      // См. комментарий в useProgressStore.ts — отключаем автогидратацию,
+      // чтобы избежать SSR/client hydration mismatch.
+      skipHydration: true,
     }
   )
 );

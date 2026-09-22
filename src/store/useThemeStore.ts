@@ -27,6 +27,11 @@ export const useThemeStore = create<ThemeStore>()(
     }),
     {
       name: "frontend-grow-plan:theme",
+      // См. комментарий в useProgressStore.ts — отключаем автогидратацию,
+      // чтобы избежать SSR/client hydration mismatch. Класс "dark" на
+      // <html> до этого уже выставлен блокирующим скриптом в layout.tsx,
+      // так что визуального мигания темой это не вызывает.
+      skipHydration: true,
     }
   )
 );

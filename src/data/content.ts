@@ -5462,24 +5462,61 @@ export const TOPICS: Topic[] = [
         title: "HR Interview",
         content: {
           title: "HR Interview",
-          interviewQuestion: "HR Interview — common recruiter-call questions",
+          interviewQuestion: "HR Interview — набор частых вопросов рекрутера (10 вопросов)",
           interviewAnswerEn:
-            "**Tell me about yourself.**\n" +
-            "I'm a Senior Frontend Engineer / Frontend Tech Lead with over 10 years of experience. My main stack is React, TypeScript, Next.js and modern frontend technologies. In recent years, I've worked on complex production platforms. One of my recent projects was a white-label platform where multiple brands used the same frontend codebase. I worked with CMS and back-office systems, payments, authorization, dashboards, performance optimization and API integrations. I'm hands-on, but I also have strong lead experience. I can contribute to architecture, code reviews, mentoring, code quality and delivery. My strongest area is building scalable, maintainable and high-performance frontend systems.\n\n" +
-            "**Why this company?**\n" +
-            "I'm interested in this company because it is a product with real scale and strong engineering standards. When a platform serves millions of clients and handles critical user flows, frontend quality becomes extremely important. Performance, correctness, clarity and reliability directly affect user trust. I like environments where frontend engineering is not only about building UI, but also about product quality, architecture, performance and ownership.\n\n" +
-            "**Why are you looking for a new role?**\n" +
-            "My current project is coming to an end, so I'm looking for a new long-term opportunity. It was a good experience, and I'm not leaving because of any negative reason. For my next role, I'm looking for a strong product engineering environment where I can stay hands-on with React and TypeScript, own complex frontend features end to end, and contribute to architecture, performance, code quality and engineering standards.\n\n" +
-            "**Why Senior after Lead experience?**\n" +
-            "Although I have lead experience, I still see myself as a hands-on engineer. I enjoy architecture, mentoring and improving team standards, but I also want to stay close to the code and own complex frontend features end to end. For me, a strong Senior Engineer role in a product company is a very good fit, because I can contribute both through deep technical work and through engineering maturity.\n\n" +
-            "**What are you looking for in your next role?**\n" +
-            "I'm looking for a role where I can work on a complex product, solve challenging frontend problems and take ownership of features from idea to production. I'm especially interested in React, TypeScript, frontend architecture, performance, testing and product quality. I also value an environment with strong engineers, clear ownership, high standards and space to improve the codebase.\n\n" +
-            "**Tell me about the most challenging technical problem you've solved.**\n" +
-            "On a white-label platform, we had a shared checkout flow used by multiple brands, and one brand started reporting intermittent payment failures that we couldn't reproduce locally. I led the investigation: we added structured logging around the payment request lifecycle, correlated it with backend logs, and found a race condition where a retry on a flaky network request could fire a duplicate charge request before the first one's response was processed. I designed a fix using an idempotency key generated per checkout attempt and a client-side in-flight request guard, then added integration tests specifically simulating slow/duplicate network responses. The challenge wasn't just the fix itself, it was diagnosing a race condition that only showed up under real-world network conditions, not in local development.\n\n" +
-            "**Describe a Core Web Vitals improvement you led.**\n" +
-            "On one project, LCP was around 4.2s on our main landing pages, mostly because of render-blocking fonts and an oversized hero image loaded without priority hints. I profiled the page with Lighthouse and the Performance panel, identified the actual critical rendering path, then made several targeted changes: preloading the hero image and critical font files, switching to next/image with proper sizing and priority loading, and deferring non-critical third-party scripts. LCP dropped to under 2s and CLS improved as well once we reserved layout space for images and ads. The key lesson was to always measure before optimizing rather than guessing — the profiler showed the actual bottleneck was font loading, not JavaScript execution as I initially assumed.\n\n" +
-            "**How do you use AI in your day-to-day engineering work?**\n" +
-            "I use AI assistants for well-scoped, easily verifiable tasks: drafting boilerplate and test scaffolding, explaining unfamiliar legacy code, and getting a fast second opinion during code review. For anything touching business logic or security, I always verify the result myself with tests and careful reading, because ownership of what ships stays with me regardless of what generated the first draft.",
+            "This page collects the most common recruiter-call questions as separate, self-contained blocks below — a general opening/motivation script plus the company-specific block (salary, availability) that used to live under a separate 'Trading 212' HR page. Scroll down: each question is its own card.",
+          qaBlocks: [
+            {
+              question: "Tell me about yourself.",
+              answerEn:
+                "I'm a Senior Frontend Engineer / Frontend Tech Lead with around 10 years of experience, mainly focused on React, TypeScript and modern frontend architecture. In recent years, I worked on complex production platforms, including a white-label platform where multiple brands used the same frontend codebase. I worked with CMS and back-office systems, dashboards, payments, authorization, API integrations, performance optimization and shared frontend architecture. I'm still hands-on, but I also have lead experience, so I can contribute to architecture, code reviews, mentoring, code quality and delivery. My strongest area is building scalable, maintainable and high-performance frontend systems.",
+            },
+            {
+              question: "Why this company? (adapt the second sentence to the specific company/product)",
+              answerEn:
+                "I'm interested in this company because it is a product with real scale and strong engineering standards. When a platform serves a large number of clients and handles critical user flows, frontend quality becomes extremely important — performance, correctness, clarity and reliability directly affect user trust. I like environments where frontend engineering is not only about building UI, but also about product quality, architecture, performance and ownership.",
+            },
+            {
+              question: "Why are you looking for a new role?",
+              answerEn:
+                "My current project is coming to an end, so I'm looking for a new long-term opportunity. It was a good experience, and I'm not leaving because of any negative reason. For my next role, I'm looking for a strong product engineering environment where I can stay hands-on with React and TypeScript, own complex frontend features end to end, and contribute to architecture, performance, code quality and engineering standards.",
+            },
+            {
+              question: "Why Senior after Lead experience?",
+              answerEn:
+                "Although I have lead experience, I still see myself as a hands-on engineer. I enjoy architecture, mentoring and improving team standards, but I also want to stay close to the code and own complex frontend features end to end. For me, a strong Senior Engineer role in a product company is a very good fit, because I can contribute both through deep technical work and through engineering maturity.",
+            },
+            {
+              question: "What are you looking for in your next role?",
+              answerEn:
+                "I'm looking for a role where I can work on a complex product, solve challenging frontend problems and take ownership of features from idea to production. I'm especially interested in React, TypeScript, frontend architecture, performance, testing and product quality. I also value an environment with strong engineers, clear ownership, high standards and space to improve the codebase.",
+            },
+            {
+              question: "Tell me about the most challenging technical problem you've solved.",
+              answerEn:
+                "On a white-label platform, we had a shared checkout flow used by multiple brands, and one brand started reporting intermittent payment failures that we couldn't reproduce locally. I led the investigation: we added structured logging around the payment request lifecycle, correlated it with backend logs, and found a race condition where a retry on a flaky network request could fire a duplicate charge request before the first one's response was processed. I designed a fix using an idempotency key generated per checkout attempt and a client-side in-flight request guard, then added integration tests specifically simulating slow/duplicate network responses. The challenge wasn't just the fix itself, it was diagnosing a race condition that only showed up under real-world network conditions, not in local development.",
+            },
+            {
+              question: "Describe a Core Web Vitals improvement you led.",
+              answerEn:
+                "On one project, LCP was around 4.2s on our main landing pages, mostly because of render-blocking fonts and an oversized hero image loaded without priority hints. I profiled the page with Lighthouse and the Performance panel, identified the actual critical rendering path, then made several targeted changes: preloading the hero image and critical font files, switching to next/image with proper sizing and priority loading, and deferring non-critical third-party scripts. LCP dropped to under 2s and CLS improved as well once we reserved layout space for images and ads. The key lesson was to always measure before optimizing rather than guessing — the profiler showed the actual bottleneck was font loading, not JavaScript execution as I initially assumed.",
+            },
+            {
+              question: "How do you use AI in your day-to-day engineering work?",
+              answerEn:
+                "I use AI assistants for well-scoped, easily verifiable tasks: drafting boilerplate and test scaffolding, explaining unfamiliar legacy code, and getting a fast second opinion during code review. For anything touching business logic or security, I always verify the result myself with tests and careful reading, because ownership of what ships stays with me regardless of what generated the first draft.",
+            },
+            {
+              question: "What are your salary expectations?",
+              answerEn:
+                "My expectation depends on the full package, contract type and responsibilities. Based on the role level and market, I would be targeting around X, but I'm flexible and open to discussion if there is a strong mutual fit.",
+            },
+            {
+              question: "What's your availability / notice period?",
+              answerEn:
+                "My current project is coming to an end, so I can be available relatively soon. I would need to align the exact start date, but in general I'm flexible.",
+            },
+          ],
         },
       },
     ],
@@ -5493,31 +5530,6 @@ export const TOPICS: Topic[] = [
     id: "interviews-trading212",
     title: "Interviews — Trading 212",
     subtopics: [
-      {
-        id: "t212-hr-interview",
-        title: "HR Interview",
-        content: {
-          title: "HR Interview (recruiter conversation)",
-          interviewQuestion:
-            "Recruiter call script — opening, Motivation, Stack, Expectations",
-          interviewAnswerEn:
-            "**Opening (\"Tell me about yourself\")**\n" +
-            "Sure. I'm a Senior Frontend Engineer with around 10 years of experience, mainly focused on React, TypeScript and modern frontend architecture. In recent years, I worked on complex production platforms, including a white-label platform where multiple brands used the same frontend codebase. I worked with dashboards, payments, authorization, API integrations, performance optimization and shared frontend architecture. I'm still hands-on, but I also have lead experience, so I can contribute to architecture, code reviews, mentoring, code quality and delivery. My strongest area is building scalable, maintainable and high-performance frontend systems.\n\n" +
-            "**Core message for the whole call:** I'm hands-on, product-oriented, strong in React and TypeScript, and I care about performance, correctness, ownership and quality.\n\n" +
-            "**BLOCK 1 — MOTIVATION**\n\n" +
-            "**Why Trading 212?**\n" +
-            "I'm interested in Trading 212 because it is a product with real scale and strong engineering standards. In a financial product, frontend is not just UI — performance, correctness, clarity and reliability directly affect user trust. I like environments where engineers take ownership of what they build, work with high standards, and care about product quality from problem definition to production.\n\n" +
-            "**Why are you looking for a new role?**\n" +
-            "My current project is coming to an end, so I'm looking for a new long-term opportunity. It was a good experience, and I'm not leaving because of any negative reason. For my next role, I'm looking for a strong product engineering environment where I can stay hands-on with React and TypeScript, own complex frontend features end to end, and contribute to architecture, performance, code quality and engineering standards.\n\n" +
-            "**BLOCK 2 — STACK**\n\n" +
-            "My main stack is React, TypeScript, Next.js, Remix, Redux Toolkit, TanStack Query, REST and GraphQL APIs, Jest, Vitest, React Testing Library and Playwright. I worked on production frontend systems with shared components, dashboards, authorization, payments, SSR, Core Web Vitals optimization, monitoring and CI/CD. I don't have deep production experience with React Native, but I have strong React and TypeScript fundamentals, so I'm comfortable learning it and adapting to a cross-platform frontend stack.\n\n" +
-            "**BLOCK 3 — EXPECTATIONS**\n\n" +
-            "**Salary expectations**\n" +
-            "My expectation depends on the full package, contract type and responsibilities. Based on the role level and market, I would be targeting around X, but I'm flexible and open to discussion if there is a strong mutual fit.\n\n" +
-            "**Availability / notice period**\n" +
-            "My current project is coming to an end, so I can be available relatively soon. I would need to align the exact start date, but in general I'm flexible.",
-        },
-      },
       {
         id: "t212-tech",
         title: "Tech",
@@ -5606,14 +5618,32 @@ export function getAllSubtopicIds(): string[] {
 export function buildQuizItems(topicIds?: string[]): QuizItem[] {
   const topics = topicIds ? TOPICS.filter((t) => topicIds.includes(t.id)) : TOPICS;
   return topics.flatMap((topic) =>
-    topic.subtopics.map((subtopic) => ({
-      topicId: topic.id,
-      topicTitle: topic.title,
-      subtopicId: subtopic.id,
-      subtopicTitle: subtopic.title,
-      question: subtopic.content.interviewQuestion,
-      answerRu: subtopic.content.interviewAnswerRu,
-      answerEn: subtopic.content.interviewAnswerEn,
-    }))
+    topic.subtopics.flatMap((subtopic) => {
+      // Если у подтемы есть qaBlocks (страница-скрипт вида "HR Interview"
+      // с несколькими самостоятельными вопросами) — в Quiz mode это должно
+      // быть много отдельных карточек, а не одна на всю подтему.
+      if (subtopic.content.qaBlocks && subtopic.content.qaBlocks.length > 0) {
+        return subtopic.content.qaBlocks.map((qa) => ({
+          topicId: topic.id,
+          topicTitle: topic.title,
+          subtopicId: subtopic.id,
+          subtopicTitle: subtopic.title,
+          question: qa.question,
+          answerRu: qa.answerRu,
+          answerEn: qa.answerEn,
+        }));
+      }
+      return [
+        {
+          topicId: topic.id,
+          topicTitle: topic.title,
+          subtopicId: subtopic.id,
+          subtopicTitle: subtopic.title,
+          question: subtopic.content.interviewQuestion,
+          answerRu: subtopic.content.interviewAnswerRu,
+          answerEn: subtopic.content.interviewAnswerEn,
+        },
+      ];
+    })
   );
 }

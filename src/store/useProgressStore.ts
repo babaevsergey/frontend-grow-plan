@@ -38,6 +38,13 @@ export const useProgressStore = create<ProgressStore>()(
     }),
     {
       name: "frontend-grow-plan:progress",
+      // Не гидрируем стор автоматически при создании (это происходит
+      // синхронно на клиенте до первого рендера) — иначе SSR-рендер
+      // (без localStorage, done=0) и первый клиентский рендер (уже
+      // с восстановленным из localStorage состоянием) не совпадут,
+      // и React выбросит hydration mismatch. Явная гидратация вызывается
+      // из StoreHydration после маунта — см. src/components/StoreHydration.tsx.
+      skipHydration: true,
     }
   )
 );

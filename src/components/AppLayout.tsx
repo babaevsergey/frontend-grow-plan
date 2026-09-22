@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Sidebar } from "./Sidebar";
 import { LessonContent } from "./LessonContent";
 import { ThemeEffect } from "./ThemeEffect";
+import { StoreHydration } from "./StoreHydration";
 import { useAppStore } from "@/store/useAppStore";
 import { findSubtopic } from "@/data/content";
 import { cx } from "@/lib/utils";
@@ -19,6 +20,7 @@ export function AppLayout() {
   return (
     <div className="flex h-screen flex-col md:flex-row">
       <ThemeEffect />
+      <StoreHydration />
 
       {/* Mobile header */}
       <div className="flex items-center justify-between border-b border-slate-200 bg-white px-4 py-3 dark:border-slate-800 dark:bg-slate-900 md:hidden">

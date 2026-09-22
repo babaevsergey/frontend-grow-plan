@@ -23,6 +23,9 @@ export const useLocaleStore = create<LocaleStore>()(
     }),
     {
       name: "frontend-grow-plan:locale",
+      // См. комментарий в useProgressStore.ts — отключаем автогидратацию,
+      // чтобы избежать SSR/client hydration mismatch.
+      skipHydration: true,
     }
   )
 );

@@ -1,9 +1,6 @@
 import type { ContentTranslationMap } from "../types";
 
 export const interviewsTrading212Ua: ContentTranslationMap = {
-  "t212-hr-interview": {
-    title: "Співбесіда з HR (розмова з рекрутером)",
-  },
   "t212-tech": {
     shortExplanation:
       "Фронтенд-платформа Trading 212 охоплює web і mobile в одному Nx + pnpm монорепозиторії: TypeScript, React, React Native і React Native Web, з TanStack Query, Zustand, Playwright, Detox і Jest. Близько 95% коду перевикористовується між web і mobile — тобто архітектурні рішення щодо розділення платформозалежного і платформонезалежного коду критично важливі.",
